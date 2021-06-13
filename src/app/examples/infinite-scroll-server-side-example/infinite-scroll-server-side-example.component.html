@@ -1,0 +1,20 @@
+<div>
+  <div class="example-title">infinite scroll with server side example:</div>
+  <p class="description">Important for server side searching dont change source, recommended use searcher</p>
+</div>
+<mat-form-field>
+  <mat-select
+    ngxMatSelect
+    #ms="ngxMatSelect"
+    [displayMember]="'value'"
+    [valueMember]="'key'"
+    [useInfiniteScroll]="true"
+    [lazyLoad]="true"
+    [searcher]="searcher"
+    [inFirstLoadCallSearcher]="true"
+  >
+    <mat-option [value]="item" *ngFor="let item of ms.filteredSource">
+      {{item.value}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

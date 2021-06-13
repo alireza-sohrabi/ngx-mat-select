@@ -1,0 +1,47 @@
+<div>
+  <div class="example-title">mobile view example:</div>
+  <div class="description">mobile view in two way :
+    <ul>
+      <li>Bottom Sheet</li>
+      <li>Full Screen</li>
+    </ul>
+    <div style="margin: 10px 0">mobile view works in width of lower than 600px, this width is configurable.</div>
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          more detail
+        </mat-expansion-panel-header>
+        <b>you can change this width in NGX_MAT_SELECT_CONFIGS token service in your module:</b>
+        <iframe style="height: 400px" #iframe type="text/javascript">
+
+        </iframe>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <mat-slide-toggle (toggleChange)="onToggleChange()" style="margin: 20px;" [checked]="true" #toggle>
+    <span *ngIf="toggle.checked">Full Screen</span>
+    <span *ngIf="!toggle.checked">Bottom Sheet</span>
+  </mat-slide-toggle>
+
+</div>
+<div style="height: 60px; width: 100%">
+  <mat-form-field *ngIf="!show">
+    <mat-select
+      ngxMatSelect
+      #ms="ngxMatSelect"
+      [displayMember]="'value'"
+      [valueMember]="'key'"
+      [useInfiniteScroll]="true"
+      [lazyLoad]="true"
+      [searcher]="searcher"
+      [inFirstLoadCallSearcher]="true"
+      [useMobileView]="true"
+      mobileViewType="{{toggle.checked? 'FullScreen' : 'BottomSheet'}}"
+    >
+      <mat-option [value]="item" *ngFor="let item of ms.filteredSource">
+        {{item.value}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+

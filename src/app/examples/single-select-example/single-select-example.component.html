@@ -1,0 +1,22 @@
+<div>
+  <div class="example-title">single select example:</div>
+  <p class="description"></p>
+</div>
+<mat-form-field>
+  <mat-select
+    ngxMatSelect
+    #ms="ngxMatSelect"
+    [displayMember]="'value'"
+    [valueMember]="'key'"
+    [useInfiniteScroll]="true"
+    [multiple]="false"
+    [source]="list"
+    [inFirstLoadCallSearcher]="true"
+    [(ngModel)]="value"
+
+  >
+    <mat-option [value]="item" *ngFor="let item of ms.filteredSource">
+      {{item.value}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

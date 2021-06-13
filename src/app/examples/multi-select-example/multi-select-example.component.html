@@ -1,0 +1,20 @@
+<div>
+  <div class="example-title">multi select example:</div>
+  <p class="description"></p>
+</div>
+<mat-form-field>
+  <mat-select
+    ngxMatSelect
+    #ms="ngxMatSelect"
+    [displayMember]="'value'"
+    [valueMember]="'key'"
+    [useInfiniteScroll]="true"
+    [multiple]="true"
+    [source]="list"
+    [inFirstLoadCallSearcher]="true"
+  >
+    <mat-option [value]="item" *ngFor="let item of ms.filteredSource">
+      {{item.value}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
