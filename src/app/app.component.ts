@@ -7,4 +7,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ngx-mat-select';
+  list = [];
+
+  constructor() {
+    for (let i = 0; i <= 100 ; i++) {
+      this.list.push({key: i, value: 'bank_' + i})
+    }
+  }
+  searcher = (search: string) => {
+
+  }
 }
