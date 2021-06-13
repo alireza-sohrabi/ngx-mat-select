@@ -1,0 +1,29 @@
+{
+  "name": "ngx-mat-select",
+  "version": "1.4.9",
+  "peerDependencies": {
+    "@angular/common": "^10.1.6",
+    "@angular/core": "^10.1.6"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "author": "Alireza Sohrabi And Ali kianoor ©",
+  "keywords": [
+    "Angular",
+    "Angular material",
+    "Mat Select Mobile Responsive",
+    "Full Screen, Bottom Sheet View",
+    "MatSelect customizable mobile version",
+    "MatSelect search",
+    "MatSelect filter",
+    "MatSelect searchable",
+    "MatSelect searching",
+    "MatSelect responsive",
+    "mat-select",
+    "mat-select serach",
+    "mat-select advanced configuration"
+  ],
+  "description": "This library was generated for Angular Material to improve select component (mat-select) ",
+  "license": "MIT"
+}
