@@ -1,6 +1,8 @@
 <div>
-  <div class="example-title">single select example:</div>
-  <p class="description"></p>
+  <div class="example-title">single select example(server side):</div>
+  <p class="description">
+    You can initial source by setting true for 'inFirstLoadCallSearcher'.
+  </p>
 </div>
 <mat-form-field>
   <mat-select
@@ -10,9 +12,10 @@
     [valueMember]="'key'"
     [useInfiniteScroll]="true"
     [multiple]="false"
-    [source]="list"
     [inFirstLoadCallSearcher]="true"
-    [(ngModel)]="value"
+    [inFirstLoadSearcherValue]="''"
+    [searcher]="searcher"
+    [lazyLoad]="true"
 
   >
     <mat-option [value]="item" *ngFor="let item of ms.filteredSource">

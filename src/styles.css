@@ -1,4 +1,65 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.examples {
+  max-width: 1200px;
+  width: 100%;
+  margin: auto;
+}
+
+.examples > div {
+  margin: 20px auto;
+  padding: 20px;
+  width: 100%;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+}
+
+.example-title {
+  font-size: 18px;
+  font-weight: bold;
+  padding: 12px 0;
+  margin-top: 10px;
+}
+
+mat-form-field {
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+
+}
+
+.description {
+  color: #616161;
+  width: 100%;
+}
+
+.code {
+  font-family: Consolas, "courier new";
+  color: crimson;
+  font-size: 105%;
+  width: auto;
+  background-color: #fff;
+  padding: 8px 12px;
+  border-left: 4px solid #4CAF50;
+  word-wrap: break-word;
+}
+
+iframe {
+  width: 100%;
+  height: 500px;
+  border: none !important;
+}
+
+.warning {
+  padding: 8px;
+  background: #FFD54F;
+  color: #fff;
+}

@@ -38,6 +38,7 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
 
   }
 
+  private _lastSourceLen = 0;
   private _panelMaxHeight: number;
   private _currentEl: HTMLElement;
   private _clickableEl: HTMLElement;
@@ -71,6 +72,9 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
   private _hasMoreRow = true;
   searchValue: string = '';
   private _htmlScrollTop = 0;
+  private _htmlScrollLeft = 0;
+  private _bodyScrollTop = 0;
+  private _bodyScrollLeft = 0;
   private _openPanelSub: Subscription;
   private _closePanelSub: Subscription;
   private _inputSubscription: Subscription;
@@ -148,7 +152,8 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
       this._isFirstLoading = true;
       this.searchValue = this.inFirstLoadSearcherValue;
       try {
-        this._onSearch().then(() => {
+        this._onSearch().then((res) => {
+          this.source = res;
           this._isFirstLoading = false;
           this.searchValue = '';
         }).catch(() => {
@@ -361,7 +366,8 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
       // const lastOptionHeight = this.matSelect?.options?.last._getHostElement()?.clientHeight ?? 0;
       if ((scrollTop + height) >= scrollHeight && !this._scrollProcess && this._hasMoreRow) {
         this._scrollProcess = true;
-        if (this.source.length < this.maximumResultForShow) {
+        const checkSourceLen = this.source.length || this._lastSourceLen;
+        if (checkSourceLen < this.maximumResultForShow) {
           this._hasMoreRow = false;
           this._scrollProcess = false;
         } else {
@@ -373,19 +379,24 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
             setTimeout(() => {
               this._pageNumber += 1;
               this._onSearch(true).then((items) => {
+                this._lastSourceLen = items.length;
                 const len = items.length;
                 this._hasMoreRow = len >= this.maximumResultForShow;
                 this.changeScrollLoadingState(false);
+                items.forEach(z => {
+                  z['ngxPage'] = this._pageNumber
+                  z.ngxHide = false
+                });
+                let pagedSrc = [...this.filteredSource.filter(w => !w['ngxPage'] || (w['ngxPage'] != this._pageNumber)), ...items]
+
+                this._syncSourceAndOptions(pagedSrc.filter(w => !w.ngxHide), this._pageNumber * this.maximumResultForShow, pagedSrc);
                 if (!this._hasMoreRow) {
                   this._changeNoMoreResultState(true);
-                  this._scrollToEndOfList();
-                  setTimeout(() => {
-                    // this._changeNoMoreResultState(false);
-                  }, 1000)
+                  this._scrollToNextItem();
                 } else {
                   this._scrollToNextItem();
                 }
-                this.filteredSource.push(...items);
+
                 this._scrollProcess = false;
               });
             }, 350);
@@ -519,8 +530,12 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
     if (this.useMobileView) {
       if (this.mobileQuery.matches) {
         document.documentElement.style.overflow = '';
+        // document.body.style.overflow = '';
         setTimeout(() => {
-          document.documentElement.scrollTo(0, this._htmlScrollTop);
+          document.documentElement.scrollTo(this._htmlScrollLeft, this._htmlScrollTop);
+          // setTimeout(() => {
+          //   document.body.scrollTo(this._bodyScrollLeft, this._bodyScrollTop);
+          // });
         }, 0);
         if (this.fragment) {
           this.router?.navigate([], {relativeTo: this.route, fragment: null});
@@ -611,7 +626,7 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
         this._changeSearchBoxEnableStatus(false);
         this._checkIsFirstLoading();
       }
-    }, 50);
+    }, 10);
     if (this._listBoxEl) {
       if (this.hasSearchBox && !this.mobileQuery.matches && this.useMobileView) {
         this._listBoxEl.style.height = this._panelMaxHeight + 'px';
@@ -643,7 +658,7 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
     this._handleOverflowAfterClose();
     this._handleSelectionAfterClose();
     this._changeMedia();
-    this._changePaging();
+    //this._changePaging();
     if (this.useInfiniteScroll) {
       this._removeScrollInfEvent();
       this._hasMoreRow = true;
@@ -653,7 +668,7 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
   private _changePaging(): void {
     if (this._pageNumber > 1) {
       this._pageNumber = 1;
-      this.filteredSource = this._setMaxCount(this.filteredSource);
+      this._syncSourceAndOptions(this.filteredSource.filter(w => !w.ngxHide), this.maximumResultForShow, this.filteredSource);
     }
   }
 
@@ -723,8 +738,8 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
     }
   }
 
-  private _syncValueAndOptions(): void {
-    let src = this._setMaxCount(this.source);
+  private _syncValueAndOptions(mainSrc: any[] = null, maxCount = this.maximumResultForShow): void {
+    let src = this._setMaxCount(mainSrc || this.source, maxCount);
     this.value = this.matSelect.value;
     if (this.value) {
       const val = this.value;
@@ -736,23 +751,25 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
               if (!item) {
                 if (v && typeof (v) === 'object') {
                   src.unshift(v);
-                  v['hide'] = true;
+                  v['ngxHide'] = true;
                 } else {
                   const nItem = this.source.find(w => this._getExp(w, v));
                   if (nItem) {
                     src.unshift(nItem);
-                    nItem['hide'] = true;
+                    nItem['ngxHide'] = true;
                   }
                 }
               } else {
-                item['hide'] = false;
+
+                item['ngxHide'] = false;
+
               }
             });
           } else {
             if (this.source.length == 0) {
               this.source = val;
             } else {
-              val.forEach(item => item['hide'] = true);
+              val.forEach(item => item['ngxHide'] = true);
             }
             src = val;
           }
@@ -762,23 +779,23 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
           const item = src.find(w => this._getExp(w, val));
           if (!item) {
             if (val && typeof (val) === 'object') {
-              val['hide'] = true;
+              val['ngxHide'] = true;
               src.unshift(val);
             } else {
               const nItem = this.source.find(w => this._getExp(w, val));
               if (nItem) {
-                nItem['hide'] = true;
+                nItem['ngxHide'] = true;
                 src.unshift(nItem);
               }
             }
           } else {
-            item['hide'] = false;
+            item['ngxHide'] = false;
           }
         } else if (val && typeof (val) === 'object') {
           if (this.source.length == 0) {
             this.source = [val];
           } else {
-            val['hide'] = true;
+            val['ngxHide'] = true;
           }
           src = [val];
 
@@ -789,9 +806,9 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
     this.filteredSourceChange.emit(this.filteredSource);
   }
 
-  private _syncSourceAndOptions(filteredSource: any[]): void {
-    filteredSource = this._setMaxCount(filteredSource);
-    filteredSource.forEach(item => item['selected'] = 0);
+  private _syncSourceAndOptions(filteredSource: any[], maxCount = this.maximumResultForShow, mainSrc = this.source): void {
+    filteredSource = this._setMaxCount(filteredSource, maxCount);
+    filteredSource.forEach(item => item['ngxSelected'] = 0);
     this.matSelect.options.forEach(op =>
       op['_element'].nativeElement.style.display = '');
     let selectedOptionO = this.matSelect.selected;
@@ -802,27 +819,30 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
       } else {
         selectedOptions = selectedOptionO as MatOption[];
       }
+      let unshiftedlist = [];
       (selectedOptions).forEach(option => {
         let item = filteredSource.find(z => this._getExpForOption(z, option.value));
         if (!item) {
           if (option.value && typeof (option.value) === 'object') {
             item = option.value;
           } else {
-            item = this.source.find(z => this._getExpForOption(z, option.value));
+            item = mainSrc.find(z => this._getExpForOption(z, option.value));
           }
           if (item) {
-            item['selected'] = 1;
-            item['hide'] = true;
-            filteredSource.unshift(item);
+            item['ngxSelected'] = 1;
+            item['ngxHide'] = true;
+            unshiftedlist.push(item);
           }
-        } else if (item['hide']) {
+        } else if (item['ngxHide']) {
           if (this._fromSearch) {
-            item['hide'] = false;
+            item['ngxHide'] = false;
           } else {
-            item['hide'] = true;
+            item['ngxHide'] = true;
           }
         }
+
       });
+      filteredSource.unshift(...unshiftedlist);
     }
     const showNotFoundLabel = this._handleNotFoundLabel(filteredSource);
     if (showNotFoundLabel) {
@@ -842,7 +862,7 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
   }
 
   private _hideOptions(): void {
-    this.filteredSource.filter(z => !!z['hide']).forEach(hide => {
+    this.filteredSource.filter(z => !!z['ngxHide']).forEach(hide => {
       let ops;
       if (!this.matSelect.multiple) {
         ops = [this.matSelect.selected]
@@ -869,6 +889,35 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
       result = src.slice(startIndex, endIndex);
     }
     return result;
+  }
+
+  public refreshData(): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      if (!this.matSelect.panelOpen) {
+        this._isFirstLoading = true;
+      } else {
+        this.setloading(true);
+        this._changeSearchBoxEnableStatus(false);
+      }
+      try {
+        this._onSearch().then(res => {
+          this._isFirstLoading = false;
+          this._changeSearchBoxEnableStatus(true);
+          this.source = res;
+          resolve(res);
+        }).catch(() => {
+          this._isFirstLoading = false;
+          this._changeSearchBoxEnableStatus(true);
+          reject();
+        });
+      } catch {
+        this._isFirstLoading = false;
+        this._changeSearchBoxEnableStatus(true);
+        reject();
+      }
+    });
+
+
   }
 
   private _onSearch(changePage = false): Promise<any[]> {
@@ -935,7 +984,7 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
   }
 
   private _handleNotFoundLabel(filteredSource: any[]): boolean {
-    const show = filteredSource && filteredSource.length > 0 ? filteredSource.filter(z => !z['hide']).length == 0 : true;
+    const show = filteredSource && filteredSource.length > 0 ? filteredSource.filter(z => !z['ngxHide']).length == 0 : true;
     if (this._listBoxEl) {
       const el = this._listBoxEl.querySelector('.ngx-mat-select-not-found-container') as HTMLElement;
       if (el) {
@@ -950,13 +999,13 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
 
   }
 
-  private _setMaxCount(filteredSource: any[]): any[] {
+  private _setMaxCount(filteredSource: any[], maxCount = this.maximumResultForShow): any[] {
     // if (!this.hasSearchBox) {
     //   return filteredSource;
     // }
-    if (this.maximumResultForShow) {
+    if (maxCount) {
       filteredSource = filteredSource.slice(0,
-        this._getMaxSize(filteredSource, this.maximumResultForShow));
+        this._getMaxSize(filteredSource, maxCount));
     }
     return filteredSource;
   }
@@ -1035,11 +1084,15 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
 
   private _afterOpenForMobile(spacer: HTMLElement): void {
     this._htmlScrollTop = document.documentElement.scrollTop;
+    this._htmlScrollLeft = document.documentElement.scrollLeft;
+    // this._bodyScrollLeft = document.body.scrollLeft;
+    // this._bodyScrollTop = document.body.scrollTop;
     const panel = this.matSelect.panel;
     const panelEl = panel.nativeElement as HTMLElement;
     const parentEl = panelEl.parentElement as HTMLElement;
     if (this.mobileQuery.matches) {
       document.documentElement.style.overflow = 'hidden';
+      //document.body.style.overflow = 'hidden';
       panelEl.classList.remove('mat-select-panel');
       if (this.hasSearchBox || this.title) {
         const listEl = document.querySelector('.ngx-mat-select-mobile') as HTMLElement;

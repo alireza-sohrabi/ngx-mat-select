@@ -5,8 +5,7 @@ import {Observable, of} from "rxjs";
   selector: 'app-mobile-view-example',
   templateUrl: './mobile-view-example.component.html',
 })
-export class MobileViewExampleComponent implements OnInit, AfterViewInit {
-  @ViewChild('iframe') iframe: ElementRef<any>;
+export class MobileViewExampleComponent implements OnInit {
   list = [];
   show = false;
 
@@ -26,31 +25,5 @@ export class MobileViewExampleComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
   }
 
-  onToggleChange(): void {
-    this.show = true;
-    setTimeout(() => {
-      this.show = false;
-    })
-  }
 
-  ngAfterViewInit(): void {
-    this.addGist();
-  }
-
-  addGist(): void {
-    const doc = this.iframe.nativeElement.contentDocument || this.iframe.nativeElement.contentElement.contentWindow;
-    const content = `
-        <html>
-        <head>
-          <base target="_parent">
-        </head>
-        <body>
-        <script type="text/javascript" src="https://gist.github.com/alireza-sohrabi/adf28e9a5e52ce5d2b60ff3be7ccdf96.js"></script>
-        </body>
-      </html>
-    `;
-    doc.open();
-    doc.write(content);
-    doc.close();
-  }
 }
