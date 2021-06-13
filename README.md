@@ -1,5 +1,6 @@
 # NgxMatSelect
 
+SearchBox, infinite Scroll and Mobile View are embedded into Angular Material Select Component.  
 This library was generated for Angular Material to improve select component (mat-select). In this library, I defined a
 directive for <mat-select> which generate Search box and Mobile View.
 
@@ -32,7 +33,7 @@ The second step is adding NgxMatSelectModule into your Module
       imports: [
       ...
       MatSelectModule,
-      NgxMatSelectModule.forRoot()
+      NgxMatSelectModule
       ...
       ]
     })
@@ -40,15 +41,25 @@ The second step is adding NgxMatSelectModule into your Module
 you can define global default configs for root:
 
     NgxMatSelectModule.forRoot({
-      emptyLabel: 'No results found';
-      searchBoxPlaceholder: 'Search ...';
-      maximumResultForShow: 25;
-      valueMember: 'key';
-      displayMember:'value';
-      maxWidthForMobileView: 450;
-      useMobileView: true;
-      mobileViewType: 'FullScreen';
+        maxWidthForMobileView: 600,
+        inFirstLoadCallSearcher: true,
+        inFirstLoadSearcherValue: '',
+        emptyLabel: 'no entry found',
+        noMoreResultLabel: 'no more found',
+        useInfiniteScroll: false,
+        searchBoxPlaceholder: 'please search',
+        maximumResultForShow: 40,
+        useMobileView: false,
+        valueMember: 'key',
+        displayMember: 'value',
+        mobileViewType: 'FullScreen'
     })
+
+or using token (NGX_MAT_SELECT_CONFIGS) in providers:
+
+      providers: [
+      {provide: NGX_MAT_SELECT_CONFIGS, useValue: ngxMatSelectConfigs}
+      ],
 
 # Samples
 
@@ -297,7 +308,24 @@ component.ts:
 <td>string</td>
 <td></td>
 </tr>
-
+<tr>
+  <td>inFirstLoadCallSearcher</td>
+  <td>false</td>
+<td>boolean</td>
+<td></td>
+</tr>
+<tr>
+  <td>inFirstLoadSearcherValue</td>
+  <td style="text-align: center">''</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+  <td>useInfiniteScroll</td>
+  <td >false</td>
+<td>boolean</td>
+<td></td>
+</tr>
 </tbody>
 </table>
 
