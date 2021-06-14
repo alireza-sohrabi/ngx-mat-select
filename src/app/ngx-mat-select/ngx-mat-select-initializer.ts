@@ -56,7 +56,7 @@ export class NgxMatSelectInitializer {
         {
           this._handleClasses(this.mobileQuery.matches);
         }
-        return resolve();
+        resolve();
       });
     }
   }
