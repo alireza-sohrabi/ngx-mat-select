@@ -25,7 +25,6 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "./src/app/ngx-mat-select/styles/ngx-mat-select.styles.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -41,7 +40,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -124,8 +122,5 @@
       }
     }
   },
-  "defaultProject": "ngx-mat-select",
-  "cli": {
-    "analytics": "83e6e376-9a30-41dc-aa26-4beb28ca9d0d"
-  }
+  "defaultProject": "ngx-mat-select"
 }
