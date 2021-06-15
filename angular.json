@@ -25,6 +25,7 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "/src/app/ngx-mat-select/styles/ngx-mat-select.styles.css",
               "src/styles.css"
             ],
             "scripts": []
