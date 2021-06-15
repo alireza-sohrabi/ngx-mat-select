@@ -6,7 +6,7 @@ import {
   OnDestroy, OnInit,
   Output, SimpleChanges
 } from '@angular/core';
-import {MatSelect, SELECT_PANEL_MAX_HEIGHT} from "@angular/material/select";
+import {MatSelect} from "@angular/material/select";
 import {fromEvent, Observable, Subscription} from "rxjs";
 import {debounceTime, map} from "rxjs/operators";
 import {NgxMatSelectMediaTracker} from "./ngx-mat-select-media-tracker";
@@ -31,7 +31,7 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
     this._currentEl = injector.get(ElementRef).nativeElement as HTMLElement;
     this.router = injector.get(Router, null);
     this.route = injector.get(ActivatedRoute, null);
-    this._panelMaxHeight = SELECT_PANEL_MAX_HEIGHT;
+    // this._panelMaxHeight = SELECT_PANEL_MAX_HEIGHT;
     setTimeout(() => {
       this._handleValueChanges();
     });
