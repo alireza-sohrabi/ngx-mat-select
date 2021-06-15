@@ -450,7 +450,7 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
 
   private _getListMainContainerElement(): HTMLElement {
     let el: HTMLElement;
-    if (this.mobileQuery.matches) {
+    if (this.mobileQuery.matches && this.useMobileView) {
       el = this._listBoxEl.parentElement;
     } else {
       el = this._listBoxEl;
@@ -643,7 +643,7 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
         if (this.hasSearchBox) {
           const inputEl = inputContainerEl.querySelector('input');
           this._searchBoxInputEl = inputEl;
-          if (!this.mobileQuery.matches) {
+          if (!this.mobileQuery.matches || !this.useMobileView) {
             inputEl.focus();
             this._moveCursorToEnd(inputEl);
           }
