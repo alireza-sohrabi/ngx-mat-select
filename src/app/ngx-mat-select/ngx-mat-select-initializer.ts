@@ -39,12 +39,11 @@ export class NgxMatSelectInitializer {
 
   init(): () => Promise<boolean> {
     return () => {
-      return new Promise<any>((resolve, reject) => {
-        if (isPlatformServer(this.platformId)) {
+      if (isPlatformServer(this.platformId)) {
 
-          // return of(true).toPromise();
-          resolve(true);
-        }
+        return of(true).toPromise();
+      }
+      return new Promise<any>((resolve, reject) => {
         if (window.screen.width <= this.configs.maxWidthForMobileView) {
           this._mobileQueryListener();
         }
