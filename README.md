@@ -187,7 +187,7 @@ component.ts:
       }
 
       // server side mock search by 'of Observable'
-      bankSearcher = (search: string): Observable<any[]> => {
+      bankSearcher = (search: string, pageNumber: number, pageSize: number): Observable<any[]> => {
           return of(this.source.filter(w => w.value.includes(search)));
       }
 
@@ -290,7 +290,7 @@ component.ts:
 
 <tr>
 <td>searcher</td>
-<td>(search: string) => Observable<[]></td>
+<td>(search: string, pageNumber: number, pageSize: number) => Observable<[]></td>
 <td>Function</td>
 <td>for use lazy load you must define function that return ObserverOfArray</td>
 </tr>

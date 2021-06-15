@@ -5,6 +5,10 @@ import {NgxMatSelectService} from "./ngx-mat-select.service";
 import {NgxMatSelectInitializer} from "./ngx-mat-select-initializer";
 import {NGX_MAT_SELECT_CONFIGS, NgxMatSelectConfigs} from "./ngx-mat-select-configs";
 
+export function nInit(ngxMatSelectInitializer: NgxMatSelectInitializer) {
+  return ngxMatSelectInitializer.init();
+}
+
 @NgModule({
   declarations: [NgxMatSelectDirective],
   imports: [
@@ -14,7 +18,7 @@ import {NGX_MAT_SELECT_CONFIGS, NgxMatSelectConfigs} from "./ngx-mat-select-conf
     NgxMatSelectInitializer,
     {
       provide: APP_INITIALIZER, deps: [NgxMatSelectInitializer],
-      useFactory: (ngxMatSelectInitializer: NgxMatSelectInitializer) => ngxMatSelectInitializer.init(),
+      useFactory: nInit,
       multi: true
     }
   ],
