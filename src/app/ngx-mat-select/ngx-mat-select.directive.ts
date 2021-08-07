@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {MatSelect} from "@angular/material/select";
 import {fromEvent, Observable, Subscription} from "rxjs";
-import {debounceTime, map} from "rxjs/operators";
+import {debounceTime, distinctUntilChanged, map} from "rxjs/operators";
 import {NgxMatSelectMediaTracker} from "./ngx-mat-select-media-tracker";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatOption} from "@angular/material/core";
@@ -570,27 +570,23 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
     ${this.loadingContainer}
     `;
     searchElement.addEventListener('keydown', ev => {
-      if (ev.keyCode === 32 && this.deviceType() === 'desktop') {
+      if (ev?.keyCode === 32) {
         ev.stopImmediatePropagation();
-        if (this.timeOut)
-          clearTimeout(this.timeOut);
-        this.setloading(true);
-        this.timeOut = setTimeout(() => {
-          if (ev.target['value']) {
-            const value: string = ev.target['value'].toString();
-            // if (value.split('').length <= 1) {
-            setTimeout(() => {
-              this.searchValue = value;
-              this._onSearch();
-            }, 350)
-            // } else {
-            //   this.setloading(false);
-            // }
-          } else {
-            this.setloading(false);
-
-          }
-        }, this.debounceTime())
+        // if (this.timeOut)
+        //   clearTimeout(this.timeOut);
+        // this.setloading(true);
+        // this.timeOut = setTimeout(() => {
+        //   if (ev.target['value']) {
+        //     const value: string = ev.target['value'].toString();
+        //     setTimeout(() => {
+        //       this.searchValue = value;
+        //       this._onSearch();
+        //     }, 350);
+        //   } else {
+        //     this.setloading(false);
+        //
+        //   }
+        // }, this.debounceTime())
 
       }
     })
@@ -676,14 +672,15 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
     const terms$ = fromEvent<any>(inputEl, 'keyup')
       .pipe(
         map((event: KeyboardEvent) => {
-          if (this.lettersOnly(event)) {
-            this.setloading(true)
+          if (this._checkKeyCode(event)) {
+            this.setloading(true);
             return event.target['value'];
-          } else
-            return null
+          } else {
+            return event.target['value'];
+          }
         }),
         debounceTime(this.debounceTime()),
-        // distinctUntilChanged()
+        distinctUntilChanged()
       );
     if (terms$) {
       this._inputSubscription = terms$?.subscribe(
@@ -699,21 +696,33 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
 
   }
 
+  private _preventKeyCodeList: number[] = [
+    37, 38, 39, 40, 16
+  ];
+
+  private _allowedKeyCode(keyCode: number): boolean {
+    return !this._preventKeyCodeList.includes(keyCode);
+  }
+
   private debounceTime(): number {
     return this.lazyLoad ? 400 : 250;
   }
 
-  private lettersOnly(event) {
+  private _checkKeyCode(event) {
     if (this.deviceType() !== 'desktop') {
       return true;
     }
+    // if (event && event.keyCode !== null && event.keyCode !== undefined) {
+    //   const letterNumber = /^[0-9a-zA-Z]+$/;
+    //   let charCode = event.keyCode;
+    //   if (event.target.value?.match(letterNumber) || (charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode == 8)
+    //     return true;
+    //   else return null
+    // }
     if (event && event.keyCode !== null && event.keyCode !== undefined) {
-      const letterNumber = /^[0-9a-zA-Z]+$/;
-      let charCode = event.keyCode;
-      if (event.target.value?.match(letterNumber) || (charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode == 8)
-        return true;
-      else return null
+      return this._allowedKeyCode(event.keyCode);
     }
+
     return true;
   }
 
