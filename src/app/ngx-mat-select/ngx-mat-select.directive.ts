@@ -1,41 +1,48 @@
 import {
   AfterViewInit,
-  Directive, ElementRef,
-  EventEmitter, HostListener, Injector,
-  Input, OnChanges,
-  OnDestroy, OnInit,
-  Output, SimpleChanges
+  Directive,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Injector,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
 } from '@angular/core';
-import {MatSelect} from "@angular/material/select";
-import {fromEvent, Observable, Subscription} from "rxjs";
-import {debounceTime, distinctUntilChanged, map} from "rxjs/operators";
-import {NgxMatSelectMediaTracker} from "./ngx-mat-select-media-tracker";
-import {ActivatedRoute, Router} from "@angular/router";
-import {MatOption} from "@angular/material/core";
-import {FormControlName, NgModel} from "@angular/forms";
-import {isPlatformBrowser} from "@angular/common";
+import { MatSelect } from '@angular/material/select';
+import { fromEvent, Observable, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { NgxMatSelectMediaTracker } from './ngx-mat-select-media-tracker';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatOption } from '@angular/material/core';
+import { FormControlName, NgModel } from '@angular/forms';
+import { isPlatformBrowser } from '@angular/common';
 
 @Directive({
   selector: 'mat-select[ngxMatSelect]',
   exportAs: 'ngxMatSelect',
-
 })
-export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements OnInit, AfterViewInit, OnDestroy, OnChanges {
-  constructor(
-    private injector: Injector,
-  ) {
+export class NgxMatSelectDirective
+  extends NgxMatSelectMediaTracker
+  implements OnInit, AfterViewInit, OnDestroy, OnChanges
+{
+  constructor(private injector: Injector) {
     super(injector);
 
     this.matSelect = injector.get(MatSelect);
-    this._openPanelSub = this.matSelect._openedStream.subscribe(this._afterOpen.bind(this));
+    this._openPanelSub = this.matSelect._openedStream.subscribe(
+      this._afterOpen.bind(this)
+    );
     this._currentEl = injector.get(ElementRef).nativeElement as HTMLElement;
     this.router = injector.get(Router, null);
     this.route = injector.get(ActivatedRoute, null);
-    // this._panelMaxHeight = SELECT_PANEL_MAX_HEIGHT;
+
     setTimeout(() => {
       this._handleValueChanges();
     });
-
   }
 
   private _lastSourceLen = 0;
@@ -49,7 +56,11 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
   @Input() source: any[] = [];
   @Output() filteredSourceChange = new EventEmitter<any[]>();
   @Input() filteredSource: any[] = [];
-  @Input() searcher: (search: string, pageNumber: number, pageSize: number) => Observable<any[]>;
+  @Input() searcher: (
+    search: string,
+    pageNumber: number,
+    pageSize: number
+  ) => Observable<any[]>;
   @Input() isStringArray = false;
   @Input() fragment = 'search';
   @Input() hasSearchBox = true;
@@ -97,8 +108,12 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
 
   setloading(check: boolean): void {
     if (this._listBoxEl) {
-      const icon = this._listBoxEl.querySelector('.ngx-mat-select-search-box-icon') as HTMLElement;
-      const loading = this._listBoxEl.querySelector('.ngx-mat-select-loading-container') as HTMLElement;
+      const icon = this._listBoxEl.querySelector(
+        '.ngx-mat-select-search-box-icon'
+      ) as HTMLElement;
+      const loading = this._listBoxEl.querySelector(
+        '.ngx-mat-select-loading-container'
+      ) as HTMLElement;
       if (check) {
         icon.style.display = 'none';
         loading.style.display = 'flex';
@@ -111,55 +126,61 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
         if (check) {
           el.scrollTo({
             top: 0,
-          })
+          });
           this._mainLoadingElement.style.display = 'block';
           el.style.overflow = 'hidden';
         } else {
           setTimeout(() => {
             el.style.overflow = 'auto';
             this._mainLoadingElement.style.display = 'none';
-          }, 100)
+          }, 100);
         }
       }
     }
-
   }
 
   ngOnInit(): void {
     super.ngOnInit();
     this._populateConfigs();
-    this._closePanelSub = this.matSelect._closedStream.subscribe(this._afterClose.bind(this));
+    this._closePanelSub = this.matSelect._closedStream.subscribe(
+      this._afterClose.bind(this)
+    );
   }
-
 
   ngAfterViewInit(): void {
     setTimeout(() => {
       this._bindAfterClick();
-    }, 50)
+    }, 50);
     if (this.useMobileView) {
       this._changeMedia();
     }
     this.matSelect.compareWith = (o1, o2): boolean => {
       if (o1 && o2) {
-        if (typeof (o1) === 'object') {
+        if (typeof o1 === 'object') {
           return o1[this.valueMember] === o2[this.valueMember];
         } else {
           return o1 === o2;
         }
       }
     };
-    if (this.inFirstLoadCallSearcher && this.searcher && typeof (this.searcher) === 'function') {
+    if (
+      this.inFirstLoadCallSearcher &&
+      this.searcher &&
+      typeof this.searcher === 'function'
+    ) {
       this._isFirstLoading = true;
       this.searchValue = this.inFirstLoadSearcherValue;
       try {
-        this._onSearch().then((res) => {
-          this.source = res;
-          this._isFirstLoading = false;
-          this.searchValue = '';
-        }).catch(() => {
-          this._isFirstLoading = false;
-          this.searchValue = '';
-        });
+        this._onSearch()
+          .then((res) => {
+            this.source = res;
+            this._isFirstLoading = false;
+            this.searchValue = '';
+          })
+          .catch(() => {
+            this._isFirstLoading = false;
+            this.searchValue = '';
+          });
       } catch {
         this._isFirstLoading = false;
         this.searchValue = '';
@@ -177,13 +198,12 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
           this._changeSearchBoxEnableStatus(true);
         }, 250);
       }
-    }, 150)
+    }, 150);
   }
 
   ngOnDestroy(): void {
     super.ngOnDestroy();
-    if (this._openPanelSub)
-      this._openPanelSub.unsubscribe();
+    if (this._openPanelSub) this._openPanelSub.unsubscribe();
     if (this._closePanelSub) {
       this._closePanelSub.unsubscribe();
     }
@@ -220,7 +240,6 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
     this.matSelect?.close();
   }
 
-  // @HostListener('click', ['$event'])
   onClick(event: MouseEvent) {
     if (!this.matSelect.panelOpen && this.filteredSource.length == 0) {
       this._addNullKeyToOption();
@@ -264,22 +283,33 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
         this.noMoreResultLabel = 'No more results found';
       }
     }
-    if (this.useInfiniteScroll === undefined || this.useInfiniteScroll === null) {
+    if (
+      this.useInfiniteScroll === undefined ||
+      this.useInfiniteScroll === null
+    ) {
       this.useInfiniteScroll = this.configs.useInfiniteScroll;
     }
-    if (this.inFirstLoadCallSearcher === undefined || this.inFirstLoadCallSearcher === null) {
+    if (
+      this.inFirstLoadCallSearcher === undefined ||
+      this.inFirstLoadCallSearcher === null
+    ) {
       this.inFirstLoadCallSearcher = this.configs.inFirstLoadCallSearcher;
     }
-    if (this.inFirstLoadSearcherValue === undefined || this.inFirstLoadSearcherValue == null) {
-      this.inFirstLoadSearcherValue = this.configs.inFirstLoadSearcherValue ?? '';
+    if (
+      this.inFirstLoadSearcherValue === undefined ||
+      this.inFirstLoadSearcherValue == null
+    ) {
+      this.inFirstLoadSearcherValue =
+        this.configs.inFirstLoadSearcherValue ?? '';
     }
     this._clickableEl?.removeEventListener('click', this._afterClickFunc);
   }
 
   private _bindAfterClick(): void {
     this._afterClickFunc = this.onClick.bind(this);
-    const parentEl = this._currentEl.parentElement.parentElement.parentElement.parentElement;
-    if (parentEl.tagName == 'MAT-FORM-FIELD') { //.contains('mat-form-field-infix')
+    const parentEl =
+      this._currentEl.parentElement.parentElement.parentElement.parentElement;
+    if (parentEl.tagName == 'MAT-FORM-FIELD') {
       this._clickableEl = parentEl;
       parentEl.addEventListener('click', this._afterClickFunc);
     } else {
@@ -290,23 +320,22 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
 
   private _handleValueChanges(): void {
     const ngModelChanges = this.injector.get(NgModel, null);
-    // this._valueChangeDetected();
+
     if (ngModelChanges) {
-      this._valueChangeSub = ngModelChanges.valueChanges.subscribe(val => {
-        if (val)
-          this._valueChangeDetected();
-      })
+      this._valueChangeSub = ngModelChanges.valueChanges.subscribe((val) => {
+        if (val) this._valueChangeDetected();
+      });
     } else {
       const formControlValueChange = this.injector.get(FormControlName, null);
       if (formControlValueChange) {
-        this._valueChangeSub = formControlValueChange.valueChanges.subscribe(val => {
-          if (val)
-            this._valueChangeDetected();
-        })
+        this._valueChangeSub = formControlValueChange.valueChanges.subscribe(
+          (val) => {
+            if (val) this._valueChangeDetected();
+          }
+        );
       } else {
-        this._valueChangeSub = this.matSelect.valueChange.subscribe(val => {
-          if (val)
-            this._valueChangeDetected();
+        this._valueChangeSub = this.matSelect.valueChange.subscribe((val) => {
+          if (val) this._valueChangeDetected();
         });
       }
     }
@@ -320,7 +349,7 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
       }
       this._syncValueAndOptions();
       setTimeout(() => {
-        this._syncSourceAndOptions(this.filteredSource)
+        this._syncSourceAndOptions(this.filteredSource);
       });
     }
   }
@@ -363,8 +392,12 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
       const scrollTop = el.scrollTop;
       const scrollHeight = el.scrollHeight;
       const height = el.clientHeight;
-      // const lastOptionHeight = this.matSelect?.options?.last._getHostElement()?.clientHeight ?? 0;
-      if ((scrollTop + height) >= scrollHeight && !this._scrollProcess && this._hasMoreRow) {
+
+      if (
+        scrollTop + height + 20 >= scrollHeight &&
+        !this._scrollProcess &&
+        this._hasMoreRow
+      ) {
         this._scrollProcess = true;
         const checkSourceLen = this.source.length || this._lastSourceLen;
         if (checkSourceLen < this.maximumResultForShow) {
@@ -374,7 +407,7 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
           this.changeScrollLoadingState(true);
           setTimeout(() => {
             this._listBoxEl.scrollTo({
-              top: this._listBoxEl.scrollHeight
+              top: this._listBoxEl.scrollHeight,
             });
             setTimeout(() => {
               this._pageNumber += 1;
@@ -383,13 +416,22 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
                 const len = items.length;
                 this._hasMoreRow = len >= this.maximumResultForShow;
                 this.changeScrollLoadingState(false);
-                items.forEach(z => {
-                  z['ngxPage'] = this._pageNumber
-                  z.ngxHide = false
+                items.forEach((z) => {
+                  z['ngxPage'] = this._pageNumber;
+                  z.ngxHide = false;
                 });
-                let pagedSrc = [...this.filteredSource.filter(w => !w['ngxPage'] || (w['ngxPage'] != this._pageNumber)), ...items]
+                let pagedSrc = [
+                  ...this.filteredSource.filter(
+                    (w) => !w['ngxPage'] || w['ngxPage'] != this._pageNumber
+                  ),
+                  ...items,
+                ];
 
-                this._syncSourceAndOptions(pagedSrc.filter(w => !w.ngxHide), this._pageNumber * this.maximumResultForShow, pagedSrc);
+                this._syncSourceAndOptions(
+                  pagedSrc.filter((w) => !w.ngxHide),
+                  this._pageNumber * this.maximumResultForShow,
+                  pagedSrc
+                );
                 if (!this._hasMoreRow) {
                   this._changeNoMoreResultState(true);
                   this._scrollToNextItem();
@@ -400,10 +442,8 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
                 this._scrollProcess = false;
               });
             }, 350);
-
           }, 0);
         }
-
       }
     }
   }
@@ -427,7 +467,8 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
 
   private _scrollToNextItem(): void {
     const el = this._getListMainContainerElement();
-    const optionHeight = this.matSelect?.options?.first._getHostElement().clientHeight ?? 34;
+    const optionHeight =
+      this.matSelect?.options?.first._getHostElement().clientHeight ?? 34;
     this._scrollInList(el.scrollTop + optionHeight);
   }
 
@@ -442,7 +483,7 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
       setTimeout(() => {
         el.scrollTo({
           top: top,
-          behavior: "smooth"
+          behavior: 'smooth',
         });
       });
     }
@@ -479,17 +520,14 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
     if (this._searchBoxInputEl) {
       if (enable) {
         this._searchBoxInputEl.removeAttribute('disabled');
-
       } else {
-
         this._searchBoxInputEl.setAttribute('disabled', 'disabled');
       }
-
     }
   }
 
   private _cleanNullKeyToOption(): void {
-    const index = this.filteredSource.findIndex(z => z.keyNull == 'null');
+    const index = this.filteredSource.findIndex((z) => z.keyNull == 'null');
     if (index >= 0) {
       this.filteredSource.splice(index, 1);
       if (this.filteredSource.length == 0) {
@@ -502,15 +540,15 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
 
   private _addNullKeyToOption(): void {
     if (this.matSelect.options.length == 0) {
-      this.filteredSource.push({keyNull: 'null'});
+      this.filteredSource.push({ keyNull: 'null' });
       this.filteredSourceChange.emit(this.filteredSource);
     }
   }
 
   private _moveCursorToEnd(el) {
-    if (typeof el.selectionStart == "number") {
+    if (typeof el.selectionStart == 'number') {
       el.selectionStart = el.selectionEnd = el.value.length;
-    } else if (typeof el.createTextRange != "undefined") {
+    } else if (typeof el.createTextRange != 'undefined') {
       el.focus();
       let range = el.createTextRange();
       range.collapse(false);
@@ -519,7 +557,9 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
   }
 
   private _handleBackDropAfterClose(): void {
-    const backdropEl = document.querySelector('.cdk-overlay-container.bottomToTop .cdk-overlay-backdrop') as HTMLElement;
+    const backdropEl = document.querySelector(
+      '.cdk-overlay-container.bottomToTop .cdk-overlay-backdrop'
+    ) as HTMLElement;
     if (backdropEl) {
       backdropEl.style.display = 'none';
       backdropEl.parentElement.classList.remove('bottomToTop');
@@ -530,15 +570,15 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
     if (this.useMobileView) {
       if (this.mobileQuery.matches) {
         document.documentElement.style.overflow = '';
-        // document.body.style.overflow = '';
+
         setTimeout(() => {
-          document.documentElement.scrollTo(this._htmlScrollLeft, this._htmlScrollTop);
-          // setTimeout(() => {
-          //   document.body.scrollTo(this._bodyScrollLeft, this._bodyScrollTop);
-          // });
+          document.documentElement.scrollTo(
+            this._htmlScrollLeft,
+            this._htmlScrollTop
+          );
         }, 0);
         if (this.fragment) {
-          this.router?.navigate([], {relativeTo: this.route, fragment: null});
+          this.router?.navigate([], { relativeTo: this.route, fragment: null });
         }
       }
     }
@@ -569,27 +609,11 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
     <i class="ngx-mat-select-search-box-icon"></i>
     ${this.loadingContainer}
     `;
-    searchElement.addEventListener('keydown', ev => {
+    searchElement.addEventListener('keydown', (ev) => {
       if (ev?.keyCode === 32) {
         ev.stopImmediatePropagation();
-        // if (this.timeOut)
-        //   clearTimeout(this.timeOut);
-        // this.setloading(true);
-        // this.timeOut = setTimeout(() => {
-        //   if (ev.target['value']) {
-        //     const value: string = ev.target['value'].toString();
-        //     setTimeout(() => {
-        //       this.searchValue = value;
-        //       this._onSearch();
-        //     }, 350);
-        //   } else {
-        //     this.setloading(false);
-        //
-        //   }
-        // }, this.debounceTime())
-
       }
-    })
+    });
     const inputContainerEl = document.createElement('div');
     inputContainerEl.classList.add('ngx-mat-select-search-box-wrap');
     inputContainerEl.appendChild(searchElement);
@@ -598,7 +622,6 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
     if (!this.hasSearchBox) {
       if (this.mobileQuery.matches && this.useMobileView) {
         searchElement.style.display = 'none';
-
       } else {
         inputContainerEl.style.display = 'none';
       }
@@ -624,7 +647,11 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
       }
     }, 10);
     if (this._listBoxEl) {
-      if (this.hasSearchBox && !this.mobileQuery.matches && this.useMobileView) {
+      if (
+        this.hasSearchBox &&
+        !this.mobileQuery.matches &&
+        this.useMobileView
+      ) {
         this._listBoxEl.style.height = this._panelMaxHeight + 'px';
       }
       const inputContainerEl = this._createHeaderElement();
@@ -654,7 +681,7 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
     this._handleOverflowAfterClose();
     this._handleSelectionAfterClose();
     this._changeMedia();
-    //this._changePaging();
+
     if (this.useInfiniteScroll) {
       this._removeScrollInfEvent();
       this._hasMoreRow = true;
@@ -664,41 +691,38 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
   private _changePaging(): void {
     if (this._pageNumber > 1) {
       this._pageNumber = 1;
-      this._syncSourceAndOptions(this.filteredSource.filter(w => !w.ngxHide), this.maximumResultForShow, this.filteredSource);
+      this._syncSourceAndOptions(
+        this.filteredSource.filter((w) => !w.ngxHide),
+        this.maximumResultForShow,
+        this.filteredSource
+      );
     }
   }
 
   private _handleObserverForInputValue(inputEl: HTMLInputElement): void {
-    const terms$ = fromEvent<any>(inputEl, 'keyup')
-      .pipe(
-        map((event: KeyboardEvent) => {
-          if (this._checkKeyCode(event)) {
-            this.setloading(true);
-            return event.target['value'];
-          } else {
-            return event.target['value'];
-          }
-        }),
-        debounceTime(this.debounceTime()),
-        distinctUntilChanged()
-      );
-    if (terms$) {
-      this._inputSubscription = terms$?.subscribe(
-        (content: string) => {
-          if (content !== undefined && content !== null) {
-            this.searchValue = content;
-            this._onSearch();
-          }
+    const terms$ = fromEvent<any>(inputEl, 'keyup').pipe(
+      map((event: KeyboardEvent) => {
+        if (this._checkKeyCode(event)) {
+          this.setloading(true);
+          return event.target['value'];
+        } else {
+          return event.target['value'];
         }
-      )
-      ;
+      }),
+      debounceTime(this.debounceTime()),
+      distinctUntilChanged()
+    );
+    if (terms$) {
+      this._inputSubscription = terms$?.subscribe((content: string) => {
+        if (content !== undefined && content !== null) {
+          this.searchValue = content;
+          this._onSearch();
+        }
+      });
     }
-
   }
 
-  private _preventKeyCodeList: number[] = [
-    37, 38, 39, 40, 16
-  ];
+  private _preventKeyCodeList: number[] = [37, 38, 39, 40, 16];
 
   private _allowedKeyCode(keyCode: number): boolean {
     return !this._preventKeyCodeList.includes(keyCode);
@@ -712,13 +736,7 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
     if (this.deviceType() !== 'desktop') {
       return true;
     }
-    // if (event && event.keyCode !== null && event.keyCode !== undefined) {
-    //   const letterNumber = /^[0-9a-zA-Z]+$/;
-    //   let charCode = event.keyCode;
-    //   if (event.target.value?.match(letterNumber) || (charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode == 8)
-    //     return true;
-    //   else return null
-    // }
+
     if (event && event.keyCode !== null && event.keyCode !== undefined) {
       return this._allowedKeyCode(event.keyCode);
     }
@@ -729,11 +747,15 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
   deviceType = () => {
     const ua = navigator.userAgent;
     if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
-      return "tablet";
-    } else if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) {
-      return "mobile";
+      return 'tablet';
+    } else if (
+      /Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(
+        ua
+      )
+    ) {
+      return 'mobile';
     }
-    return "desktop";
+    return 'desktop';
   };
 
   private _init(): void {
@@ -741,13 +763,16 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
       this._syncValueAndOptions();
       setTimeout(() => {
         this._syncSourceAndOptions(this.filteredSource);
-      }, 50)
+      }, 50);
     } else {
       this.filteredSource = this.source;
     }
   }
 
-  private _syncValueAndOptions(mainSrc: any[] = null, maxCount = this.maximumResultForShow): void {
+  private _syncValueAndOptions(
+    mainSrc: any[] = null,
+    maxCount = this.maximumResultForShow
+  ): void {
     let src = this._setMaxCount(mainSrc || this.source, maxCount);
     this.value = this.matSelect.value;
     if (this.value) {
@@ -755,43 +780,41 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
       if (Array.isArray(val)) {
         if (val.length > 0) {
           if (src.length > 0) {
-            val.forEach(v => {
-              const item = src.find(w => this._getExp(w, v));
+            val.forEach((v) => {
+              const item = src.find((w) => this._getExp(w, v));
               if (!item) {
-                if (v && typeof (v) === 'object') {
+                if (v && typeof v === 'object') {
                   src.unshift(v);
                   v['ngxHide'] = true;
                 } else {
-                  const nItem = this.source.find(w => this._getExp(w, v));
+                  const nItem = this.source.find((w) => this._getExp(w, v));
                   if (nItem) {
                     src.unshift(nItem);
                     nItem['ngxHide'] = true;
                   }
                 }
               } else {
-
                 item['ngxHide'] = false;
-
               }
             });
           } else {
             if (this.source.length == 0) {
               this.source = val;
             } else {
-              val.forEach(item => item['ngxHide'] = true);
+              val.forEach((item) => (item['ngxHide'] = true));
             }
             src = val;
           }
         }
       } else {
         if (src.length > 0) {
-          const item = src.find(w => this._getExp(w, val));
+          const item = src.find((w) => this._getExp(w, val));
           if (!item) {
-            if (val && typeof (val) === 'object') {
+            if (val && typeof val === 'object') {
               val['ngxHide'] = true;
               src.unshift(val);
             } else {
-              const nItem = this.source.find(w => this._getExp(w, val));
+              const nItem = this.source.find((w) => this._getExp(w, val));
               if (nItem) {
                 nItem['ngxHide'] = true;
                 src.unshift(nItem);
@@ -800,14 +823,13 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
           } else {
             item['ngxHide'] = false;
           }
-        } else if (val && typeof (val) === 'object') {
+        } else if (val && typeof val === 'object') {
           if (this.source.length == 0) {
             this.source = [val];
           } else {
             val['ngxHide'] = true;
           }
           src = [val];
-
         }
       }
     }
@@ -815,11 +837,16 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
     this.filteredSourceChange.emit(this.filteredSource);
   }
 
-  private _syncSourceAndOptions(filteredSource: any[], maxCount = this.maximumResultForShow, mainSrc = this.source): void {
+  private _syncSourceAndOptions(
+    filteredSource: any[],
+    maxCount = this.maximumResultForShow,
+    mainSrc = this.source
+  ): void {
     filteredSource = this._setMaxCount(filteredSource, maxCount);
-    filteredSource.forEach(item => item['ngxSelected'] = 0);
-    this.matSelect.options.forEach(op =>
-      op['_element'].nativeElement.style.display = '');
+    filteredSource.forEach((item) => (item['ngxSelected'] = 0));
+    this.matSelect.options.forEach(
+      (op) => (op['_element'].nativeElement.style.display = '')
+    );
     let selectedOptionO = this.matSelect.selected;
     let selectedOptions: MatOption[] = [];
     if (selectedOptionO) {
@@ -829,13 +856,15 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
         selectedOptions = selectedOptionO as MatOption[];
       }
       let unshiftedlist = [];
-      (selectedOptions).forEach(option => {
-        let item = filteredSource.find(z => this._getExpForOption(z, option.value));
+      selectedOptions.forEach((option) => {
+        let item = filteredSource.find((z) =>
+          this._getExpForOption(z, option.value)
+        );
         if (!item) {
-          if (option.value && typeof (option.value) === 'object') {
+          if (option.value && typeof option.value === 'object') {
             item = option.value;
           } else {
-            item = mainSrc.find(z => this._getExpForOption(z, option.value));
+            item = mainSrc.find((z) => this._getExpForOption(z, option.value));
           }
           if (item) {
             item['ngxSelected'] = 1;
@@ -849,47 +878,64 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
             item['ngxHide'] = true;
           }
         }
-
       });
       filteredSource.unshift(...unshiftedlist);
     }
     const showNotFoundLabel = this._handleNotFoundLabel(filteredSource);
     if (showNotFoundLabel) {
-      this._toggleParentClass(this.matSelect.panel, 'remove-options', '.cdk-overlay-pane');
+      this._toggleParentClass(
+        this.matSelect.panel,
+        'remove-options',
+        '.cdk-overlay-pane'
+      );
     } else {
-      this._toggleParentClass(this.matSelect.panel, 'hide-options', '.cdk-overlay-pane');
+      this._toggleParentClass(
+        this.matSelect.panel,
+        'hide-options',
+        '.cdk-overlay-pane'
+      );
     }
     this.filteredSource = filteredSource;
     this.filteredSourceChange.emit(this.filteredSource);
     setTimeout(() => {
       this._hideOptions();
       setTimeout(() => {
-        this._removeParentClass(this.matSelect.panel, 'hide-options', '.cdk-overlay-pane');
-        this._removeParentClass(this.matSelect.panel, 'remove-options', '.cdk-overlay-pane');
-      }, 0)
+        this._removeParentClass(
+          this.matSelect.panel,
+          'hide-options',
+          '.cdk-overlay-pane'
+        );
+        this._removeParentClass(
+          this.matSelect.panel,
+          'remove-options',
+          '.cdk-overlay-pane'
+        );
+      }, 0);
     });
   }
 
   private _hideOptions(): void {
-    this.filteredSource.filter(z => !!z['ngxHide']).forEach(hide => {
-      let ops;
-      if (!this.matSelect.multiple) {
-        ops = [this.matSelect.selected]
-      } else {
-        ops = this.matSelect.selected;
-      }
-      const option = ops.find(z => this._getExpForOption(hide, z.value));
-      if (option) {
-        const opEl = option['_element'].nativeElement as HTMLInputElement;
-        opEl.style.display = 'none';
-      }
-    });
+    this.filteredSource
+      .filter((z) => !!z['ngxHide'])
+      .forEach((hide) => {
+        let ops;
+        if (!this.matSelect.multiple) {
+          ops = [this.matSelect.selected];
+        } else {
+          ops = this.matSelect.selected;
+        }
+        const option = ops.find((z) => this._getExpForOption(hide, z.value));
+        if (option) {
+          const opEl = option['_element'].nativeElement as HTMLInputElement;
+          opEl.style.display = 'none';
+        }
+      });
   }
 
   private _getPagedResult(src: any[]): any[] {
     let result = [];
     const startIndex = this.maximumResultForShow * (this._pageNumber - 1);
-    let endIndex = this.maximumResultForShow * (this._pageNumber);
+    let endIndex = this.maximumResultForShow * this._pageNumber;
     if (endIndex > src.length) {
       endIndex = src.length;
     }
@@ -909,24 +955,24 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
         this._changeSearchBoxEnableStatus(false);
       }
       try {
-        this._onSearch().then(res => {
-          this._isFirstLoading = false;
-          this._changeSearchBoxEnableStatus(true);
-          this.source = res;
-          resolve(res);
-        }).catch(() => {
-          this._isFirstLoading = false;
-          this._changeSearchBoxEnableStatus(true);
-          reject();
-        });
+        this._onSearch()
+          .then((res) => {
+            this._isFirstLoading = false;
+            this._changeSearchBoxEnableStatus(true);
+            this.source = res;
+            resolve(res);
+          })
+          .catch(() => {
+            this._isFirstLoading = false;
+            this._changeSearchBoxEnableStatus(true);
+            reject();
+          });
       } catch {
         this._isFirstLoading = false;
         this._changeSearchBoxEnableStatus(true);
         reject();
       }
     });
-
-
   }
 
   private _onSearch(changePage = false): Promise<any[]> {
@@ -934,7 +980,7 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
     if (!changePage) {
       if (this._listBoxEl) {
         this._listBoxEl.scrollTo({
-          top: 0
+          top: 0,
         });
       }
       this._pageNumber = 1;
@@ -947,11 +993,13 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
         if (!this.lazyLoad) {
           let filteredSource = [];
           if (this.isStringArray) {
-            filteredSource = this.source
-              .filter(x => x?.toString().includes(this.searchValue));
+            filteredSource = this.source.filter((x) =>
+              x?.toString().includes(this.searchValue)
+            );
           } else {
-            filteredSource = this.source
-              .filter(x => x[this.displayMember]?.toString().includes(this.searchValue));
+            filteredSource = this.source.filter((x) =>
+              x[this.displayMember]?.toString().includes(this.searchValue)
+            );
           }
           if (!changePage) {
             this._syncSourceAndOptions(filteredSource);
@@ -961,17 +1009,24 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
           }
           resolve(filteredSource);
         } else {
-          if (this.searcher && typeof (this.searcher) === 'function') {
-            this.searcher(this.searchValue, this._pageNumber, this.maximumResultForShow).toPromise().then(res => {
-              if (!changePage) {
-                this._syncSourceAndOptions(res);
+          if (this.searcher && typeof this.searcher === 'function') {
+            this.searcher(
+              this.searchValue,
+              this._pageNumber,
+              this.maximumResultForShow
+            )
+              .toPromise()
+              .then((res) => {
+                if (!changePage) {
+                  this._syncSourceAndOptions(res);
+                  this.setloading(false);
+                }
+                resolve(res);
+              })
+              .catch(() => {
                 this.setloading(false);
-              }
-              resolve(res);
-            }).catch(() => {
-              this.setloading(false);
-              resolve(0);
-            });
+                resolve(0);
+              });
           } else {
             this.setloading(false);
             resolve(0);
@@ -980,9 +1035,7 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
       } catch {
         resolve(0);
       }
-
-    })
-
+    });
   }
 
   private _appendNotFoundHtmlTag(): void {
@@ -993,9 +1046,14 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
   }
 
   private _handleNotFoundLabel(filteredSource: any[]): boolean {
-    const show = filteredSource && filteredSource.length > 0 ? filteredSource.filter(z => !z['ngxHide']).length == 0 : true;
+    const show =
+      filteredSource && filteredSource.length > 0
+        ? filteredSource.filter((z) => !z['ngxHide']).length == 0
+        : true;
     if (this._listBoxEl) {
-      const el = this._listBoxEl.querySelector('.ngx-mat-select-not-found-container') as HTMLElement;
+      const el = this._listBoxEl.querySelector(
+        '.ngx-mat-select-not-found-container'
+      ) as HTMLElement;
       if (el) {
         if (show) {
           el.style.display = 'flex';
@@ -1005,16 +1063,17 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
       }
     }
     return show;
-
   }
 
-  private _setMaxCount(filteredSource: any[], maxCount = this.maximumResultForShow): any[] {
-    // if (!this.hasSearchBox) {
-    //   return filteredSource;
-    // }
+  private _setMaxCount(
+    filteredSource: any[],
+    maxCount = this.maximumResultForShow
+  ): any[] {
     if (maxCount) {
-      filteredSource = filteredSource.slice(0,
-        this._getMaxSize(filteredSource, maxCount));
+      filteredSource = filteredSource.slice(
+        0,
+        this._getMaxSize(filteredSource, maxCount)
+      );
     }
     return filteredSource;
   }
@@ -1040,11 +1099,9 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
   }
 
   private _getMaxSize(arr: any[], maximumCount: number): number {
-    if (!arr)
-      return 0;
+    if (!arr) return 0;
     const length = arr.length;
     return length > maximumCount ? maximumCount : length;
-
   }
 
   private _changeMedia(): void {
@@ -1063,18 +1120,16 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
         }
       }
     } else {
-      classes = classes.filter(z => z !== 'ngx-mat-select-mobile');
+      classes = classes.filter((z) => z !== 'ngx-mat-select-mobile');
     }
-    if (classes)
-      this.matSelect.panelClass = classes.join(' ');
+    if (classes) this.matSelect.panelClass = classes.join(' ');
   }
 
   private _addTitleForMobileView(spacer: HTMLElement): void {
     if (spacer && !this.hasSearchBox) {
       const titleEl = document.createElement('div');
       titleEl.classList.add('ngx-mat-select-mobile-title');
-      if (this.title)
-        titleEl.innerHTML = this.title;
+      if (this.title) titleEl.innerHTML = this.title;
       if (document.documentElement.dir === 'rtl') {
         titleEl.style.right = '48px';
       } else {
@@ -1088,102 +1143,124 @@ export class NgxMatSelectDirective extends NgxMatSelectMediaTracker implements O
   private _removeOpacity(): void {
     setTimeout(() => {
       this._listBoxEl.classList.remove('ngx-mat-select-opacity');
-    })
+    });
   }
 
   private _afterOpenForMobile(spacer: HTMLElement): void {
     this._htmlScrollTop = document.documentElement.scrollTop;
     this._htmlScrollLeft = document.documentElement.scrollLeft;
-    // this._bodyScrollLeft = document.body.scrollLeft;
-    // this._bodyScrollTop = document.body.scrollTop;
+
     const panel = this.matSelect.panel;
     const panelEl = panel.nativeElement as HTMLElement;
     const parentEl = panelEl.parentElement as HTMLElement;
     if (this.mobileQuery.matches) {
       document.documentElement.style.overflow = 'hidden';
-      //document.body.style.overflow = 'hidden';
+
       panelEl.classList.remove('mat-select-panel');
       if (this.hasSearchBox || this.title) {
-        const listEl = document.querySelector('.ngx-mat-select-mobile') as HTMLElement;
+        const listEl = document.querySelector(
+          '.ngx-mat-select-mobile'
+        ) as HTMLElement;
         if (listEl) {
           listEl.style.paddingTop = '50px';
         }
       }
       this._addTitleForMobileView(spacer);
       setTimeout(() => {
-        this._removeOpacity()
+        this._removeOpacity();
       }, 80);
-      this._toggleParentClass(panel, 'ngx-mat-select-mobile-wrapper', '.cdk-overlay-pane');
-      if (this.mobileViewType === "BottomSheet") {
+      this._toggleParentClass(
+        panel,
+        'ngx-mat-select-mobile-wrapper',
+        '.cdk-overlay-pane'
+      );
+      if (this.mobileViewType === 'BottomSheet') {
         this._toggleParentClass(panel, 'bottomToTop', '.cdk-overlay-container');
-        this._toggleParentClass(panel, 'ngx-mat-select-mobile-open-bottomToTop', '.cdk-overlay-pane');
+        this._toggleParentClass(
+          panel,
+          'ngx-mat-select-mobile-open-bottomToTop',
+          '.cdk-overlay-pane'
+        );
       } else {
-        this._toggleParentClass(panel, 'ngx-mat-select-mobile-open-fullScreen', '.cdk-overlay-pane');
+        this._toggleParentClass(
+          panel,
+          'ngx-mat-select-mobile-open-fullScreen',
+          '.cdk-overlay-pane'
+        );
       }
       parentEl.style.overflowY = 'auto';
       parentEl.style.overflowX = 'hidden';
 
       const firstSelected = panelEl.querySelector('.mat-selected');
       setTimeout(() => {
-        firstSelected?.scrollIntoView({block: 'center', behavior: 'smooth'});
+        firstSelected?.scrollIntoView({ block: 'center', behavior: 'smooth' });
       }, 500);
       if (this.hasSearchBox || this.title || true) {
         const iconAppend = spacer;
-        const inputSearch = spacer.querySelector('.mat-select-search-input') as HTMLInputElement;
-        if (inputSearch)
-          inputSearch.style.padding = '0';
+        const inputSearch = spacer.querySelector(
+          '.mat-select-search-input'
+        ) as HTMLInputElement;
+        if (inputSearch) inputSearch.style.padding = '0';
         const btn = document.createElement('i');
         if (document.documentElement.dir === 'rtl') {
           btn.classList.add('arrow-right');
-
         } else {
           btn.classList.add('arrow-left');
         }
         btn.onclick = (ev: MouseEvent) => {
           ev.stopImmediatePropagation();
           this.matSelect.close();
-        }
+        };
         iconAppend.style.display = 'flex';
         iconAppend.style.alignItems = 'center';
         iconAppend.style.width = '100%';
 
         iconAppend?.prepend(btn);
-
       }
       if (this.fragment) {
-        this.router?.navigate([], {relativeTo: this.route, fragment: this.fragment});
+        this.router?.navigate([], {
+          relativeTo: this.route,
+          fragment: this.fragment,
+        });
       }
       spacer.style.position = 'fixed';
       setTimeout(() => {
         spacer.style.position = '';
-
-      }, 150)
-
+      }, 150);
     } else {
       if (!panelEl.classList.contains('mat-select-panel')) {
         (panel.nativeElement as HTMLElement).classList.add('mat-select-panel');
       }
-
     }
   }
 
-  private _toggleParentClass(el, className: string, targetSelect: string): void {
+  private _toggleParentClass(
+    el,
+    className: string,
+    targetSelect: string
+  ): void {
     if (el?.nativeElement?.parentElement) {
-      const parentEl = el.nativeElement.parentElement.closest(targetSelect) as HTMLElement;
+      const parentEl = el.nativeElement.parentElement.closest(
+        targetSelect
+      ) as HTMLElement;
       if (parentEl) {
         parentEl.classList.toggle(className, true);
       }
     }
   }
 
-  private _removeParentClass(el, className: string, targetSelect: string): void {
+  private _removeParentClass(
+    el,
+    className: string,
+    targetSelect: string
+  ): void {
     if (el?.nativeElement?.parentElement) {
-      const parentEl = el.nativeElement.parentElement.closest(targetSelect) as HTMLElement;
+      const parentEl = el.nativeElement.parentElement.closest(
+        targetSelect
+      ) as HTMLElement;
       if (parentEl) {
         parentEl.classList.remove(className);
       }
     }
-
   }
-
 }
