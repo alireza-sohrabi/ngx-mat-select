@@ -994,11 +994,11 @@ export class NgxMatSelectDirective
           let filteredSource = [];
           if (this.isStringArray) {
             filteredSource = this.source.filter((x) =>
-              x?.toString().includes(this.searchValue)
+              x?.toString().toLowerCase().includes(this.searchValue.toLowerCase())
             );
           } else {
             filteredSource = this.source.filter((x) =>
-              x[this.displayMember]?.toString().includes(this.searchValue)
+              x[this.displayMember]?.toString().toLowerCase().includes(this.searchValue.toLowerCase())
             );
           }
           if (!changePage) {
