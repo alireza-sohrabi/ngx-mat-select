@@ -33,6 +33,7 @@ export class NgxMatSelectDirective
     super(injector);
 
     this.matSelect = injector.get(MatSelect);
+
     this._openPanelSub = this.matSelect._openedStream.subscribe(
       this._afterOpen.bind(this)
     );
