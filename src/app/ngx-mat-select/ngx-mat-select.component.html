@@ -1,0 +1,82 @@
+<ngx-mat-select-trigger
+  cdk-overlay-origin
+  #fallbackOverlayOrigin="cdkOverlayOrigin"
+  (click)="toggle()"
+  (deselect)="onDeselect($event)"
+  [disabled]="disabled"
+  [multipleDisplay]="multipleDisplay"
+  [selection]="selectionModel?.selected || []"
+  [customTrigger]="triggerContent?.template"
+  [multiple]="multiple"
+  [optionLabel]="optionLabel"
+  [placeholder]="placeholder"
+  [empty]="empty"
+>
+
+</ngx-mat-select-trigger>
+
+<ngx-mat-select-panel
+  [width]="panelWidth"
+  [height]="panelHeight"
+  [overlayClass]="_overlayPanelClass"
+  [panelClass]="panelClass"
+  (beforeOpen)="onBeforePanelOpen()"
+  (afterOpen)="onAfterPanelOpen()"
+  (beforeClose)="onBeforePanelClose()"
+  (afterClose)="onAfterPanelClose()"
+  [theme]="_getPanelTheme()"
+  [disabled]="disabled"
+  [viewType]="viewType"
+  [connectedOverlayOrigin]="preferredOverlayOrigin || fallbackOverlayOrigin.elementRef"
+>
+  <div class="ngx-mat-select-panel-header" *ngIf="hasSearchBox || hasBackButton">
+    <ngx-mat-select-search-box
+      *ngIf="hasSearchBox"
+      class="ngx-mat-select-panel-search-box"
+      (handleKeydown)="_handleKeydown($event)"
+      [placeholder]="searchBoxPlaceholder"
+    >
+    </ngx-mat-select-search-box>
+    <div class="ngx-mat-select-panel-header-filler"></div>
+    <div class="ngx-mat-select-back-button" *ngIf="hasBackButton" (click)="panel.close()">
+      <ngx-mat-select-icon icon="ArrowRight" [width]="32" [height]="32">
+      </ngx-mat-select-icon>
+    </div>
+  </div>
+  <div class="ngx-mat-select-panel-content">
+    <cdk-virtual-scroll-viewport
+      class="ngx-mat-select-virtual-scroll"
+      [itemSize]="optionHeight"
+    >
+      <ng-container *cdkVirtualFor="let option of filteredOptions$ | async;let index = index">
+        <mat-option [style.height.px]="optionHeight"
+                    ngxMatSelectOption
+                    #matOption
+                    [disabled]="option?.['disabled']"
+                    [id]="index.toString()"
+                    [activated]="activeItemIndex?.toString() === matOption.id?.toString()"
+                    [selected]="isSelected(option)"
+                    [value]="option"
+                    (onSelectionChange)="onSelect($event)">
+          <ng-container *ngIf="selectOptionContent else defaultTemplate">
+            <ng-container
+              *ngTemplateOutlet="selectOptionContent.template; context: {$implicit: option, selected: isSelected(option)}"></ng-container>
+          </ng-container>
+
+          <ng-template #defaultTemplate>
+            {{option | toOptionLabel: optionLabel }}
+          </ng-template>
+
+        </mat-option>
+
+      </ng-container>
+    </cdk-virtual-scroll-viewport>
+
+  </div>
+  <div class="ngx-mat-select-panel-footer">
+    <ng-content select="[ngxMatSelectFooter]"></ng-content>
+  </div>
+  <ngx-mat-select-loading [loading]="(loading$ | async) === true"></ngx-mat-select-loading>
+
+</ngx-mat-select-panel>
+

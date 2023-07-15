@@ -1,0 +1,24 @@
+<ng-template
+  [cdkConnectedOverlayWidth]="_panelWidth"
+  (overlayOutsideClick)="onOutsideClick($event)"
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="connectedOverlayOrigin"
+  [cdkConnectedOverlayOpen]="(isOpen$ | async) === true"
+  [cdkConnectedOverlayLockPosition]="true"
+  (attach)="afterOpen.emit()"
+  [cdkConnectedOverlayPanelClass]="[overlayClassViewType, _overlayClass]"
+  (overlayKeydown)="onOverlayKeyDown($event)"
+  [cdkConnectedOverlayHasBackdrop]="hasBackdrop"
+  [cdkConnectedOverlayPositions]="_positions"
+  cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+  (detach)="afterClose.emit()">
+  <div
+    class="ngx-mat-select-panel mdc-menu-surface mdc-menu-surface--open {{ theme }}"
+    [ngClass]="panelClass"
+    [style.height.px]="height"
+    role="listbox"
+    [@transformPanel]="(isOpen$ | async) ? 'showing' : ''"
+  >
+    <ng-content></ng-content>
+  </div>
+</ng-template>

@@ -1,0 +1,319 @@
+@use 'sass:math';
+@use '@angular/cdk';
+@use '@material/menu-surface' as mdc-menu-surface;
+@use '@material/list/evolution-mixins' as mdc-list;
+@use 'node_modules/@angular/material/core/style/vendor-prefixes';
+@use 'node_modules/@angular/material/core/style/variables';
+
+
+$mat-select-arrow-size: 5px !default;
+$mat-select-arrow-margin: 4px !default;
+$mat-select-panel-max-height: auto !default;
+$mat-select-placeholder-arrow-space: 2 *
+  ($mat-select-arrow-size + $mat-select-arrow-margin);
+$leading-width: 12px !default;
+$scale: 0.75 !default;
+
+
+// angular material css
+// We base the select panel styling on top of MDC's menu styles and we
+// implement the trigger ourselves since MDC doesn't provide an equivalent.
+
+@include mdc-menu-surface.core-styles($query: structure);
+
+.ngx-mat-select {
+  display: inline-block;
+  width: 100%;
+  outline: none;
+}
+
+
+.ngx-mat-select-trigger {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+
+  .ngx-mat-select-disabled & {
+    @include vendor-prefixes.user-select(none);
+    cursor: default;
+  }
+}
+
+.ngx-mat-select-value {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ngx-mat-select-value-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ngx-mat-select-arrow-wrapper {
+  height: 24px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+
+  // When used in a fill appearance with a label, form-field the arrow should be shifted up 8px.
+  .mat-form-field-appearance-fill & {
+    transform: translateY(-8px);
+  }
+
+  .mat-form-field-appearance-fill .mdc-text-field--no-label & {
+    transform: none;
+  }
+}
+
+.ngx-mat-select-arrow {
+  width: $mat-select-arrow-size * 2;
+  height: $mat-select-arrow-size;
+  position: relative;
+
+  svg {
+    fill: currentColor;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    @include cdk.high-contrast(active, off) {
+      // On Chromium browsers the `currentColor` blends in with the
+      // background for SVGs so we have to fall back to `CanvasText`.
+      fill: CanvasText;
+
+      .ngx-mat-select-disabled & {
+        fill: GrayText;
+      }
+    }
+  }
+}
+
+// Note that the `.mdc-menu-surface` is here in order to bump up the specificity
+// and avoid interference with `mat-menu` which uses the same mixins from MDC.
+.mdc-menu-surface.ngx-mat-select-panel {
+  width: 100%; // Ensures that the panel matches the overlay width.
+  max-height: $mat-select-panel-max-height;
+  position: static; // MDC uses `absolute` by default which will throw off our positioning.
+  outline: 0;
+
+  @include mdc-list.list-base($query: structure);
+  @include cdk.high-contrast(active, off) {
+    outline: solid 1px;
+  }
+
+  .cdk-overlay-pane:not(.ngx-mat-select-panel-above) & {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    transform-origin: top center;
+  }
+
+  .ngx-mat-select-panel-above & {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    transform-origin: bottom center;
+  }
+}
+
+.ngx-mat-select-placeholder {
+  // Delay the transition until the label has animated about a third of the way through, in
+  // order to prevent the placeholder from overlapping for a split second.
+  transition: color variables.$swift-ease-out-duration math.div(variables.$swift-ease-out-duration, 3) variables.$swift-ease-out-timing-function;
+
+  ._mat-animation-noopable & {
+    transition: none;
+  }
+
+  .mat-form-field-hide-placeholder & {
+    color: transparent;
+
+    // Overwrite browser specific CSS properties that can overwrite the `color` property.
+    // Some developers seem to use this approach to easily overwrite the placeholder / label color.
+    -webkit-text-fill-color: transparent;
+
+    // Remove the transition to prevent the placeholder
+    // from overlapping when the label comes back down.
+    transition: none;
+    // Prevents the '...' from showing on the parent element.
+    display: block;
+  }
+}
+
+
+.ngx-mat-select-placeholder {
+  // Delay the transition until the label has animated about a third of the way through, in
+  // order to prevent the placeholder from overlapping for a split second.
+  transition: color variables.$swift-ease-out-duration math.div(variables.$swift-ease-out-duration, 3) variables.$swift-ease-out-timing-function;
+
+  ._mat-animation-noopable & {
+    transition: none;
+  }
+
+  .mat-form-field-hide-placeholder & {
+    color: transparent;
+
+    // Overwrite browser specific CSS properties that can overwrite the `color` property.
+    // Some developers seem to use this approach to easily overwrite the placeholder / label color.
+    -webkit-text-fill-color: transparent;
+
+    // Remove the transition to prevent the placeholder
+    // from overlapping when the label comes back down.
+    transition: none;
+    // Prevents the '...' from showing on the parent element.
+    display: block;
+  }
+}
+
+// Our MDC form field implementation is based on the MDC text field which doesn't include styles
+// for select. The select specific styles are not present as they don't use their text field as a
+// container. Below are the styles to account for the select arrow icon at the end.
+.mat-mdc-form-field-type-ngx-mat-select {
+  &.mat-form-field-appearance-fill {
+    .mat-mdc-floating-label {
+      max-width: calc(100% - #{$mat-select-placeholder-arrow-space});
+    }
+
+    .mdc-floating-label--float-above {
+      $arrow-scale: math.div($mat-select-placeholder-arrow-space, $scale);
+      max-width: calc(100% / #{$scale} - #{$arrow-scale});
+    }
+  }
+
+  &.mat-form-field-appearance-outline {
+    .mdc-notched-outline__notch {
+      max-width: calc(100% - #{2 * ($mat-select-placeholder-arrow-space + $leading-width)});
+    }
+
+    .mdc-text-field--label-floating .mdc-notched-outline__notch {
+      max-width: calc(100% - #{$leading-width * 2});
+    }
+  }
+}
+
+// Used to prevent inline elements from collapsing if their text bindings
+// become empty. This is preferable to inserting a blank space, because the
+// space can be read out by screen readers (see #21725).
+.ngx-mat-select-min-line:empty::before {
+  content: ' ';
+  white-space: pre;
+  width: 1px;
+  display: inline-block;
+
+  // Prevents some browsers from rendering the element in high contrast mode. Use `visibility`
+  // instead of `opacity` since VoiceOver + Chrome still reads out the space with the latter.
+  visibility: hidden;
+}
+
+
+// custom styles
+
+ngx-mat-select-panel {
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.ngx-mat-select-panel {
+  display: flex !important;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 0 !important;
+}
+
+
+.ngx-mat-select-panel-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1rem;
+}
+
+.ngx-mat-select-panel-search-box {
+  flex: 1 1 100%;
+  margin: 0 0.5rem;
+}
+
+.ngx-mat-select-panel-content {
+  padding: 0 !important;
+  height: 100%;
+  position: relative;
+}
+
+.ngx-mat-select-virtual-scroll {
+  height: 100%;
+}
+
+
+.ngx-mat-select-panel-sheet-view-type {
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  top: 20% !important;
+  bottom: 0;
+}
+
+.ngx-mat-select-panel-screen-view-type {
+  top: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.ngx-mat-select-panel-default-view-type {
+  height: 350px;
+}
+
+.ngx-mat-select-panel-header-filler {
+  flex: 1 1 auto;
+  min-height: 56px;
+}
+
+.ngx-mat-select-back-button {
+  opacity: 0.7;
+  flex: 0 0 40px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 150ms ease-in-out;
+}
+
+.ngx-mat-select-chips {
+  overflow: hidden;
+}
+
+.ngx-mat-select-chip-grid-row {
+  display: flex;
+
+  &--oneRowChip {
+    flex-wrap: nowrap;
+  }
+
+  &--multipleRowChip {
+    flex-wrap: wrap;
+  }
+}
+
+.ngx-mat-select-input-chips {
+  height: 0 !important;
+  width: 0 !important;
+}
+
+body[dir="ltr"] .ngx-mat-select-multiple-display-oneRowChip {
+  padding-right: 0.5rem;
+}
+
+body[dir="rtl"] .ngx-mat-select-multiple-display-oneRowChip {
+  padding-left: 0.5rem;
+}
+
+body[dir="rtl"] .ngx-mat-select-back-button {
+  transform: rotate(180deg);
+}

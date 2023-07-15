@@ -1,46 +1,47 @@
-import {APP_INITIALIZER, Injector, ModuleWithProviders, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
+import {MatOptionModule} from '@angular/material/core';
 import {CommonModule} from '@angular/common';
-import {NgxMatSelectDirective} from './ngx-mat-select.directive';
-import {NgxMatSelectService} from "./ngx-mat-select.service";
-import {NgxMatSelectInitializer} from "./ngx-mat-select-initializer";
-import {NGX_MAT_SELECT_CONFIGS, NgxMatSelectConfigs} from "./ngx-mat-select-configs";
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import {CdkOverlayOrigin} from '@angular/cdk/overlay';
 
-export function nInit(ngxMatSelectInitializer: NgxMatSelectInitializer) {
-  return ngxMatSelectInitializer.init();
-}
+import {SharedModule} from './shared/shared.module';
+import {NgxMatSelectComponent} from './ngx-mat-select.component';
+import {NgxMatSelectFetchOptionsClientSideDirective} from './component/fetch-options/ngx-mat-select-fetch-options-client-side.directive';
+import {NgxMatSelectFetchOptionsServerSideDirective} from './component/fetch-options/ngx-mat-select-fetch-options-server-side.directive';
+import {NgxMatSelectLoadingModule} from './component/loading/ngx-mat-select-loading.module';
+import {NgxMatSelectPanelModule} from './component/panel/ngx-mat-select-panel.module';
+import {NgxMatSelectSearchBoxModule} from './component/search-box/ngx-mat-select-search-box.module';
+import {NgxMatSelectIconModule} from './component/icon/ngx-mat-select-icon.module';
+import {NgxMatSelectTriggerModule} from './component/trigger/ngx-mat-select-trigger.module';
+import {NgxMatSelectOptionContentDirective} from './template/ngx-mat-select-option-content.directive';
+import {NgxMatSelectTriggerDirective} from './template/ngx-mat-select-trigger.directive';
 
 @NgModule({
-  declarations: [NgxMatSelectDirective],
+  declarations: [
+    NgxMatSelectComponent,
+    NgxMatSelectFetchOptionsClientSideDirective,
+    NgxMatSelectFetchOptionsServerSideDirective,
+    NgxMatSelectOptionContentDirective,
+    NgxMatSelectTriggerDirective,
+  ],
   imports: [
     CommonModule,
-  ],
-  providers: [
-    NgxMatSelectInitializer,
-    {
-      provide: APP_INITIALIZER, deps: [NgxMatSelectInitializer],
-      useFactory: nInit,
-      multi: true
-    }
+    ScrollingModule,
+    CdkOverlayOrigin,
+    SharedModule,
+    NgxMatSelectLoadingModule,
+    NgxMatSelectPanelModule,
+    NgxMatSelectSearchBoxModule,
+    NgxMatSelectIconModule,
+    NgxMatSelectTriggerModule,
+    MatOptionModule,
   ],
   exports: [
-    NgxMatSelectDirective,
+    NgxMatSelectComponent,
+    NgxMatSelectFetchOptionsClientSideDirective,
+    NgxMatSelectFetchOptionsServerSideDirective,
+    NgxMatSelectOptionContentDirective,
+    NgxMatSelectTriggerDirective,
   ],
 })
-export class NgxMatSelectModule {
-  static forRoot(configs?: NgxMatSelectConfigs): ModuleWithProviders<NgxMatSelectModule> {
-    if (!configs) {
-      configs = new NgxMatSelectConfigs();
-    } else {
-      configs = Object.assign(new NgxMatSelectConfigs(), configs);
-    }
-    return {
-      ngModule: NgxMatSelectModule,
-      providers: [
-        {provide: NGX_MAT_SELECT_CONFIGS, useValue: configs},
-        NgxMatSelectService,
-      ]
-    };
-  }
-
-}
-
+export class NgxMatSelectModule {}

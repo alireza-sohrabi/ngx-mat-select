@@ -1,0 +1,41 @@
+<ng-template #defaultTrigger>
+  <ng-container *ngIf="multiple; else singleTemplate">
+    <mat-chip-grid [disabled]="disabled" *ngIf="multipleDisplay !== 'text'" class="ngx-mat-select-chips" #multipleTemplate>
+      <div [ngClass]="['ngx-mat-select-chip-grid-row', 'ngx-mat-select-chip-grid-row--' + multipleDisplay]">
+        <mat-chip-row *ngFor="let selected of selection" (removed)="deselect.emit(selected)" [editable]="false">
+          {{ selected | toOptionLabel: optionLabel }}
+          <button matChipRemove>
+            <ngx-mat-select-icon icon="Remove"> </ngx-mat-select-icon>
+          </button>
+        </mat-chip-row>
+      </div>
+      <input readonly type="text" [matChipInputFor]="multipleTemplate" class="ngx-mat-select-input-chips" />
+    </mat-chip-grid>
+
+    <ng-container *ngIf="multipleDisplay === 'text'">
+      <div class="ngx-mat-select-value">
+        {{ selection | toOptionLabel: optionLabel }}
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #singleTemplate>
+    <div class="ngx-mat-select-value">{{ selection[0] | toOptionLabel: optionLabel }}</div>
+  </ng-template>
+</ng-template>
+
+<div class="ngx-mat-select-value ngx-mat-multiple-display-{{ multipleDisplay }}" [ngSwitch]="empty">
+  <span class="ngx-mat-select-placeholder ngx-mat-select-min-line" *ngSwitchCase="true">{{ placeholder }}</span>
+  <span class="ngx-mat-select-value-text" *ngSwitchCase="false" [ngSwitch]="!!customTrigger">
+    <span class="ngx-mat-select-min-line" *ngSwitchDefault>
+      <ng-container [ngTemplateOutlet]="defaultTrigger"></ng-container>
+    </span>
+    <ng-container *ngSwitchCase="true">
+      <ng-container
+        *ngTemplateOutlet="customTrigger; context: {$implicit: multiple ? selection : selection[0]}"></ng-container>
+    </ng-container>
+  </span>
+</div>
+<div class="ngx-mat-select-arrow-wrapper">
+  <ngx-mat-select-icon class="ngx-mat-select-arrow" icon="ArrowDown"> </ngx-mat-select-icon>
+</div>
