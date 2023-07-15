@@ -1,6 +1,6 @@
 import {FormGroupDirective, NgForm} from '@angular/forms';
 import {Directive} from '@angular/core';
-import {NgxMatSelectConfig} from "../ngx-mat-select";
+import {NgxMatSelectConfig} from "../ngx-mat-select/pubilc_api";
 
 @Directive()
 export abstract class NgxMatSelectExampleForms {
