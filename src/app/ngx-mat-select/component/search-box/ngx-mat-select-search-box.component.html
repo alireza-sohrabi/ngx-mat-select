@@ -1,0 +1,19 @@
+<div class="ngx-mat-select-search-box-icon">
+  <div *ngIf="!value">
+    <ngx-mat-select-icon icon="Search"> </ngx-mat-select-icon>
+  </div>
+
+  <div (click)="clear()" *ngIf="!!value">
+    <ngx-mat-select-icon icon="Times"> </ngx-mat-select-icon>
+  </div>
+</div>
+
+<input
+  (blur)="_onBlur()"
+  (focus)="_onFocus()"
+  class="ngx-mat-select-search-box-input"
+  type="text"
+  #searchBox
+  [(ngModel)]="value"
+  [placeholder]="placeholder || ''"
+  (keydown)="handleKeydown.emit($event)" />

@@ -1,0 +1,150 @@
+@use '@material/theme/theme-color' as mdc-theme-color;
+@use '@material/menu-surface' as mdc-menu-surface;
+@use '@material/list/evolution-mixins' as mdc-list;
+@use '@material/typography' as mdc-typography;
+
+@use 'node_modules/@angular/material/core/theming/theming';
+@use 'node_modules/@angular/material/core/typography/typography';
+@use 'node_modules/@angular/material/core/mdc-helpers/mdc-helpers';
+
+
+// Gets the color to use for some text that is highlighted while a select has focus.
+@function _get-mdc-focused-text-color($palette) {
+  @return rgba(mdc-theme-color.prop-value($palette), 0.87);
+}
+
+@mixin color($config-or-theme) {
+  $config: theming.get-color-config($config-or-theme);
+
+  @include mdc-helpers.using-mdc-theme($config) {
+    @include _ngx-mat-select-buttons();
+    @include _ngx-mat-select-search-box();
+    $disabled-color: rgba(mdc-theme-color.prop-value(on-surface), 0.38);
+    @include mdc-menu-surface.core-styles(mdc-helpers.$mdc-theme-styles-query);
+    @include mdc-list.without-ripple(mdc-helpers.$mdc-theme-styles-query);
+
+    .ngx-mat-select-value {
+      color: rgba(mdc-theme-color.prop-value(on-surface), 0.87);
+    }
+
+    .ngx-mat-select-placeholder {
+      color: rgba(mdc-theme-color.prop-value(on-surface), 0.6);
+    }
+
+    .ngx-mat-select-disabled .ngx-mat-select-value {
+      color: $disabled-color;
+    }
+
+
+    .ngx-mat-select-arrow {
+      color: rgba(mdc-theme-color.prop-value(on-surface), 0.54);
+    }
+
+    .mat-mdc-form-field {
+      &.mat-focused {
+        &.mat-primary .ngx-mat-select-arrow {
+          color: _get-mdc-focused-text-color(primary);
+        }
+
+        &.mat-accent .ngx-mat-select-arrow {
+          color: _get-mdc-focused-text-color(secondary);
+        }
+
+        &.mat-warn .ngx-mat-select-arrow {
+          color: _get-mdc-focused-text-color(error);
+        }
+      }
+
+      .ngx-mat-select.ngx-mat-select-invalid .ngx-mat-select-arrow {
+        color: _get-mdc-focused-text-color(error);
+      }
+
+      .ngx-mat-select.ngx-mat-select-disabled .ngx-mat-select-arrow {
+        color: $disabled-color;
+      }
+    }
+  }
+
+}
+
+@mixin typography($config-or-theme) {
+  $config: typography.private-typography-to-2018-config(
+      theming.get-typography-config($config-or-theme));
+  @include mdc-helpers.using-mdc-typography($config) {
+    @include mdc-menu-surface.core-styles(mdc-helpers.$mdc-typography-styles-query);
+
+    .ngx-mat-select-panel {
+      @include mdc-list.list-base(mdc-helpers.$mdc-typography-styles-query);
+    }
+
+    .ngx-mat-select {
+      @include mdc-typography.typography(body1, $query: mdc-helpers.$mdc-typography-styles-query);
+    }
+  }
+}
+
+@mixin density($config-or-theme) {
+}
+
+@mixin theme($theme-or-color-config) {
+  $theme: theming.private-legacy-get-theme($theme-or-color-config);
+  @include theming.private-check-duplicate-theme-styles($theme, 'ngx-mat-select') {
+    $color: theming.get-color-config($theme);
+    $density: theming.get-density-config($theme);
+    $typography: theming.get-typography-config($theme);
+
+    @if $color != null {
+      @include color($color);
+    }
+    @if $density != null {
+      @include density($density);
+    }
+    @if $typography != null {
+      @include typography($typography);
+    }
+  }
+}
+
+@mixin _ngx-mat-select-buttons() {
+  .ngx-mat-select-back-button {
+    svg {
+      stroke: rgba(mdc-theme-color.prop-value(on-surface), 0.54);
+    }
+  }
+}
+
+@mixin _ngx-mat-select-search-box() {
+  .ngx-mat-select-search-box {
+    border-color: rgba(mdc-theme-color.prop-value(on-surface), 0.38);
+  }
+
+  .mat-primary .ngx-mat-select-search-box--focused {
+    border-color: rgba(mdc-theme-color.prop-value(primary), 1);
+    outline-color: rgba(mdc-theme-color.prop-value(primary), 1);
+  }
+
+  .mat-accent .ngx-mat-select-search-box--focused {
+    border-color: rgba(mdc-theme-color.prop-value(secondary), 1);
+    outline-color: rgba(mdc-theme-color.prop-value(secondary), 1);
+
+  }
+
+  .mat-warn .ngx-mat-select-search-box--focused {
+    border-color: rgba(mdc-theme-color.prop-value(error), 1);
+    outline-color: rgba(mdc-theme-color.prop-value(error), 1);
+  }
+
+  .ngx-mat-select-search-box-icon {
+    fill: rgba(mdc-theme-color.prop-value(on-surface), 0.54);
+  }
+
+
+  .ngx-mat-select-search-box-input {
+    &::placeholder {
+      color: rgba(mdc-theme-color.prop-value(on-surface), 0.6);
+    }
+
+    caret-color: _get-mdc-focused-text-color(primary);
+    color: rgba(mdc-theme-color.prop-value(on-surface), 0.87);
+  }
+}
