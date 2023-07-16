@@ -6,7 +6,7 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatCardModule} from "@angular/material/card";
-import {NgxMatSelectModule} from "../ngx-mat-select/pubilc_api";
+import {NgxMatSelectModule} from "../ngx-mat-select";
 import {ConfigModule} from "./config/config.module";
 import {ClientSideModule} from "./client-side/client-side.module";
 import {ServerSideModule} from "./server-side/server-side.module";
