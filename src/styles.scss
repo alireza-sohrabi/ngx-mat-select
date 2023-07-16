@@ -1,7 +1,6 @@
-@use "@angular/material" as mat;
-@use "../src/app/ngx-mat-select/ngx-mat-select-theme" as ngxMatSelect;
 
-@import "@angular/material/theming";
+@use "src/app/ngx-mat-select" as ngxMatSelect;
+@use "@angular/material" as mat;
 
 @include mat.core();
 
@@ -17,6 +16,7 @@ $angular-light-theme: mat.define-light-theme(
         accent: $angular-accent,
         warn: $angular-warn,
       ),
+      typography: mat.define-typography-config(),
     )
 );
 
@@ -27,10 +27,10 @@ $angular-dark-theme: mat.define-dark-theme(
         accent: $angular-accent,
         warn: $angular-warn,
       ),
+      typography: mat.define-typography-config(),
     )
 );
 
-@include mat.core-theme($angular-light-theme);
 @include mat.all-component-themes($angular-light-theme);
 @include ngxMatSelect.theme($angular-light-theme);
 
@@ -41,16 +41,17 @@ $angular-dark-theme: mat.define-dark-theme(
 }
 
 .darkMode {
-  @include mat.all-component-colors($angular-dark-theme);
-  @include ngxMatSelect.color($angular-dark-theme);
+  @include mat.all-component-themes($angular-dark-theme);
+  @include ngxMatSelect.theme($angular-dark-theme);
+
 }
 
-
-.lightMode {
-  @include mat.all-component-colors($angular-light-theme);
-  @include ngxMatSelect.color($angular-light-theme);
+html,
+body {
+  height: 100%;
 }
 
-* {
-  box-sizing: border-box;
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }

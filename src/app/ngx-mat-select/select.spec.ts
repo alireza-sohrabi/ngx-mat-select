@@ -1,7 +1,7 @@
 import {ComponentFixture, fakeAsync, flush, TestBed, waitForAsync} from '@angular/core/testing';
 import {dispatchFakeEvent} from './test-helper';
 
-import {NgxMatSelectComponent} from './ngx-mat-select.component';
+import {NgxMatSelectComponent} from './select';
 import {EMPTY, Observable} from 'rxjs';
 import {Component, Provider, ViewChild} from '@angular/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -10,7 +10,7 @@ import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {OverlayContainer, OverlayModule} from '@angular/cdk/overlay';
 import {Directionality} from '@angular/cdk/bidi';
 import {By} from '@angular/platform-browser';
-import {NgxMatSelectModule} from './ngx-mat-select.module';
+import {NgxMatSelectModule} from './select.module';
 
 describe('LibSelectComponent', () => {
   let overlayContainerElement: HTMLElement;

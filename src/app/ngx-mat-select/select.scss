@@ -2,8 +2,8 @@
 @use '@angular/cdk';
 @use '@material/menu-surface' as mdc-menu-surface;
 @use '@material/list/evolution-mixins' as mdc-list;
-@use 'node_modules/@angular/material/core/style/vendor-prefixes';
-@use 'node_modules/@angular/material/core/style/variables';
+@use 'core/style/vendor-prefixes';
+@use 'core/style/variables.scss';
 
 
 $mat-select-arrow-size: 5px !default;
@@ -14,12 +14,15 @@ $mat-select-placeholder-arrow-space: 2 *
 $leading-width: 12px !default;
 $scale: 0.75 !default;
 
-
 // angular material css
 // We base the select panel styling on top of MDC's menu styles and we
 // implement the trigger ourselves since MDC doesn't provide an equivalent.
 
 @include mdc-menu-surface.core-styles($query: structure);
+
+.ngx-mat-select-panel * {
+  box-sizing: border-box;
+}
 
 .ngx-mat-select {
   display: inline-block;

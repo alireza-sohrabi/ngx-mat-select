@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Directive, Input} from '@angular/core';
 
 import {NgxMatSelectFetchOptionsDirective} from './ngx-mat-select-fetch-options';
-import {NgxMatSelectComponent} from '../../ngx-mat-select.component';
+import {NgxMatSelectComponent} from '../../select';
 import {isNullOrUndefined} from '../../shared/utils';
 
 @Directive({

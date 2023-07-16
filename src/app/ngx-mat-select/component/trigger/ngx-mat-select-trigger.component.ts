@@ -8,7 +8,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import {NgxMatSelectMultipleDisplay} from '../../ngx-mat-select';
+import {NgxMatSelectMultipleDisplay} from '../../select-model';
 
 @Component({
   selector: 'ngx-mat-select-trigger',

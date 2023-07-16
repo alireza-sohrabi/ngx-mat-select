@@ -4,8 +4,8 @@ import {ScrollDispatcher} from '@angular/cdk/scrolling';
 import {BehaviorSubject, combineLatest, Observable, pairwise, ReplaySubject, tap} from 'rxjs';
 import {filter, map, startWith, switchMap, takeUntil} from 'rxjs/operators';
 
-import {NgxMatSelectSearchParams} from '../../ngx-mat-select';
-import {NgxMatSelectComponent} from '../../ngx-mat-select.component';
+import {NgxMatSelectSearchParams} from '../../select-model';
+import {NgxMatSelectComponent} from '../../select';
 import {NgxMatSelectFetchOptionsDirective} from './ngx-mat-select-fetch-options';
 import {isNullOrUndefined} from '../../shared/utils';
 

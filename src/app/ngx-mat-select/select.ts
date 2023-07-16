@@ -55,12 +55,12 @@ import {
   NgxMatSelectMultipleDisplay,
   NgxMatSelectValue,
   NgxMatSelectViewType,
-} from './ngx-mat-select';
+} from './select-model';
 import {matSelectAnimations} from './shared/animations';
 import {NgxMatSelectFetchOptions} from './component/fetch-options/ngx-mat-select-fetch-options';
 import {isNullOrUndefined} from './shared/utils';
 import {filter, map, take} from 'rxjs/operators';
-import {getSelectDynamicMultipleError} from './ngx-mat-select-error';
+import {getSelectDynamicMultipleError} from './select-error';
 
 let nextUniqueId = 0;
 
@@ -99,8 +99,8 @@ const _MatSelectMixinBase = mixinDisableRipple(
 
 @Component({
   selector: 'ngx-mat-select',
-  templateUrl: './ngx-mat-select.component.html',
-  styleUrls: ['./ngx-mat-select.component.scss'],
+  templateUrl: 'select.html',
+  styleUrls: ['select.scss'],
   encapsulation: ViewEncapsulation.None,
   animations: [matSelectAnimations.transformPanelWrap],
   changeDetection: ChangeDetectionStrategy.OnPush,

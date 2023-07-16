@@ -3,9 +3,9 @@
 @use '@material/list/evolution-mixins' as mdc-list;
 @use '@material/typography' as mdc-typography;
 
-@use 'node_modules/@angular/material/core/theming/theming';
-@use 'node_modules/@angular/material/core/typography/typography';
-@use 'node_modules/@angular/material/core/mdc-helpers/mdc-helpers';
+@use 'core/theming/theming';
+@use 'core/typography/typography';
+@use 'core/mdc-helpers/mdc-helpers';
 
 
 // Gets the color to use for some text that is highlighted while a select has focus.
