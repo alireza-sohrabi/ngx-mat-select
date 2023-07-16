@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {MatCardModule} from "@angular/material/card";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {FormsModule} from "@angular/forms";
-import {NgxMatSelectModule} from "../../ngx-mat-select";
+import {NgxMatSelectModule} from "../../ngx-mat-select/pubilc_api";
 import {UsePrimitivesComponent} from "./use-primitives.component";
 
 

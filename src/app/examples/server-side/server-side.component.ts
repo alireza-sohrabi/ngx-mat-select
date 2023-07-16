@@ -3,7 +3,7 @@ import {FormControl, FormGroup, FormGroupDirective, NgForm} from '@angular/forms
 import {NgxMatSelectConfigExample, NgxMatSelectExampleForms} from '../expamles-select';
 import {of} from 'rxjs';
 import {delay} from 'rxjs/operators';
-import {NgxMatSelectSearchParams} from "../../ngx-mat-select";
+import {NgxMatSelectSearchParams} from "../../ngx-mat-select/pubilc_api";
 
 @Component({
   selector: 'app-server-side',
