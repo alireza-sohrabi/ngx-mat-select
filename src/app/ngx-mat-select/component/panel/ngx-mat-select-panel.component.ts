@@ -19,7 +19,7 @@ import {BehaviorSubject, Observable, Subject, tap} from 'rxjs';
 import {startWith, takeUntil} from 'rxjs/operators';
 
 import {matSelectAnimations} from '../../shared/animations';
-import {NgxMatSelectViewType} from '../../ngx-mat-select';
+import {NgxMatSelectViewType} from '../../select-model';
 
 @Component({
   selector: 'ngx-mat-select-panel',

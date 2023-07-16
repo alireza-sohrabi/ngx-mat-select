@@ -21,7 +21,7 @@ Angular Material Components
 
   for example add the following line in the styles.scss file:
     
-      @use "node_modules/ngx-mat-select/ngx-mat-select-theme" as ngxMatSelect;
+      @use "ngx-mat-select" as ngxMatSelect;
 
     then apply your Angular Material Theme to the ngxMatSelect theme
     
@@ -32,13 +32,7 @@ Angular Material Components
 
       .darkMode {
           ...
-          @include ngxMatSelect.color($your-dark-theme);
-      }
-
-
-      .lightMode {
-          ...
-          @include ngxMatSelect.color($your-light-theme);
+          @include ngxMatSelect.theme($your-dark-theme);
       }
 
 

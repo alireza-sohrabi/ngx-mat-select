@@ -5,7 +5,7 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
 import {CdkOverlayOrigin} from '@angular/cdk/overlay';
 
 import {SharedModule} from './shared/shared.module';
-import {NgxMatSelectComponent} from './ngx-mat-select.component';
+import {NgxMatSelectComponent} from './select';
 import {NgxMatSelectFetchOptionsClientSideDirective} from './component/fetch-options/ngx-mat-select-fetch-options-client-side.directive';
 import {NgxMatSelectFetchOptionsServerSideDirective} from './component/fetch-options/ngx-mat-select-fetch-options-server-side.directive';
 import {NgxMatSelectLoadingModule} from './component/loading/ngx-mat-select-loading.module';

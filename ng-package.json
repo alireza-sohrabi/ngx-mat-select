@@ -1,7 +1,15 @@
 {
-  "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "dist-lib",
+  "$schema": "node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "dist",
   "lib": {
-    "entryFile": "src/app/ngx-mat-select/public_api.ts"
-  }
+    "entryFile": "src/app/ngx-mat-select/public-api.ts",
+    "styleIncludePaths": [
+      "node_modules/@angular/material"
+    ]
+  },
+  "assets": [
+    { "input": "src/app/ngx-mat-select", "glob": "index.scss", "output": "./" },
+    { "input": "src/app/ngx-mat-select", "glob": "_select-theme.scss", "output": "./" }
+
+  ]
 }

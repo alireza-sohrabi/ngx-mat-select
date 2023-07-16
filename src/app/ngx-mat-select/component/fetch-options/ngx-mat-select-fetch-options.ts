@@ -13,9 +13,9 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 
-import {NgxMatSelectOptionType} from '../../ngx-mat-select';
-import {NgxMatSelectComponent} from '../../ngx-mat-select.component';
-import {getSelectOptionLabelError} from '../../ngx-mat-select-error';
+import {NgxMatSelectOptionType} from '../../select-model';
+import {NgxMatSelectComponent} from '../../select';
+import {getSelectOptionLabelError} from '../../select-error';
 
 export interface NgxMatSelectFetchOptions {
   filteredOptions$: Observable<unknown[]>;
