@@ -1,4 +1,5 @@
 # NgxMatSelect
+
 it is totally an independent component like mat-select and a solution for handling
 SearchBox, VirtualScroll and InfiniteScroll which the Angular material select-box does not support them by it-self.
 
@@ -29,6 +30,10 @@ NgxMatSelect
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>16.x.x</td>
+<td> >=16</td>
+</tr>
 <tr>
 <td>15.x.x</td>
 <td> >= 15 </td>
