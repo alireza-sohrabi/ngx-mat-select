@@ -569,7 +569,7 @@ export class NgxMatSelectComponent
 
     this.selectionChange.emit({
       selected: false,
-      value: option,
+      value: this.getOptionValue(option),
     });
   }
 
@@ -577,7 +577,7 @@ export class NgxMatSelectComponent
    * to select or deselect an item from selected options
    * @param event
    */
-  onSelect(event: MatOptionSelectionChange<unknown>) {
+  onSelectionChange(event: MatOptionSelectionChange<unknown>) {
     if (event.isUserInput) {
       const option = event.source.value;
 
