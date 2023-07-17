@@ -1,8 +1,8 @@
 # NgxMatSelect
-it is totally independent component like mat-select and a solution for handling
+it is totally an independent component like mat-select and a solution for handling
 SearchBox, VirtualScroll and InfiniteScroll which the Angular material select-box does not support them by it-self.
 
-Extra Advantages that you've gained more than using mat-select:
+Extra Advantages that you'll gain more than using mat-select:
 
 * `Searchable` in the both client and server side modes
 * `Virtual Scroll` in the both client and server side modes as well
@@ -11,24 +11,51 @@ Extra Advantages that you've gained more than using mat-select:
 
 RLT support (use dir='rtl' in html tag)
 
-<a target="_blank" href="https://stackblitz.com/edit/ngx-mat-select?file=src/app/app.component.html">See demo and samples in
+<a target="_blank" href="https://stackblitz.com/edit/ngx-mat-select?file=src/app/app.component.html">See demo and
+samples in
 stackblitz</a>
+
+# Version compatibility
+
+<table>
+<thead>
+<tr>
+<td>
+Angular Material
+</td>
+<td>
+NgxMatSelect
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>15.x.x</td>
+<td> >= 15 </td>
+</tr>
+<tr>
+<td>14.x.x</td>
+<td> >= 14 </td>
+</tr>
+
+</tbody>
+</table>
 
 # Installation Guide
 
-* the first step is to initial ngx-mat-select theme like the other 
-Angular Material Components
+* the first step is to initial ngx-mat-select theme like the other
+  Angular Material Components
 
   for example add the following line in the styles.scss file:
-    
+
       @use "ngx-mat-select" as ngxMatSelect;
 
-    then apply your Angular Material Theme to the ngxMatSelect theme
-    
+  then apply your Angular Material Theme to the ngxMatSelect theme
+
       @include ngxMatSelect.theme($your-theme);
       @include ngxMatSelect.typography($your-typography);
 
-    if you want to use dark-theme and light-theme:
+  if you want to use dark-theme and light-theme:
 
       .darkMode {
           ...
@@ -48,7 +75,7 @@ Angular Material Components
         ]
       })
 
-# you can define some global default configs: 
+# you can define some global default configs:
 
       providers: [
       {
