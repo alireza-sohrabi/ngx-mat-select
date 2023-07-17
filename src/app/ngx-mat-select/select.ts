@@ -164,7 +164,7 @@ export class NgxMatSelectComponent
   /**
    * a template which carries the content of an option
    */
-  @ContentChild(NgxMatSelectOptionContentDirective) selectOptionContent?: NgxMatSelectOptionContentDirective;
+  @ContentChild(NgxMatSelectOptionContentDirective) selectOptionContent?: NgxMatSelectOptionContentDirective | null;
 
   /**
    * the search box that we also use it for initializing the filtered options
