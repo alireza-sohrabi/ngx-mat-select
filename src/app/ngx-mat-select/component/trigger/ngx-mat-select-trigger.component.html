@@ -1,16 +1,16 @@
 <ng-template #defaultTrigger>
   <ng-container *ngIf="multiple; else singleTemplate">
-    <mat-chip-grid [disabled]="disabled" *ngIf="multipleDisplay !== 'text'" class="ngx-mat-select-chips" #multipleTemplate>
+    <mat-chip-list [disabled]="disabled" *ngIf="multipleDisplay !== 'text'" class="ngx-mat-select-chips" #multipleTemplate>
       <div [ngClass]="['ngx-mat-select-chip-grid-row', 'ngx-mat-select-chip-grid-row--' + multipleDisplay]">
-        <mat-chip-row *ngFor="let selected of selection" (removed)="deselect.emit(selected)" [editable]="false">
+        <mat-chip *ngFor="let selected of selection" (removed)="deselect.emit(selected)" [contentEditable]="false">
           {{ selected | toOptionLabel: optionLabel }}
           <button matChipRemove>
-            <ngx-mat-select-icon icon="Remove"> </ngx-mat-select-icon>
+            <ngx-mat-select-icon [width]="18" [height]="18" icon="Remove"> </ngx-mat-select-icon>
           </button>
-        </mat-chip-row>
+        </mat-chip>
       </div>
       <input readonly type="text" [matChipInputFor]="multipleTemplate" class="ngx-mat-select-input-chips" />
-    </mat-chip-grid>
+    </mat-chip-list>
 
     <ng-container *ngIf="multipleDisplay === 'text'">
       <div class="ngx-mat-select-value">

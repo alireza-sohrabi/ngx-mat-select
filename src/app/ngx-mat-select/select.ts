@@ -159,7 +159,7 @@ export class NgxMatSelectComponent
   /**
    * the custom content of the form-field to show
    */
-  @ContentChild(NgxMatSelectTriggerDirective) triggerContent?: NgxMatSelectTriggerDirective;
+  @ContentChild(NgxMatSelectTriggerDirective) triggerContent: NgxMatSelectTriggerDirective | undefined;
 
   /**
    * a template which carries the content of an option

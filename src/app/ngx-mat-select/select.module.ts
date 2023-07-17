@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {MatOptionModule} from '@angular/material/core';
 import {CommonModule} from '@angular/common';
 import {ScrollingModule} from '@angular/cdk/scrolling';
-import {CdkOverlayOrigin} from '@angular/cdk/overlay';
 
 import {SharedModule} from './shared/shared.module';
 import {NgxMatSelectComponent} from './select';
@@ -15,6 +14,7 @@ import {NgxMatSelectIconModule} from './component/icon/ngx-mat-select-icon.modul
 import {NgxMatSelectTriggerModule} from './component/trigger/ngx-mat-select-trigger.module';
 import {NgxMatSelectOptionContentDirective} from './template/ngx-mat-select-option-content.directive';
 import {NgxMatSelectTriggerDirective} from './template/ngx-mat-select-trigger.directive';
+import {OverlayModule} from "@angular/cdk/overlay";
 
 @NgModule({
   declarations: [
@@ -27,7 +27,6 @@ import {NgxMatSelectTriggerDirective} from './template/ngx-mat-select-trigger.di
   imports: [
     CommonModule,
     ScrollingModule,
-    CdkOverlayOrigin,
     SharedModule,
     NgxMatSelectLoadingModule,
     NgxMatSelectPanelModule,
@@ -35,6 +34,7 @@ import {NgxMatSelectTriggerDirective} from './template/ngx-mat-select-trigger.di
     NgxMatSelectIconModule,
     NgxMatSelectTriggerModule,
     MatOptionModule,
+    OverlayModule,
   ],
   exports: [
     NgxMatSelectComponent,

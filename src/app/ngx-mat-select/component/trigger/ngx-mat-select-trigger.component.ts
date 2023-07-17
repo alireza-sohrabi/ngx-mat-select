@@ -1,7 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
+  EventEmitter, HostBinding,
   Input,
   Output,
   TemplateRef,
@@ -31,7 +31,7 @@ export class NgxMatSelectTriggerComponent {
   /**
    * the custom template which is used as trigger inside the select box, will be provided with selected options
    */
-  @Input() customTrigger: TemplateRef<unknown> | undefined;
+  @Input() customTrigger?: TemplateRef<unknown> | null;
 
   /**
    * the selected items
@@ -67,4 +67,13 @@ export class NgxMatSelectTriggerComponent {
    * how to show the selected options inside the form-field when the multiple value it's true
    */
   @Input() multipleDisplay: NgxMatSelectMultipleDisplay = 'multipleRowChip';
+
+  @HostBinding('class.ngx-mat-select-trigger--oneRowChip') get oneRowChip() {
+    return this.multipleDisplay === 'oneRowChip';
+  }
+
+  @HostBinding('class.ngx-mat-select-trigger--multipleRowChip') get multipleRowChip() {
+    return this.multipleDisplay === 'multipleRowChip';
+  }
+
 }

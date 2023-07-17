@@ -16,6 +16,7 @@ import {CustomOptionModule} from "./custom-option/custom-option.module";
 import {ChangeValueModule} from "./change-value/change-value.module";
 import {GlobalConfigModule} from "./global-config/global-config.module";
 import {ExamplesComponent} from "./examples.component";
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions} from "@angular/material/form-field";
 
 
 @NgModule({
@@ -39,7 +40,14 @@ import {ExamplesComponent} from "./examples.component";
     ChangeValueModule,
     GlobalConfigModule,
   ],
-  exports: [ExamplesComponent]
+  exports: [ExamplesComponent],
+  providers: [
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {
+        appearance: 'fill',
+      }
+    }
+  ]
 })
 export class ExamplesModule {
 }

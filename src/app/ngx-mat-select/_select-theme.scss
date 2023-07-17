@@ -1,89 +1,94 @@
-@use '@material/theme/theme-color' as mdc-theme-color;
-@use '@material/menu-surface' as mdc-menu-surface;
-@use '@material/list/evolution-mixins' as mdc-list;
-@use '@material/typography' as mdc-typography;
-
+@use 'sass:map';
 @use 'core/theming/theming';
+@use 'core/style/private';
+@use 'core/style/form-common';
 @use 'core/typography/typography';
-@use 'core/mdc-helpers/mdc-helpers';
+@use 'core/typography/typography-utils';
 
-
-// Gets the color to use for some text that is highlighted while a select has focus.
-@function _get-mdc-focused-text-color($palette) {
-  @return rgba(mdc-theme-color.prop-value($palette), 0.87);
-}
 
 @mixin color($config-or-theme) {
   $config: theming.get-color-config($config-or-theme);
+  $foreground: map.get($config, foreground);
+  $background: map.get($config, background);
+  $primary: map.get($config, primary);
+  $accent: map.get($config, accent);
+  $warn: map.get($config, warn);
 
-  @include mdc-helpers.using-mdc-theme($config) {
-    @include _ngx-mat-select-buttons();
-    @include _ngx-mat-select-search-box();
-    $disabled-color: rgba(mdc-theme-color.prop-value(on-surface), 0.38);
-    @include mdc-menu-surface.core-styles(mdc-helpers.$mdc-theme-styles-query);
-    @include mdc-list.without-ripple(mdc-helpers.$mdc-theme-styles-query);
+  $text-color: theming.get-color-from-palette($foreground, text);
+  $icon-color: theming.get-color-from-palette($foreground, secondary-text);
+  $primary-color: theming.get-color-from-palette($primary, text);
+  $secondary-color: theming.get-color-from-palette($accent, text);
+  $warn-color: theming.get-color-from-palette($warn, text);
 
-    .ngx-mat-select-value {
-      color: rgba(mdc-theme-color.prop-value(on-surface), 0.87);
-    }
+  @include _ngx-mat-select-buttons($icon-color);
+  @include _ngx-mat-select-search-box($icon-color, $primary-color, $secondary-color, $warn-color);
 
-    .ngx-mat-select-placeholder {
-      color: rgba(mdc-theme-color.prop-value(on-surface), 0.6);
-    }
+  .ngx-mat-select-value {
+    color: $text-color;
+  }
 
-    .ngx-mat-select-disabled .ngx-mat-select-value {
-      color: $disabled-color;
-    }
+  .ngx-mat-select-placeholder {
+    color: form-common.private-control-placeholder-color($config);
+  }
 
+  .ngx-mat-select-disabled .ngx-mat-select-value {
+    color: theming.get-color-from-palette($foreground, disabled-text);
+  }
 
-    .ngx-mat-select-arrow {
-      color: rgba(mdc-theme-color.prop-value(on-surface), 0.54);
-    }
+  .ngx-mat-select-arrow {
+    color: $icon-color;
+  }
 
-    .mat-mdc-form-field {
-      &.mat-focused {
-        &.mat-primary .ngx-mat-select-arrow {
-          color: _get-mdc-focused-text-color(primary);
-        }
+  .ngx-mat-select-panel {
+    background: theming.get-color-from-palette($background, card);
+    @include private.private-theme-overridable-elevation(4, $config);
 
-        &.mat-accent .ngx-mat-select-arrow {
-          color: _get-mdc-focused-text-color(secondary);
-        }
-
-        &.mat-warn .ngx-mat-select-arrow {
-          color: _get-mdc-focused-text-color(error);
-        }
-      }
-
-      .ngx-mat-select.ngx-mat-select-invalid .ngx-mat-select-arrow {
-        color: _get-mdc-focused-text-color(error);
-      }
-
-      .ngx-mat-select.ngx-mat-select-disabled .ngx-mat-select-arrow {
-        color: $disabled-color;
-      }
+    .mat-option.ngx-mat-selected:not(.mat-option-multiple) {
+      background: theming.get-color-from-palette($background, hover, 0.12);
     }
   }
 
+  .mat-form-field {
+    &.mat-focused {
+      &.mat-primary .ngx-mat-select-arrow {
+        color: theming.get-color-from-palette($primary, text);
+      }
+
+      &.mat-accent .ngx-mat-select-arrow {
+        color: theming.get-color-from-palette($accent, text);
+      }
+
+      &.mat-warn .ngx-mat-select-arrow {
+        color: theming.get-color-from-palette($warn, text);
+      }
+    }
+
+    .ngx-mat-select.ngx-mat-select-invalid .ngx-mat-select-arrow {
+      color: theming.get-color-from-palette($warn, text);
+    }
+
+    .ngx-mat-select.ngx-mat-select-disabled .ngx-mat-select-arrow {
+      color: theming.get-color-from-palette($foreground, disabled-text);
+    }
+  }
 }
 
 @mixin typography($config-or-theme) {
-  $config: typography.private-typography-to-2018-config(
+  $config: typography.private-typography-to-2014-config(
       theming.get-typography-config($config-or-theme));
-  @include mdc-helpers.using-mdc-typography($config) {
-    @include mdc-menu-surface.core-styles(mdc-helpers.$mdc-typography-styles-query);
+  // The unit-less line-height from the font config.
+  $line-height: typography-utils.line-height($config, input);
 
-    .ngx-mat-select-panel {
-      @include mdc-list.list-base(mdc-helpers.$mdc-typography-styles-query);
-    }
+  .ngx-mat-select {
+    font-family: typography-utils.font-family($config);
+  }
 
-    .ngx-mat-select {
-      @include mdc-typography.typography(body1, $query: mdc-helpers.$mdc-typography-styles-query);
-    }
+  .ngx-mat-select-trigger {
+    height: typography-utils.private-coerce-unitless-to-em($line-height);
   }
 }
 
-@mixin density($config-or-theme) {
+@mixin _density($config-or-theme) {
 }
 
 @mixin theme($theme-or-color-config) {
@@ -97,7 +102,7 @@
       @include color($color);
     }
     @if $density != null {
-      @include density($density);
+      @include _density($density);
     }
     @if $typography != null {
       @include typography($typography);
@@ -105,46 +110,46 @@
   }
 }
 
-@mixin _ngx-mat-select-buttons() {
+
+@mixin _ngx-mat-select-buttons($surface-color) {
   .ngx-mat-select-back-button {
     svg {
-      stroke: rgba(mdc-theme-color.prop-value(on-surface), 0.54);
+      stroke: rgba($surface-color, 0.54);
     }
   }
 }
 
-@mixin _ngx-mat-select-search-box() {
+@mixin _ngx-mat-select-search-box($surface-color, $primary, $secondary, $error) {
   .ngx-mat-select-search-box {
-    border-color: rgba(mdc-theme-color.prop-value(on-surface), 0.38);
+    border-color: rgba($surface-color, 0.38);
   }
 
   .mat-primary .ngx-mat-select-search-box--focused {
-    border-color: rgba(mdc-theme-color.prop-value(primary), 1);
-    outline-color: rgba(mdc-theme-color.prop-value(primary), 1);
+    border-color: rgba($primary, 1);
+    outline-color: rgba($primary, 1);
   }
 
   .mat-accent .ngx-mat-select-search-box--focused {
-    border-color: rgba(mdc-theme-color.prop-value(secondary), 1);
-    outline-color: rgba(mdc-theme-color.prop-value(secondary), 1);
-
+    border-color: rgba($secondary, 1);
+    outline-color: rgba($secondary, 1);
   }
 
   .mat-warn .ngx-mat-select-search-box--focused {
-    border-color: rgba(mdc-theme-color.prop-value(error), 1);
-    outline-color: rgba(mdc-theme-color.prop-value(error), 1);
+    border-color: rgba($error, 1);
+    outline-color: rgba($error, 1);
   }
 
   .ngx-mat-select-search-box-icon {
-    fill: rgba(mdc-theme-color.prop-value(on-surface), 0.54);
+    fill: rgba($surface-color, 0.54);
   }
 
 
   .ngx-mat-select-search-box-input {
     &::placeholder {
-      color: rgba(mdc-theme-color.prop-value(on-surface), 0.6);
+      color: rgba($surface-color, 0.6);
     }
 
-    caret-color: _get-mdc-focused-text-color(primary);
-    color: rgba(mdc-theme-color.prop-value(on-surface), 0.87);
+    caret-color: $primary;
+    color: rgba($surface-color, 0.87);
   }
 }
