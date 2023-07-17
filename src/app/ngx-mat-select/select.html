@@ -57,7 +57,7 @@
                     [activated]="activeItemIndex?.toString() === matOption.id?.toString()"
                     [selected]="isSelected(option)"
                     [value]="option"
-                    (onSelectionChange)="onSelect($event)">
+                    (onSelectionChange)="onSelectionChange($event)">
           <ng-container *ngIf="selectOptionContent else defaultTemplate">
             <ng-container
               *ngTemplateOutlet="selectOptionContent.template; context: {$implicit: option, selected: isSelected(option)}"></ng-container>
