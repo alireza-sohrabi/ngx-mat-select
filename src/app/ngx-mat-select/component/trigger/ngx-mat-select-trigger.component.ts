@@ -31,7 +31,7 @@ export class NgxMatSelectTriggerComponent {
   /**
    * the custom template which is used as trigger inside the select box, will be provided with selected options
    */
-  @Input() customTrigger: TemplateRef<unknown> | undefined;
+  @Input() customTrigger?: TemplateRef<{$implicit: boolean}> | null;
 
   /**
    * the selected items

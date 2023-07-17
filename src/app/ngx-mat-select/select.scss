@@ -302,6 +302,11 @@ ngx-mat-select-panel {
   &--multipleRowChip {
     flex-wrap: wrap;
   }
+
+  .ngx-mat-select-chip-grid-row-icon {
+    display: flex;
+    align-items: center;
+  }
 }
 
 .ngx-mat-select-input-chips {
@@ -309,13 +314,17 @@ ngx-mat-select-panel {
   width: 0 !important;
 }
 
-body[dir="ltr"] .ngx-mat-select-multiple-display-oneRowChip {
+.ngx-mat-select-value.ngx-mat-select-value--oneRowChip,
+.ngx-mat-select-value.ngx-mat-select-value--multipleRowChip {
   padding-right: 0.5rem;
 }
 
-body[dir="rtl"] .ngx-mat-select-multiple-display-oneRowChip {
+body[dir="rtl"] .ngx-mat-select-value.ngx-mat-select-value--oneRowChip,
+body[dir="rtl"] .ngx-mat-select-value.ngx-mat-select-value--multipleRowChip {
   padding-left: 0.5rem;
+  padding-right: 0;
 }
+
 
 body[dir="rtl"] .ngx-mat-select-back-button {
   transform: rotate(180deg);
