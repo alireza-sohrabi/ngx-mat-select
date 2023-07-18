@@ -1,6 +1,6 @@
 # NgxMatSelect
 
-it is totally an independent component like mat-select and a solution for handling
+It is an independent component like mat-select and a solution for handling
 SearchBox, VirtualScroll and InfiniteScroll which the Angular material select-box does not support them by it-self.
 
 Extra Advantages that you'll gain more than using mat-select:

@@ -66,5 +66,5 @@ export class NgxMatSelectTriggerComponent {
   /**
    * how to show the selected options inside the form-field when the multiple value it's true
    */
-  @Input() multipleDisplay: NgxMatSelectMultipleDisplay = 'multipleRowChip';
+  @Input() multipleDisplay?: NgxMatSelectMultipleDisplay = 'multipleRowChip';
 }

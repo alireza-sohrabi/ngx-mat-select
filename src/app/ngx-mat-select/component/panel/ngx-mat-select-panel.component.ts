@@ -20,6 +20,7 @@ import {startWith, takeUntil} from 'rxjs/operators';
 
 import {matSelectAnimations} from '../../shared/animations';
 import {NgxMatSelectViewType} from '../../select-model';
+import {isNullOrUndefined} from "../../shared/utils";
 
 @Component({
   selector: 'ngx-mat-select-panel',
@@ -99,8 +100,6 @@ export class NgxMatSelectPanelComponent implements OnDestroy, OnInit, AfterViewI
   set connectedOverlayOrigin(value: ElementRef) {
     this._connectedOverlayOrigin = value;
     this.updateOverlayWidth();
-
-    // console.log(this.connectedOverlayOrigin?.nativeElement.tagName, this._panelWidth, this.width)
   }
 
   _connectedOverlayOrigin!: ElementRef;
@@ -112,23 +111,23 @@ export class NgxMatSelectPanelComponent implements OnDestroy, OnInit, AfterViewI
     return this._width;
   }
 
-  set width(value: string | number | null) {
+  set width(value: string | number | null | undefined) {
     this._width = value;
     this.updateOverlayWidth();
   }
 
-  private _width: string | number | null = 'auto';
+  private _width: string | number | null | undefined = 'auto';
 
   /**
    * the height of the panel
    */
-  @Input() height = 350;
+  @Input() height: number | null | undefined = 350;
 
   /**
    * how to show the panel, it can be 'BottomSheet', 'FullScreen' and 'Default'
    * @param value
    */
-  @Input() set viewType(value: NgxMatSelectViewType) {
+  @Input() set viewType(value: NgxMatSelectViewType | undefined) {
     let css = '';
 
     switch (value) {
@@ -154,7 +153,7 @@ export class NgxMatSelectPanelComponent implements OnDestroy, OnInit, AfterViewI
    */
   isOpen$: Observable<boolean>;
 
-  _panelWidth?: string | number;
+  _panelWidth: string | number  = 'auto';
 
   _positions: ConnectedPosition[] = [
     {
@@ -275,7 +274,7 @@ export class NgxMatSelectPanelComponent implements OnDestroy, OnInit, AfterViewI
     if (this.width === 'auto') {
       this._panelWidth = this.connectedOverlayOrigin?.nativeElement.getBoundingClientRect().width;
     } else {
-      this._panelWidth = this.width === null ? '' : this.width;
+      this._panelWidth =  isNullOrUndefined(this.width) ? '' : this.width;
     }
 
     this.changeDetectorRef.markForCheck();
