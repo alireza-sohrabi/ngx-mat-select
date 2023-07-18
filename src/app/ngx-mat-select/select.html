@@ -6,7 +6,7 @@
   [disabled]="disabled"
   [multipleDisplay]="multipleDisplay"
   [selection]="selectionModel?.selected || []"
-  [customTrigger]="triggerContent?.template"
+  [customTrigger]="triggerContent?.template || null"
   [multiple]="multiple"
   [optionLabel]="optionLabel"
   [placeholder]="placeholder"
@@ -54,13 +54,13 @@
                     #matOption
                     [disabled]="option?.['disabled']"
                     [id]="index.toString()"
-                    [activated]="activeItemIndex?.toString() === matOption.id?.toString()"
+                    [activated]="activeItemIndex === matOption.id"
                     [selected]="isSelected(option)"
                     [value]="option"
                     (onSelectionChange)="onSelectionChange($event)">
           <ng-container *ngIf="selectOptionContent else defaultTemplate">
             <ng-container
-              *ngTemplateOutlet="selectOptionContent.template; context: {$implicit: option, selected: isSelected(option)}"></ng-container>
+              *ngTemplateOutlet="selectOptionContent.template; context: {$implicit: option, isSelected: isSelected(option)}"></ng-container>
           </ng-container>
 
           <ng-template #defaultTemplate>

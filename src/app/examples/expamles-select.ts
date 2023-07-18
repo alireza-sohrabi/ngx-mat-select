@@ -8,10 +8,10 @@ export abstract class NgxMatSelectExampleForms {
   formGroupDirective?: FormGroupDirective;
 }
 
-export type NgxMatSelectConfigExample = NgxMatSelectConfig &
-  Partial<{
+export type NgxMatSelectConfigExample = Required<NgxMatSelectConfig> &
+  {
     disabled: boolean;
     required: boolean;
     multiple: boolean;
     placeholder: string;
-  }>;
+  } ;

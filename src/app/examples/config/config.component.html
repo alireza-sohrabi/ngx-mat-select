@@ -52,7 +52,7 @@
 
 
       <input matInput type="text" [ngModel]="config.placeholder"
-             (change)="onConfigChange('placeholder', $event.target['value'])"/>
+             (change)="onConfigChange('placeholder', getValue($event))"/>
     </mat-form-field>
 
     <mat-form-field>
@@ -62,7 +62,7 @@
       </mat-label>
 
       <input matInput type="text" [ngModel]="config.searchBoxPlaceholder"
-             (change)="onConfigChange('searchBoxPlaceholder', $event.target['value'])"/>
+             (change)="onConfigChange('searchBoxPlaceholder', getValue($event))"/>
     </mat-form-field>
 
     <mat-form-field>
@@ -72,7 +72,7 @@
       </mat-label>
 
       <input matInput type="number" [ngModel]="config.optionHeight"
-             (change)="onConfigChange('optionHeight', $event.target['value'])"/>
+             (change)="onConfigChange('optionHeight', getValue($event))"/>
       <mat-hint>
         it can be a number
       </mat-hint>
@@ -86,7 +86,7 @@
       </mat-label>
 
       <input matInput type="number" [ngModel]="config.panelHeight"
-             (change)="onConfigChange('panelHeight',  $event.target['value'])"/>
+             (change)="onConfigChange('panelHeight',  getValue($event))"/>
       <mat-hint>
         it can be a number
       </mat-hint>
@@ -100,7 +100,7 @@
       </mat-label>
 
       <input matInput type="text" [ngModel]="config.panelWidth"
-             (change)="onConfigChange('panelWidth' ,getDimension($event.target['value']))"/>
+             (change)="onConfigChange('panelWidth' ,getDimension(getValue($event)))"/>
       <mat-hint>
         it can be in px or number or 'auto', the default value is 'auto'
       </mat-hint>
