@@ -85,7 +85,7 @@ export interface NgxMatSelectConfig extends NgxMatSelectSearchBoxConfigs {
   /**
    * the height of the panel
    */
-  panelHeight?: number;
+  panelHeight?: number | null;
 }
 
 /** Injection token that can be used to provide the default options the select module. */

@@ -29,6 +29,7 @@ export class ExamplesComponent {
     panelHeight: 350,
     panelWidth: 'auto',
     dataKey: 'id',
+    overlayPanelClass: ''
   };
 
   constructor() {}
