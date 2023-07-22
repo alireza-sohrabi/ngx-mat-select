@@ -20,9 +20,9 @@ samples `Online`
 samples on
 `Stackblitz`</a>
 
-  <a target="_blank" href="https://ngx-mat-select.gitbook.io/ngx-mat-select">
-  See documents
-  </a>
+<a target="_blank" href="https://ngx-mat-select.gitbook.io/ngx-mat-select">See documents on
+`gitbook`
+</a>
 
 # Version compatibility
 
