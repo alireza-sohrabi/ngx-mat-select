@@ -26,7 +26,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@releases/v3
+        uses: JamesIves/github-pages-deploy-action/v4
         with:
-          BRANCH: gh-pages
           FOLDER: docs
