@@ -10,7 +10,9 @@
     "test": "ng test --watch=false",
     "test.ci": "npm run test -- --progress=false --watch=false",
     "lint": "tslint --project src/tsconfig.app.json",
-    "packagr": "ng-packagr -p ng-package.json"
+    "packagr": "ng-packagr -p ng-package.json",
+    "build:ci": "ng build --output-path demo --base-href /ngx-mat-select/",
+    "test:ci": "ng test --watch=false --code-coverage --source-map true"
   },
   "author": "Alireze Sohrabi, Tehran IRAN",
   "bugs": {

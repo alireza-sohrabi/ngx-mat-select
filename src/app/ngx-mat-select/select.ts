@@ -164,7 +164,7 @@ export class NgxMatSelectComponent
   /**
    * a template which carries the content of an option
    */
-  @ContentChild(NgxMatSelectOptionContentDirective) selectOptionContent?: NgxMatSelectOptionContentDirective;
+  @ContentChild(NgxMatSelectOptionContentDirective) selectOptionContent?: NgxMatSelectOptionContentDirective | null;
 
   /**
    * the search box that we also use it for initializing the filtered options
@@ -235,7 +235,7 @@ export class NgxMatSelectComponent
   /**
    * to show a button next to the search-box to close the panel
    */
-  @Input() hasBackButton = this.defaultOptions?.hasBackButton ?? false;
+  @Input() hasBackButton?: boolean = this.defaultOptions?.hasBackButton ?? false;
 
   /**
    * recommended to use dataKey instead of compareWith,
@@ -249,13 +249,13 @@ export class NgxMatSelectComponent
    * the height of an option, it's really important to handle the virtual scroll
    * the default value is 48
    */
-  @Input() optionHeight = this.defaultOptions?.optionHeight ?? 48;
+  @Input() optionHeight?: number = this.defaultOptions?.optionHeight ?? 48;
 
   /**
    * the height of the panel of the options
    * the default value is 350
    */
-  @Input() panelHeight = this.defaultOptions?.panelHeight ?? 350;
+  @Input() panelHeight?: number | null | undefined = this.defaultOptions?.panelHeight ?? 350;
 
   /**
    * it can be 'Default', 'FullScreen' or 'BottomSheet'
@@ -263,13 +263,14 @@ export class NgxMatSelectComponent
    * 'FullScreen' means the panel will be opened in full-screen mode
    * 'BottomSheet' means the panel will be opened from bottom to semi top
    */
-  @Input() viewType: NgxMatSelectViewType = this.defaultOptions?.viewType ?? 'Default';
+  @Input() viewType?: NgxMatSelectViewType = this.defaultOptions?.viewType ?? 'Default';
 
   /**
    * Width of the panel. If set to `auto`, the panel will match the trigger width.
    * If set to null or an empty string, the panel will grow to match the longest option's text.
+   * the default value is 'auto'
    */
-  @Input() panelWidth: string | number | null =
+  @Input() panelWidth: string | number | null | undefined =
     this.defaultOptions && typeof this.defaultOptions.panelWidth !== 'undefined'
       ? this.defaultOptions.panelWidth
       : 'auto';
@@ -298,6 +299,7 @@ export class NgxMatSelectComponent
 
   /**
    * how to show the selected options inside the form-field when the multiple value it's true
+   * the default value is 'text'
    */
   @Input() multipleDisplay: NgxMatSelectMultipleDisplay = this.defaultOptions?.multipleDisplay ?? 'text';
 
@@ -307,8 +309,8 @@ export class NgxMatSelectComponent
     return this._placeholder;
   }
 
-  set placeholder(value: string) {
-    this._placeholder = value;
+  set placeholder(value: string | undefined | null) {
+    this._placeholder = isNullOrUndefined(value) ? '' : value;
     this.stateChanges.next();
   }
 

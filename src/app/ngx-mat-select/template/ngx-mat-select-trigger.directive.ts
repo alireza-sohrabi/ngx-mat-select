@@ -7,5 +7,5 @@ import {Directive, TemplateRef} from '@angular/core';
  * to show a custom template for the selected options inside the form-field
  */
 export class NgxMatSelectTriggerDirective {
-  constructor(public template: TemplateRef<unknown>) {}
+  constructor(public template: TemplateRef<{$implicit: boolean}>) {}
 }

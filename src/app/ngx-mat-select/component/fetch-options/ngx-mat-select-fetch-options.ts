@@ -16,18 +16,19 @@ import {
 import {NgxMatSelectOptionType} from '../../select-model';
 import {NgxMatSelectComponent} from '../../select';
 import {getSelectOptionLabelError} from '../../select-error';
+import {isNullOrUndefined} from "../../shared/utils";
+import {coerceBooleanProperty} from "@angular/cdk/coercion";
 
 export interface NgxMatSelectFetchOptions {
   filteredOptions$: Observable<unknown[]>;
   loading$: Observable<boolean>;
-  hasSearchBox: boolean;
-  searchBoxPlaceholder: string;
+  hasSearchBox: boolean | undefined | null;
+  searchBoxPlaceholder: string | null | undefined;
 }
 
 @Directive()
 export abstract class NgxMatSelectFetchOptionsDirective
-  implements OnDestroy, OnInit, NgxMatSelectFetchOptions, AfterViewInit
-{
+  implements OnDestroy, OnInit, NgxMatSelectFetchOptions, AfterViewInit {
   /**
    * Function used to sort the values in a select in multiple mode.
    * Follows the same logic as `Array.prototype.sort`.
@@ -44,8 +45,8 @@ export abstract class NgxMatSelectFetchOptionsDirective
     return this._hasSearchBox;
   }
 
-  set hasSearchBox(value: boolean) {
-    this._hasSearchBox = value;
+  set hasSearchBox(value: boolean | undefined | null) {
+    this._hasSearchBox = coerceBooleanProperty(value);
     if (this.host.hasSearchBox !== this._hasSearchBox) {
       this.host.hasSearchBox = this._hasSearchBox;
       this._changeDetectorRef.detectChanges();
@@ -59,8 +60,8 @@ export abstract class NgxMatSelectFetchOptionsDirective
   /**
    * a placeholder for the search-box to be shown if nothing is written in the search-box
    */
-  @Input() set searchBoxPlaceholder(value: string) {
-    if (this.host.searchBoxComponent) {
+  @Input() set searchBoxPlaceholder(value: string | undefined | null) {
+    if (this.host.searchBoxComponent && !isNullOrUndefined(value)) {
       this.host.searchBoxPlaceholder = value;
     }
   }

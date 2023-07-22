@@ -44,6 +44,13 @@ export class ConfigComponent implements AfterViewInit {
   }
 
   getDimension(value: any) {
+
     return isNaN(value) ? value : Number(value);
   }
+
+  getValue(eventTarget: EventTarget | Event) {
+
+    return ((eventTarget as any).target as any)?.['value'];
+  }
+
 }
