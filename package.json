@@ -11,7 +11,7 @@
     "test.ci": "npm run test -- --progress=false --watch=false",
     "lint": "tslint --project src/tsconfig.app.json",
     "packagr": "ng-packagr -p ng-package.json",
-    "build:ci": "ng build --base-href /ngx-mat-select/",
+    "build:ci": "ng build --output-path docs --base-href /ngx-mat-select/",
     "test:ci": "ng test --watch=false --code-coverage --source-map true"
   },
   "author": "Alireze Sohrabi, Tehran IRAN",
