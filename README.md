@@ -12,9 +12,17 @@ Extra Advantages that you'll gain more than using mat-select:
 
 RLT support (use dir='rtl' in html tag)
 
+<a target="_blank" href="https://alireza-sohrabi.github.io/ngx-mat-select">See demo and
+samples `Online`
+</a>
+
 <a target="_blank" href="https://stackblitz.com/edit/ngx-mat-select?file=src/app/app.component.html">See demo and
-samples in
-stackblitz</a>
+samples on
+`Stackblitz`</a>
+
+<a target="_blank" href="https://ngx-mat-select.gitbook.io/ngx-mat-select">See documents on
+`gitbook`
+</a>
 
 # Version compatibility
 
@@ -53,19 +61,21 @@ NgxMatSelect
 
   for example add the following line in the styles.scss file:
 
-      @use "ngx-mat-select" as ngxMatSelect;
+      @use "ngx-mat-select" as ngxMatSelect; 
+       or
+      @use "node_modules/ngx-mat-select" as ngxMatSelect; 
 
   then apply your Angular Material Theme to the ngxMatSelect theme
 
-      @include ngxMatSelect.theme($your-theme);
-      @include ngxMatSelect.typography($your-typography);
+        @include ngxMatSelect.theme($your-theme);
+        @include ngxMatSelect.typography($your-typography);
 
   if you want to use dark-theme and light-theme:
 
-      .darkMode {
-          ...
-          @include ngxMatSelect.theme($your-dark-theme);
-      }
+        .darkMode {
+            ...
+            @include ngxMatSelect.theme($your-dark-theme);
+        }
 
 
 * The second step is to add NgxMatSelectModule into your Module
