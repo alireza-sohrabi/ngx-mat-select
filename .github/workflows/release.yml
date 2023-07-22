@@ -38,6 +38,6 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
-          GITHUB_TOKEN: ${{ secrets.personalToken }}
+          token: ${{ secrets.personalToken }}
           BRANCH: gh-pages
           FOLDER: deploy_dist/ngx-mat-select
