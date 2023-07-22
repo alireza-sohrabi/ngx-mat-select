@@ -10,7 +10,9 @@
     "test": "ng test --watch=false",
     "test.ci": "npm run test -- --progress=false --watch=false",
     "lint": "tslint --project src/tsconfig.app.json",
-    "packagr": "ng-packagr -p ng-package.json"
+    "packagr": "ng-packagr -p ng-package.json",
+    "build:ci": "ng build --base-href /ngx-mat-select/",
+    "test:ci": "ng test --watch=false --code-coverage --source-map true"
   },
   "author": "Alireze Sohrabi, Tehran IRAN",
   "bugs": {
@@ -46,9 +48,19 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.1.4",
+    "@angular/animations": "^16.1.0",
+    "@angular/cdk": "^16.x.x",
     "@angular/cli": "~16.1.4",
+    "@angular/common": "^16.1.0",
+    "@angular/compiler": "^16.1.0",
     "@angular/compiler-cli": "^16.1.0",
+    "@angular/core": "^16.1.0",
+    "@angular/forms": "^16.1.0",
+    "@angular/platform-browser": "^16.1.0",
+    "@angular/platform-browser-dynamic": "^16.1.0",
+    "@angular/router": "^16.1.0",
     "@types/jasmine": "~4.3.0",
+    "angular-cli-ghpages": "^1.0.6",
     "jasmine-core": "~4.6.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
@@ -56,18 +68,9 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "ng-packagr": "^16.1.0",
-    "typescript": "~5.0.2",
-    "@angular/animations": "^16.1.0",
-    "@angular/cdk": "^16.x.x",
-    "@angular/common": "^16.1.0",
-    "@angular/compiler": "^16.1.0",
-    "@angular/core": "^16.1.0",
-    "@angular/forms": "^16.1.0",
-    "@angular/platform-browser": "^16.1.0",
-    "@angular/platform-browser-dynamic": "^16.1.0",
-    "@angular/router": "^16.1.0",
     "rxjs": "^7.x.x",
     "tslib": "^2.4.0",
+    "typescript": "~5.0.2",
     "zone.js": "~0.13.0"
   }
 }
