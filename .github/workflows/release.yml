@@ -36,7 +36,7 @@ jobs:
         with:
           name: deploy_dist
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@releases/v4
+        uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           BRANCH: gh-pages
           FOLDER: deploy_dist/ngx-mat-select
