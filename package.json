@@ -71,6 +71,10 @@
     "rxjs": "^7.x.x",
     "tslib": "^2.4.0",
     "typescript": "~5.0.2",
-    "zone.js": "~0.13.0"
+    "zone.js": "~0.13.0",
+    "@ng-doc/app": "16.10.0",
+    "@ng-doc/builder": "16.10.0",
+    "@ng-doc/core": "16.10.0",
+    "@ng-doc/ui-kit": "16.10.0"
   }
 }

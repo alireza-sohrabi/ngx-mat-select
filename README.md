@@ -8,51 +8,24 @@ Extra Advantages that you'll gain more than using mat-select:
 * `Searchable` in the both client and server side modes
 * `Virtual Scroll` in the both client and server side modes as well
 * `Infinite Scroll` in the server side mode
-* `spacial panel views` such as Bottom-Sheet and Full-Screen modes
 
 RLT support (use dir='rtl' in html tag)
 
-<a target="_blank" href="https://alireza-sohrabi.github.io/ngx-mat-select">See demo and
-samples `Online`
+<a target="_blank" href="https://alireza-sohrabi.github.io/ngx-mat-select">Documents `Online`
 </a>
 
-<a target="_blank" href="https://stackblitz.com/edit/ngx-mat-select?file=src/app/app.component.html">See demo and
-samples on
+<a target="_blank" href="https://stackblitz.com/edit/ngx-mat-select?file=src/app/app.component.html">Source Code 
 `Stackblitz`</a>
 
-<a target="_blank" href="https://ngx-mat-select.gitbook.io/ngx-mat-select">See documents on
-`gitbook`
-</a>
 
 # Version compatibility
 
-<table>
-<thead>
-<tr>
-<td>
-Angular Material
-</td>
-<td>
-NgxMatSelect
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>16.x.x</td>
-<td> >=16</td>
-</tr>
-<tr>
-<td>15.x.x</td>
-<td> >= 15 </td>
-</tr>
-<tr>
-<td>14.x.x</td>
-<td> >= 14 </td>
-</tr>
+| Angular Material | 	NgxMatSelect |
+|------------------|---------------|
+| 16.x.x           | 	>= 16        | 
+| 15.x.x           | 	>= 15        | 
+| 14.x.x           | 	>= 14        | 
 
-</tbody>
-</table>
 
 # Installation Guide
 

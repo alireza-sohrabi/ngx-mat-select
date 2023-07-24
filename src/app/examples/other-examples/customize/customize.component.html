@@ -1,0 +1,44 @@
+<mat-card>
+  <mat-card-header>
+    <app-config [config]="config" (clearForms)="onClearForms()" (configChange)="onConfigChange($event)"></app-config>
+
+  </mat-card-header>
+  <mat-card-content>
+    <ng-container *ngIf="show">
+      <form [formGroup]="reactiveFormGroup" style="display: flex; justify-content: center">
+        <mat-form-field style="width: 100%">
+          <mat-label>Customize</mat-label>
+
+          <ngx-mat-select
+            clientSide
+            #selectBox
+            [options]="options"
+            [multiple]="config.multiple"
+            [formControlName]="config.multiple? 'multipleControl': 'singleControl'"
+            [hasSearchBox]="config.hasSearchBox"
+            [hasBackButton]="config.hasBackButton"
+            [placeholder]="config.placeholder"
+            [multipleDisplay]="config.multipleDisplay"
+            [optionLabel]="config.optionLabel"
+            [searchBoxPlaceholder]="config.searchBoxPlaceholder"
+            [optionHeight]="config.optionHeight"
+            [panelHeight]="config.panelHeight"
+            [panelWidth]="config.panelWidth"
+          ></ngx-mat-select>
+        </mat-form-field>
+      </form>
+      <code>
+        <div>
+          <b>Form
+            Value</b>: {{config.multiple ? (reactiveFormGroup.value.multipleControl | json) : reactiveFormGroup.value.singleControl}}
+        </div>
+        <div>
+          <b>Select Box Value</b>: {{selectBox.value | json}}
+        </div>
+
+      </code>
+
+    </ng-container>
+
+  </mat-card-content>
+</mat-card>

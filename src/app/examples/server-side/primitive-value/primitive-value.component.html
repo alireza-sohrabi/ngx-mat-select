@@ -1,0 +1,25 @@
+<form [formGroup]="reactiveFormGroup">
+  <mat-form-field
+    class="form-field">
+    <mat-label>Primitive Options</mat-label>
+    <ngx-mat-select
+      #selectBox
+      serverSide
+      [pageSize]="20"
+      [hasSearchBox]="true"
+      [fetchOptions]="fetchFn"
+      [multiple]="true"
+      formControlName="selectValue"
+    >
+    </ngx-mat-select>
+
+  </mat-form-field>
+  <div>
+    <b>Form Value</b>: {{reactiveFormGroup.value.selectValue | json}}
+  </div>
+  <div style="margin-bottom: 1rem"></div>
+
+  <div>
+    <b>Select Box Value</b>: {{selectBox.value | json}}
+  </div>
+</form>
