@@ -1,0 +1,27 @@
+<div>
+  <mat-form-field>
+    <mat-label>Multiple Display Type</mat-label>
+    <mat-select [value]="multipleDisplay"
+                [placeholder]="'select Multiple Display Type'" [multiple]="false"
+                (selectionChange)="multipleDisplay = $event.value">
+      <mat-option
+        [value]="display"
+
+        *ngFor="let display of multipleViewTypes">{{display}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<mat-form-field class="form-field">
+  <mat-label>Select Box</mat-label>
+  <ngx-mat-select
+    clientSide
+    [options]="options"
+    [multiple]="true"
+    [hasSearchBox]="true"
+    [multipleDisplay]="multipleDisplay"
+    [value]="value"
+  >
+  </ngx-mat-select>
+
+</mat-form-field>

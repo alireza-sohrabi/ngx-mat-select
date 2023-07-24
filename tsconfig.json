@@ -2,6 +2,14 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "paths": {
+      "@ng-doc/generated": [
+        ".ng-doc/ngx-mat-select/index.ts"
+      ],
+      "@ng-doc/generated/*": [
+        ".ng-doc/ngx-mat-select/*"
+      ]
+    },
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
