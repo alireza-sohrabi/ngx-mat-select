@@ -1,0 +1,2081 @@
+[
+  {
+    "breadcrumbs": [
+      "Client Side"
+    ],
+    "pageType": "guide",
+    "title": "Client Side",
+    "section": "Client Side",
+    "route": "/client-side",
+    "fragment": "client-side",
+    "content": "You should use client-side mode when whole the options are available at once, and the size of the options does not matter, but keep it in mind that the select box uses Virtual Scroll, so you don't worry about number of rendered options in the panel. When you are using client-side select box, the most important things you need to know are: How to treat with the value of the select box?What type of option you can provide, primitives or object?What are the optionValue, dataKey, compareWith and optionLabel?When setting the value, is the value verified with the options?Can I load whole the options lazily?Can I change the search-box comparison?"
+  },
+  {
+    "breadcrumbs": [
+      "Client Side"
+    ],
+    "pageType": "guide",
+    "title": "Client Side",
+    "section": "Client Side",
+    "route": "/client-side",
+    "fragment": "client-side",
+    "content": "To make it brief, every select box is in the multiple mode, but you can make it single just with change the value of the multiple input to false"
+  },
+  {
+    "breadcrumbs": [
+      "Client Side"
+    ],
+    "pageType": "guide",
+    "title": "Client Side",
+    "section": "Object Options",
+    "route": "/client-side",
+    "fragment": "object-options",
+    "content": "When the options are objects we should pay deep attention to what we need to provide for the select box as Inputs"
+  },
+  {
+    "breadcrumbs": [
+      "Client Side"
+    ],
+    "pageType": "guide",
+    "title": "Client Side",
+    "section": "None value",
+    "route": "/client-side",
+    "fragment": "none-value",
+    "content": "When you don't want to use any value and want to take advantage of onSelectionChange event somehow no matter which one of optionValue, dataKey or compareWith inputs you provide"
+  },
+  {
+    "breadcrumbs": [
+      "Client Side"
+    ],
+    "pageType": "guide",
+    "title": "Client Side",
+    "section": "None value",
+    "route": "/client-side",
+    "fragment": "none-value",
+    "content": "As you can see when you use optionVlaue it has direct impact on the output value of the select box, the value would be option[optionValue], while you use dataKey or compareWith it does not have any effect on it"
+  },
+  {
+    "breadcrumbs": [
+      "Client Side"
+    ],
+    "pageType": "guide",
+    "title": "Client Side",
+    "section": "Value as primitives",
+    "route": "/client-side",
+    "fragment": "value-as-primitives",
+    "content": "When the value is a primitive like number and the options are objects you need to provide optionLabel and optionValue at the same time"
+  },
+  {
+    "breadcrumbs": [
+      "Client Side"
+    ],
+    "pageType": "guide",
+    "title": "Client Side",
+    "section": "Value as object",
+    "route": "/client-side",
+    "fragment": "value-as-object",
+    "content": "When the value is an object you should not set optionValue instead you need to set compareWith or dataKey to make a comparison between options and value to find the selected items"
+  },
+  {
+    "breadcrumbs": [
+      "Client Side"
+    ],
+    "pageType": "guide",
+    "title": "Client Side",
+    "section": "Value as object",
+    "route": "/client-side",
+    "fragment": "value-as-object",
+    "content": "What exactly are dataKey and compareWith? what are the differences? dataKey or compareWith? their functionalities are the same, they are used to find the selected itemsdataKey is a string value which makes a comparison like option[dataKey] === value[dataKey] while the compareWith is a funciton which returns a boolean, when you provide both of them, the compareWith prioritizes.it's recommended to use dataKey instead of providing compareWith, because when dataKey is used, the options and value are compared in a safe way checking all the possible errors which could be happened because of null or undefined state."
+  },
+  {
+    "breadcrumbs": [
+      "Client Side"
+    ],
+    "pageType": "guide",
+    "title": "Client Side",
+    "section": "Value as object",
+    "route": "/client-side",
+    "fragment": "value-as-object",
+    "content": "When setting the value, is the value verified with the options? Value would be verified with the received options. As you can see in the TypeScript file the value with the id of 2500 is not present in the options so this is the rule in the client-side mode when the initial value has some values which are not present in the options, the select box will automatically remove them from the form and the value."
+  },
+  {
+    "breadcrumbs": [
+      "Client Side"
+    ],
+    "pageType": "guide",
+    "title": "Client Side",
+    "section": "Value as object",
+    "route": "/client-side",
+    "fragment": "value-as-object",
+    "content": "Summaryoptions can be objects in this case you need to set optionLabelif the value is a primitive, you just need to set optionValue or one of dataKey and compareWith if you are setting the optionValue you need to know it has direct impact on the output value of the select boxif the value is an object, you should not set the optionValue instead should set dataKey or compareWith function in order to find the selected items"
+  },
+  {
+    "breadcrumbs": [
+      "Client Side"
+    ],
+    "pageType": "guide",
+    "title": "Client Side",
+    "section": "Primitive Options",
+    "route": "/client-side",
+    "fragment": "primitive-options",
+    "content": "The options items can be Primitives like boolean, number, string, undefined in this case optionValue and optionLabel can be undefined, if they are set, the select component automatically will be noticed that the options are primitive and ignore the provided optionValue and optionLabel."
+  },
+  {
+    "breadcrumbs": [
+      "Client Side"
+    ],
+    "pageType": "guide",
+    "title": "Client Side",
+    "section": "Primitive Options",
+    "route": "/client-side",
+    "fragment": "primitive-options",
+    "content": "When It comes to primitive options we should set the value of the select-box a primitive like the option"
+  },
+  {
+    "breadcrumbs": [
+      "Client Side"
+    ],
+    "pageType": "guide",
+    "title": "Client Side",
+    "section": "Lazy load options",
+    "route": "/client-side",
+    "fragment": "lazy-load-options",
+    "content": "When you need to load the options from the server lazily, you have to set loading input true until the options are loaded, but remember in the client-mode you should load all the options together at once."
+  },
+  {
+    "breadcrumbs": [
+      "Client Side"
+    ],
+    "pageType": "guide",
+    "title": "Client Side",
+    "section": "Lazy load options",
+    "route": "/client-side",
+    "fragment": "lazy-load-options",
+    "content": "If you don't set loading input true while the options are loading, the select box won't wait for it to be loaded and will remove the initial value"
+  },
+  {
+    "breadcrumbs": [
+      "Client Side"
+    ],
+    "pageType": "guide",
+    "title": "Client Side",
+    "section": "Search box comparison",
+    "route": "/client-side",
+    "fragment": "search-box-comparison",
+    "content": "if you want to change the default comparison between options and searchTerm you can set searchComparison input like the below."
+  },
+  {
+    "breadcrumbs": [
+      "Dark Theme"
+    ],
+    "pageType": "guide",
+    "title": "Dark Theme",
+    "section": "Dark Theme",
+    "route": "/dark-theme",
+    "fragment": "dark-theme",
+    "content": "If you want to use dark-theme add the darkMode class on the body html tag:"
+  },
+  {
+    "breadcrumbs": [
+      "Introduction"
+    ],
+    "pageType": "guide",
+    "title": "Introduction",
+    "section": "Introduction",
+    "route": "/introduction",
+    "fragment": "introduction",
+    "content": "You are reading the documentation for NgxMatSelect Component."
+  },
+  {
+    "breadcrumbs": [
+      "Introduction"
+    ],
+    "pageType": "guide",
+    "title": "Introduction",
+    "section": "What is NgxMatSelect?",
+    "route": "/introduction",
+    "fragment": "what-is-ngxmatselect",
+    "content": "This is an Angular Material custom component, redesigned and inspired by the Angular mat-select component to concentrate on specific needs like being searchable and using virtual scroll at the same time because Angular mat-select does not support them at all. It is common knowledge among Angular Material developers that combining mat-auto-complete and mat-form-field can be a good solution to solve the searching issue, but yet there is a need to solve this issue in an open-source, versatile, independent, union, and progressive way, that's where ngx-mat-select comes up. Here is a minimal example:"
+  },
+  {
+    "breadcrumbs": [
+      "Introduction"
+    ],
+    "pageType": "guide",
+    "title": "Introduction",
+    "section": "What is NgxMatSelect?",
+    "route": "/introduction",
+    "fragment": "what-is-ngxmatselect",
+    "content": "As you can see, ngx-mat-select is compatible with mat-form-field which means, it can be used inside a form, and it has all advantages of the Angular form controller"
+  },
+  {
+    "breadcrumbs": [
+      "Quick Start"
+    ],
+    "pageType": "guide",
+    "title": "Quick Start",
+    "section": "Quick Start Install the library",
+    "route": "/quick-start",
+    "fragment": "quick-start",
+    "content": "First install ngx-mat-select library:"
+  },
+  {
+    "breadcrumbs": [
+      "Quick Start"
+    ],
+    "pageType": "guide",
+    "title": "Quick Start",
+    "section": "Add Styles",
+    "route": "/quick-start",
+    "fragment": "add-styles",
+    "content": "Second you need to add styles to your styles.scss"
+  },
+  {
+    "breadcrumbs": [
+      "Quick Start"
+    ],
+    "pageType": "guide",
+    "title": "Quick Start",
+    "section": "Add Styles",
+    "route": "/quick-start",
+    "fragment": "add-styles",
+    "content": "for more information about Angular Material theming and how you can add or change your theme, visit Angular Material Theming"
+  },
+  {
+    "breadcrumbs": [
+      "Quick Start"
+    ],
+    "pageType": "guide",
+    "title": "Quick Start",
+    "section": "Add NgxMatSelectModule",
+    "route": "/quick-start",
+    "fragment": "add-ngxmatselectmodule",
+    "content": "Third add NgxMatSelectModule into your Module"
+  },
+  {
+    "breadcrumbs": [
+      "Server Side"
+    ],
+    "pageType": "guide",
+    "title": "Server Side",
+    "section": "Server Side",
+    "route": "/server-side",
+    "fragment": "server-side",
+    "content": "You need to use Server-Side mode, When there are enormous options that the loading of them costs huge then you have to load them page per page. When you are using server-side select box. you need to know several things, How to fetch the options?How to treat with the value of the select box?When setting the value, is the value verified with the options?"
+  },
+  {
+    "breadcrumbs": [
+      "Server Side"
+    ],
+    "pageType": "guide",
+    "title": "Server Side",
+    "section": "Server Side",
+    "route": "/server-side",
+    "fragment": "server-side",
+    "content": "To make it brief, every select box is in the multiple mode, but you can make it single just with change the value of the multiple input to false"
+  },
+  {
+    "breadcrumbs": [
+      "Server Side"
+    ],
+    "pageType": "guide",
+    "title": "Server Side",
+    "section": "Server Side",
+    "route": "/server-side",
+    "fragment": "server-side",
+    "content": "Select Box always takes advantage of virtual and Infinite Scroll together in the Server-Side Mode that means don't worry about the rendered options in the DOM."
+  },
+  {
+    "breadcrumbs": [
+      "Server Side"
+    ],
+    "pageType": "guide",
+    "title": "Server Side",
+    "section": "Fetching the Options",
+    "route": "/server-side",
+    "fragment": "fetching-the-options",
+    "content": "to fetch the options you need to provide a function with an object parameter, has the below properties"
+  },
+  {
+    "breadcrumbs": [
+      "Server Side"
+    ],
+    "pageType": "guide",
+    "title": "Server Side",
+    "section": "Fetching the Options",
+    "route": "/server-side",
+    "fragment": "fetching-the-options",
+    "content": "Property Description"
+  },
+  {
+    "breadcrumbs": [
+      "Server Side"
+    ],
+    "pageType": "guide",
+    "title": "Server Side",
+    "section": "Fetching the Options",
+    "route": "/server-side",
+    "fragment": "fetching-the-options",
+    "content": "searchTerm"
+  },
+  {
+    "breadcrumbs": [
+      "Server Side"
+    ],
+    "pageType": "guide",
+    "title": "Server Side",
+    "section": "Fetching the Options",
+    "route": "/server-side",
+    "fragment": "fetching-the-options",
+    "content": "the string chars are written down by the client."
+  },
+  {
+    "breadcrumbs": [
+      "Server Side"
+    ],
+    "pageType": "guide",
+    "title": "Server Side",
+    "section": "Fetching the Options",
+    "route": "/server-side",
+    "fragment": "fetching-the-options",
+    "content": "pageNumber"
+  },
+  {
+    "breadcrumbs": [
+      "Server Side"
+    ],
+    "pageType": "guide",
+    "title": "Server Side",
+    "section": "Fetching the Options",
+    "route": "/server-side",
+    "fragment": "fetching-the-options",
+    "content": "the number of the current page which gets started from "
+  },
+  {
+    "breadcrumbs": [
+      "Server Side"
+    ],
+    "pageType": "guide",
+    "title": "Server Side",
+    "section": "Fetching the Options",
+    "route": "/server-side",
+    "fragment": "fetching-the-options",
+    "content": "one"
+  },
+  {
+    "breadcrumbs": [
+      "Server Side"
+    ],
+    "pageType": "guide",
+    "title": "Server Side",
+    "section": "Fetching the Options",
+    "route": "/server-side",
+    "fragment": "fetching-the-options",
+    "content": "pageSize"
+  },
+  {
+    "breadcrumbs": [
+      "Server Side"
+    ],
+    "pageType": "guide",
+    "title": "Server Side",
+    "section": "Fetching the Options",
+    "route": "/server-side",
+    "fragment": "fetching-the-options",
+    "content": "the number of options are present in each page."
+  },
+  {
+    "breadcrumbs": [
+      "Server Side"
+    ],
+    "pageType": "guide",
+    "title": "Server Side",
+    "section": "Object Options",
+    "route": "/server-side",
+    "fragment": "object-options",
+    "content": "When the options are objects we should provide object value, and you should not set optionValue instead you need to set compareWith or dataKey to make a comparison between options and value to find the selected items"
+  },
+  {
+    "breadcrumbs": [
+      "Server Side"
+    ],
+    "pageType": "guide",
+    "title": "Server Side",
+    "section": "Primitive Options",
+    "route": "/server-side",
+    "fragment": "primitive-options",
+    "content": "When the options are Primitives we should provide primitive value,in this case optionValue and optionLabel can be undefined."
+  },
+  {
+    "breadcrumbs": [
+      "Server Side"
+    ],
+    "pageType": "guide",
+    "title": "Server Side",
+    "section": "Primitive Options",
+    "route": "/server-side",
+    "fragment": "primitive-options",
+    "content": "In the server-side mode, there is no way to verify the options with the value, because all the options are not available at once. so you can see, there is option_2500 in the value of the form-control which is not present in the fake DB options, but It has not been removed from the value of the select box and the form."
+  },
+  {
+    "breadcrumbs": [
+      "Server Side"
+    ],
+    "pageType": "guide",
+    "title": "Server Side",
+    "section": "Primitive Options",
+    "route": "/server-side",
+    "fragment": "primitive-options",
+    "content": "Summary In the server-side mode whatever value you provide, will be added to the select box value without verifying with the received options."
+  },
+  {
+    "breadcrumbs": [
+      "Version Compatibility"
+    ],
+    "pageType": "guide",
+    "title": "Version Compatibility",
+    "section": "Version Compatibility",
+    "route": "/version-compatibility",
+    "fragment": "version-compatibility",
+    "content": "Angular Material NgxMatSelect"
+  },
+  {
+    "breadcrumbs": [
+      "Version Compatibility"
+    ],
+    "pageType": "guide",
+    "title": "Version Compatibility",
+    "section": "Version Compatibility",
+    "route": "/version-compatibility",
+    "fragment": "version-compatibility",
+    "content": "16.x.x >= 16"
+  },
+  {
+    "breadcrumbs": [
+      "Version Compatibility"
+    ],
+    "pageType": "guide",
+    "title": "Version Compatibility",
+    "section": "Version Compatibility",
+    "route": "/version-compatibility",
+    "fragment": "version-compatibility",
+    "content": "15.x.x >= 15"
+  },
+  {
+    "breadcrumbs": [
+      "Version Compatibility"
+    ],
+    "pageType": "guide",
+    "title": "Version Compatibility",
+    "section": "Version Compatibility",
+    "route": "/version-compatibility",
+    "fragment": "version-compatibility",
+    "content": "14.x.x >= 14"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "NgxMatSelectComponent",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "ngxmatselectcomponent"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "View -> model callback called when value changes"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "View -> model callback called when select has been touched"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "Class or list of classes to be applied to the menu's overlay panel."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "Keeps track of the previous form control assigned to the select. Used to detect if it has changed."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "to set the active option"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "Aria label of the select."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "Event emitted when the select has been closed."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "recommended to use dataKey instead of compareWith, Function to compare the option values with the selected values. The first argument is a value from an option. The second is a value from the selection. A boolean should be returned."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "A name for this control that can be used by mat-form-field."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "A property to uniquely identify a value in options. it would use to compare option with value"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "the options that will be appeared in the screens"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "to show a button next to the search-box to close the panel"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "if it's true the search box will be showed, the default value is false"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "a loading flag at button of the panel list when we are using the server-side fetching data"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "how to show the selected options inside the form-field when the multiple value it's true the default value is 'text'"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "Event emitted when the select has been opened."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "Event emitted when the select panel has been toggled."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "the height of an option, it's really important to handle the virtual scroll the default value is 48"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "Name of the label field of an option it can be undefined, when options are simple primitive values such as a string array"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "Name of the value field of an option. If optionValue is omitted and the object has no value property, the object itself becomes the value of an option. Note that, when options are simple primitive values such as a string array, no optionLabel and optionValue would be necessary"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "the panel which is connected to the form-field"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "Classes to be passed to the select panel. Supports the same syntax as ngClass."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "the height of the panel of the options the default value is 350"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "Width of the panel. If set to auto, the panel will match the trigger width. If set to null or an empty string, the panel will grow to match the longest option's text. the default value is 'auto'"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "Ideal origin for the overlay panel."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "the search box that we also use it for initializing the filtered options"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "a placeholder for the search-box to be shown if nothing is written in the search-box"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "to emits a new event, whenever the client select or deselect that item"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "the selection model which enhances the selecting actions like deselect and select and so on"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "a template which carries the content of an option"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "the custom content of the form-field to show"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "Implemented as part of MatFormFieldControl. @docs-private"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "an observable carries the value, storing the latest value of the select-box. the value always is an array, and when we have no value the value would be an empty array the select search directive would subscribe this value to update the selected items"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "Event that emits whenever the raw value of the select changes. This is here primarily to facilitate the two-way binding for the value input. @docs-private"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "it can be 'Default', 'FullScreen' or 'BottomSheet' 'Default' means the panel will be showed connected to the form-filed 'FullScreen' means the panel will be opened in full-screen mode 'BottomSheet' means the panel will be opened from bottom to semi top"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "the cdk virtual scroll viewport"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "properties",
+    "content": "the options which are visible in the panel"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Accessors",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "accessors",
+    "content": "Whether the select has a value."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Accessors",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "accessors",
+    "content": "Whether the select is focused."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Accessors",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "accessors",
+    "content": "Unique id of the element."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Accessors",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "accessors",
+    "content": "if it's false we can just select one item from the options"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Accessors",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "accessors",
+    "content": "Placeholder to be shown if no value has been selected."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Accessors",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "accessors",
+    "content": "Whether the component is required."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Accessors",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "accessors",
+    "content": "The currently selected option."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Accessors",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "accessors",
+    "content": "Implemented as part of MatFormFieldControl. @docs-private"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Accessors",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "accessors",
+    "content": "Value of the select control."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "to get a function which compares the options with values to detect the selected item"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "Returns the theme to be used on the panel."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "to handle some keyboard event when the caret is on the input"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "Calls the touched callback only if the panel is closed. Otherwise, the trigger will \"blur\" to the panel when it opens, causing a false positive."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "to get an array from an object or an array"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "to get the appropriate value according to the being multiple or single selection"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "to get the value of the specific property (optionValue) from the option"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "to get the latest value of the select-box the value for multiple and single selection is an array, but for single selection the first row is assumed as the value"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "to check if an options is selected or not"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "we get a hook after the panel gets close"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "we get a hook after the panel gets open"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "we get a hook before the panel gets close"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "we get a hook before the panel gets open"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "Implemented as part of MatFormFieldControl. @docs-private"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "to remove an item from the selected options"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "to select or deselect an item from selected options"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "to store the local onChange function"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "to store the local onTouch function"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "Implemented as part of MatFormFieldControl. @docs-private"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "to manage being disabled"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "to set the value of the select-box,"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "the value of the form-control"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "if it's true the selection model will be synced with the value"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "to emit and call valueChange and _onChange functions together"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "Toggles the overlay panel open or closed."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectComponent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectComponent",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectComponent",
+    "fragment": "methods",
+    "content": "whenever the form-control gets updated from outside we can use this function to write the latest value in the local state"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectSearchParams"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectSearchParams",
+    "section": "NgxMatSelectSearchParams",
+    "route": "/api/select-api/interfaces/NgxMatSelectSearchParams",
+    "fragment": "ngxmatselectsearchparams",
+    "content": "an interface to handle server-side query params request"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectionChangeEvent"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectionChangeEvent",
+    "section": "NgxMatSelectionChangeEvent",
+    "route": "/api/select-api/interfaces/NgxMatSelectionChangeEvent",
+    "fragment": "ngxmatselectionchangeevent",
+    "content": "selectionChange event interface"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectMultipleDisplay"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectMultipleDisplay",
+    "section": "NgxMatSelectMultipleDisplay",
+    "route": "/api/select-api/type-aliases/NgxMatSelectMultipleDisplay",
+    "fragment": "ngxmatselectmultipledisplay",
+    "content": "all the kind of the views for the multiple select-box trigger"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectViewType"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectViewType",
+    "section": "NgxMatSelectViewType",
+    "route": "/api/select-api/type-aliases/NgxMatSelectViewType",
+    "fragment": "ngxmatselectviewtype",
+    "content": "some good class to show the panel"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectOptionType"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectOptionType",
+    "section": "NgxMatSelectOptionType",
+    "route": "/api/select-api/type-aliases/NgxMatSelectOptionType",
+    "fragment": "ngxmatselectoptiontype",
+    "content": "'primitive' means the value can be 'boolean', 'number', 'string' and the object means the value can be key-value 'object', and unknown means there was no any option to detect the type from it"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectSearchBoxConfigs"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectSearchBoxConfigs",
+    "section": "NgxMatSelectSearchBoxConfigs",
+    "route": "/api/select-api/interfaces/NgxMatSelectSearchBoxConfigs",
+    "fragment": "ngxmatselectsearchboxconfigs",
+    "content": "Object that can be used to configure the default options for the select-search-box module"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectConfig"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectConfig",
+    "section": "NgxMatSelectConfig",
+    "route": "/api/select-api/interfaces/NgxMatSelectConfig",
+    "fragment": "ngxmatselectconfig",
+    "content": "Object that can be used to configure the default options for the select module."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectConfig"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectConfig",
+    "section": "Properties",
+    "route": "/api/select-api/interfaces/NgxMatSelectConfig",
+    "fragment": "properties",
+    "content": "A property to uniquely identify a value in options."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectConfig"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectConfig",
+    "section": "Properties",
+    "route": "/api/select-api/interfaces/NgxMatSelectConfig",
+    "fragment": "properties",
+    "content": "how to show the selected options inside the form-field when the multiple value it's true"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectConfig"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectConfig",
+    "section": "Properties",
+    "route": "/api/select-api/interfaces/NgxMatSelectConfig",
+    "fragment": "properties",
+    "content": "the height of an option, it's really important to handle the virtual scroll"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectConfig"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectConfig",
+    "section": "Properties",
+    "route": "/api/select-api/interfaces/NgxMatSelectConfig",
+    "fragment": "properties",
+    "content": "Name of the label field of an option"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectConfig"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectConfig",
+    "section": "Properties",
+    "route": "/api/select-api/interfaces/NgxMatSelectConfig",
+    "fragment": "properties",
+    "content": "Name of the value field of an option."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectConfig"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectConfig",
+    "section": "Properties",
+    "route": "/api/select-api/interfaces/NgxMatSelectConfig",
+    "fragment": "properties",
+    "content": "Class or list of classes to be applied to the menu's overlay panel."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectConfig"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectConfig",
+    "section": "Properties",
+    "route": "/api/select-api/interfaces/NgxMatSelectConfig",
+    "fragment": "properties",
+    "content": "the height of the panel"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectConfig"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectConfig",
+    "section": "Properties",
+    "route": "/api/select-api/interfaces/NgxMatSelectConfig",
+    "fragment": "properties",
+    "content": "/** Width of the panel. If set to auto, the panel will match the trigger width. If set to null or an empty string, the panel will grow to match the longest option's text."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NGX_MAT_SELECT_CONFIG"
+    ],
+    "pageType": "api",
+    "title": "NGX_MAT_SELECT_CONFIG",
+    "section": "NGX_MAT_SELECT_CONFIG",
+    "route": "/api/select-api/variables/NGX_MAT_SELECT_CONFIG",
+    "fragment": "ngx_mat_select_config",
+    "content": "Injection token that can be used to provide the default options the select module."
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectValue"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectValue",
+    "section": "NgxMatSelectValue",
+    "route": "/api/select-api/interfaces/NgxMatSelectValue",
+    "fragment": "ngxmatselectvalue",
+    "content": "a type for the provided value in select"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectModule"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectModule",
+    "section": "NgxMatSelectModule",
+    "route": "/api/select-api/classes/NgxMatSelectModule",
+    "fragment": "ngxmatselectmodule"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectTriggerDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectTriggerDirective",
+    "section": "NgxMatSelectTriggerDirective",
+    "route": "/api/select-api/classes/NgxMatSelectTriggerDirective",
+    "fragment": "ngxmatselecttriggerdirective"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectOptionContentDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectOptionContentDirective",
+    "section": "NgxMatSelectOptionContentDirective",
+    "route": "/api/select-api/classes/NgxMatSelectOptionContentDirective",
+    "fragment": "ngxmatselectoptioncontentdirective"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsServerSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsServerSideDirective",
+    "section": "NgxMatSelectFetchOptionsServerSideDirective",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsServerSideDirective",
+    "fragment": "ngxmatselectfetchoptionsserversidedirective"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsServerSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsServerSideDirective",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsServerSideDirective",
+    "fragment": "properties",
+    "content": "an observable to manage destroying the other observables"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsServerSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsServerSideDirective",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsServerSideDirective",
+    "fragment": "properties",
+    "content": "an observable to manage the filtered options state"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsServerSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsServerSideDirective",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsServerSideDirective",
+    "fragment": "properties",
+    "content": "when the main stream is busy with fetching data from the server, the loading is true"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsServerSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsServerSideDirective",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsServerSideDirective",
+    "fragment": "properties",
+    "content": "to store the previous options to use them after coming back to the old pages"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsServerSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsServerSideDirective",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsServerSideDirective",
+    "fragment": "properties",
+    "content": "the type of received options"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsServerSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsServerSideDirective",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsServerSideDirective",
+    "fragment": "properties",
+    "content": "the page size, every calculation for figuring out whether there is a next page or not based on this property"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsServerSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsServerSideDirective",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsServerSideDirective",
+    "fragment": "properties",
+    "content": "to search the options with the searchTerm"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsServerSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsServerSideDirective",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsServerSideDirective",
+    "fragment": "properties",
+    "content": "Function used to sort the values in a select in multiple mode. Follows the same logic as Array.prototype.sort. in the server-side mode you should provide sortComparator in order to sort the selected options, but in the client-side mode all the selected options and values would order with the order of received options"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsServerSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsServerSideDirective",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsServerSideDirective",
+    "fragment": "properties",
+    "content": "to sort the selected items according to the provided sortComparator function"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsServerSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsServerSideDirective",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsServerSideDirective",
+    "fragment": "properties",
+    "content": "Actually in the server-side mode we would not be able to sync options with values in order to omit non-exist values through the received options, because we don't have all options available at once, so we don't have any indicator to distinguish between them, so whatever value is provided would be set as the selected option"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsServerSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsServerSideDirective",
+    "section": "Accessors",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsServerSideDirective",
+    "fragment": "accessors",
+    "content": "to fetch the options from the server through searchParams"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsServerSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsServerSideDirective",
+    "section": "Accessors",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsServerSideDirective",
+    "fragment": "accessors",
+    "content": "if it's true the search-box will appear inside the panel"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsServerSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsServerSideDirective",
+    "section": "Accessors",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsServerSideDirective",
+    "fragment": "accessors",
+    "content": "a placeholder for the search-box to be shown if nothing is written in the search-box"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsServerSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsServerSideDirective",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsServerSideDirective",
+    "fragment": "methods",
+    "content": "to check the type of the options to realize there are primitive or an object"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsServerSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsServerSideDirective",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsServerSideDirective",
+    "fragment": "methods",
+    "content": "to fetch the next page if any"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsClientSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsClientSideDirective",
+    "section": "NgxMatSelectFetchOptionsClientSideDirective",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsClientSideDirective",
+    "fragment": "ngxmatselectfetchoptionsclientsidedirective"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsClientSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsClientSideDirective",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsClientSideDirective",
+    "fragment": "properties",
+    "content": "an observable to manage destroying the other observables"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsClientSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsClientSideDirective",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsClientSideDirective",
+    "fragment": "properties",
+    "content": "an observable to manage the filtered options state"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsClientSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsClientSideDirective",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsClientSideDirective",
+    "fragment": "properties",
+    "content": "when the main stream is busy with fetching data from the server, the loading is true"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsClientSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsClientSideDirective",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsClientSideDirective",
+    "fragment": "properties",
+    "content": "the type of received options"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsClientSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsClientSideDirective",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsClientSideDirective",
+    "fragment": "properties",
+    "content": "to search the options through the searchTerm"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsClientSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsClientSideDirective",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsClientSideDirective",
+    "fragment": "properties",
+    "content": "a search comparison function, that will be applied on filtering of the options when the client searches"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsClientSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsClientSideDirective",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsClientSideDirective",
+    "fragment": "properties",
+    "content": "Function used to sort the values in a select in multiple mode. Follows the same logic as Array.prototype.sort. in the server-side mode you should provide sortComparator in order to sort the selected options, but in the client-side mode all the selected options and values would order with the order of received options"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsClientSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsClientSideDirective",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsClientSideDirective",
+    "fragment": "properties",
+    "content": "to sort the selected items according to the received options, or the provided sortComparator function"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsClientSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsClientSideDirective",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsClientSideDirective",
+    "fragment": "properties",
+    "content": "if a value is not present in the received options, it would be omitted from the value and the selection"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsClientSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsClientSideDirective",
+    "section": "Accessors",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsClientSideDirective",
+    "fragment": "accessors",
+    "content": "if it's true the search-box will appear inside the panel"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsClientSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsClientSideDirective",
+    "section": "Accessors",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsClientSideDirective",
+    "fragment": "accessors",
+    "content": "if true the loading indicator appears in the panel, you can use this, when the options are loading for the very first time"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsClientSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsClientSideDirective",
+    "section": "Accessors",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsClientSideDirective",
+    "fragment": "accessors",
+    "content": "the options that we want to pick up an item or items from them"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsClientSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsClientSideDirective",
+    "section": "Accessors",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsClientSideDirective",
+    "fragment": "accessors",
+    "content": "a placeholder for the search-box to be shown if nothing is written in the search-box"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsClientSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsClientSideDirective",
+    "section": "Methods",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsClientSideDirective",
+    "fragment": "methods",
+    "content": "to check the type of the options to realize there are primitive or an object"
+  }
+]
