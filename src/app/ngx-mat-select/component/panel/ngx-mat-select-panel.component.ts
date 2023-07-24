@@ -123,11 +123,17 @@ export class NgxMatSelectPanelComponent implements OnDestroy, OnInit, AfterViewI
    */
   @Input() height: number | null | undefined = 350;
 
+  get viewType() {
+    return this._viewType;
+  }
+
   /**
    * how to show the panel, it can be 'BottomSheet', 'FullScreen' and 'Default'
    * @param value
    */
-  @Input() set viewType(value: NgxMatSelectViewType | undefined) {
+  @Input() set viewType(value: NgxMatSelectViewType | undefined | null) {
+    this._viewType = value;
+
     let css = '';
 
     switch (value) {
@@ -143,8 +149,11 @@ export class NgxMatSelectPanelComponent implements OnDestroy, OnInit, AfterViewI
         break;
     }
 
-    this.overlayClassViewType = `ngx-mat-select-${css}-view-type`;
+    this.overlayClassViewType = `ngx-mat-select-panel-${css}-view-type`;
   }
+
+  private _viewType: NgxMatSelectViewType | undefined | null
+    = 'Default';
 
   overlayClassViewType = 'ngx-mat-select-default-view-type';
 

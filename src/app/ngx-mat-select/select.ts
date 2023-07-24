@@ -710,7 +710,7 @@ export class NgxMatSelectComponent
   }
 
   /** The currently selected option. */
-  get selected(): unknown | unknown[] {
+  get selected(): any | any[] {
     return this.multiple ? this.selectionModel?.selected || [] : this.selectionModel?.selected[0];
   }
 

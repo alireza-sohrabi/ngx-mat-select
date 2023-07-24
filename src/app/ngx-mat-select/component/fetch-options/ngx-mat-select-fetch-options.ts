@@ -41,7 +41,7 @@ export abstract class NgxMatSelectFetchOptionsDirective
    * if it's true the search-box will appear inside the panel
    */
   @Input()
-  get hasSearchBox() {
+  get hasSearchBox(): boolean | undefined | null {
     return this._hasSearchBox;
   }
 
@@ -85,7 +85,7 @@ export abstract class NgxMatSelectFetchOptionsDirective
    * all the options which are provided up to now
    * @protected
    */
-  protected abstract options: unknown[];
+  protected abstract options: unknown[] | undefined | null;
 
   /**
    * an observable to manage destroying the other observables
@@ -161,7 +161,7 @@ export abstract class NgxMatSelectFetchOptionsDirective
    */
   protected checkOptionsType() {
     const options = this.options;
-    if (options.length > 0) {
+    if (!isNullOrUndefined(options) && options.length > 0) {
       if (options[0] && typeof options[0] === 'object') {
         this.optionType = 'object';
       } else {

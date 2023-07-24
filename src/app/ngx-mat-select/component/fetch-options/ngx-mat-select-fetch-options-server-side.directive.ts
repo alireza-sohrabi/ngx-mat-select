@@ -182,6 +182,7 @@ export class NgxMatSelectFetchOptionsServerSideDirective
     }
 
     this._changeDetectorRef.markForCheck();
+    this.host.stateChanges.next();
   };
 
   /**
