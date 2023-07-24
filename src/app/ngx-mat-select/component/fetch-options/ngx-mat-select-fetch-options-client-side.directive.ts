@@ -16,12 +16,14 @@ export class NgxMatSelectFetchOptionsClientSideDirective extends NgxMatSelectFet
    * the options that we want to pick up an item or items from them
    */
   @Input()
-  get options() {
+  get options(): unknown[] | null | undefined {
     return this._options;
   }
 
-  set options(options: unknown[]) {
+  set options(options: unknown[] | undefined | null) {
     this._options = options || [];
+    this.host.searchBoxComponent?.clear();
+    this.search('');
     this.checkOptionsType();
     this.syncValueAndOptions();
   }
@@ -33,14 +35,14 @@ export class NgxMatSelectFetchOptionsClientSideDirective extends NgxMatSelectFet
    * you can use this, when the options are loading for the very first time
    * @param value
    */
-  @Input() set loading(value: boolean) {
-    this.loading$.next(value);
+  @Input() set loading(value: boolean | undefined | null) {
+    this.loading$.next(value || false);
   }
 
   /**
    * a search comparison function, that will be applied on filtering of the options when the client searches
    */
-  @Input() searchComparison?: (searchTerm: string, option: unknown) => boolean;
+  @Input() searchComparison?: (searchTerm: string, option: any) => boolean;
 
   constructor(host: NgxMatSelectComponent, changeDetectorRef: ChangeDetectorRef) {
     super(host, changeDetectorRef);
@@ -67,7 +69,9 @@ export class NgxMatSelectFetchOptionsClientSideDirective extends NgxMatSelectFet
       return true;
     };
 
-    this.filteredOptions$.next(this.options.filter(comparisonFn).slice());
+    if (!isNullOrUndefined(this.options)) {
+      this.filteredOptions$.next(this.options.filter(comparisonFn).slice());
+    }
   };
 
   /**
@@ -76,7 +80,7 @@ export class NgxMatSelectFetchOptionsClientSideDirective extends NgxMatSelectFet
    */
   protected sortValues = () => {
     if (this.host.multiple) {
-      const options = this.options;
+      const options = this.options || [];
 
       this.host.selectionModel?.sort((a, b) => {
         return this.sortComparator ? this.sortComparator(a, b, options) : options.indexOf(a) - options.indexOf(b);
@@ -95,11 +99,11 @@ export class NgxMatSelectFetchOptionsClientSideDirective extends NgxMatSelectFet
       const compareWithFn = this.host._getCompareWithFn();
 
       if (!isNullOrUndefined(value)) {
-        if (this.options.length > 0 && value.length > 0) {
-          const selected: {value: any; option: any}[] = [];
+        if (this._options.length > 0 && value.length > 0) {
+          const selected: { value: any; option: any }[] = [];
 
           value.forEach((value: any) => {
-            this.options.some((option: any) => {
+            this._options.some((option: any) => {
               if (compareWithFn(option, value)) {
                 selected.push({option, value});
 
@@ -112,20 +116,17 @@ export class NgxMatSelectFetchOptionsClientSideDirective extends NgxMatSelectFet
 
           this.host.selectionModel.setSelection(...selected.map(s => s.option));
           const selectedValue = selected.map(s => s.value);
+          this.host.setValue(this.host._toFlat(selectedValue), false, true);
 
-          if (value.length !== selectedValue.length) {
-            const flatValue = this.host._toFlat(selectedValue);
-            this.host.setValue(flatValue, false, true);
-          }
-        } else {
+        } else if (!this.loading$.getValue()) {
           this.host.selectionModel.clear();
-          this.host._onChange(null);
+          this.host.setValue(null, false, true);
         }
       } else {
         const isThereAnyNullOrUndefinedInOptions =
-          this.options.filter(o => compareWithFn(o, undefined) || compareWithFn(o, null)).length > 0;
+          this._options.filter(o => compareWithFn(o, undefined) || compareWithFn(o, null)).length > 0;
 
-        if (this.options.length > 0 && isThereAnyNullOrUndefinedInOptions) {
+        if (this._options.length > 0 && isThereAnyNullOrUndefinedInOptions) {
           this.host.selectionModel.setSelection(value);
         } else {
           this.host.selectionModel.clear();
@@ -133,6 +134,7 @@ export class NgxMatSelectFetchOptionsClientSideDirective extends NgxMatSelectFet
       }
 
       this._changeDetectorRef.markForCheck();
+      this.host.stateChanges.next();
     }
   };
 }

@@ -50,3 +50,4 @@ Thumbs.db
 
 # NgDoc files
 .ng-doc
+/demo
