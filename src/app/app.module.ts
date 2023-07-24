@@ -22,10 +22,13 @@ export const ngxMatSelectConfigs: NgxMatSelectConfig = {}
     BrowserAnimationsModule,
     NgDocNavbarModule,
     NgDocSidebarModule,
-    RouterModule.forRoot(NG_DOC_ROUTING, {
+    RouterModule.forRoot([...NG_DOC_ROUTING,
+      {path: '', redirectTo: 'introduction', pathMatch: 'full'},
+      {path: "**", redirectTo: 'introduction', pathMatch: 'full'}], {
       scrollPositionRestoration: 'enabled',
       anchorScrolling: 'enabled',
-      scrollOffset: [0, 70]
+      scrollOffset: [0, 70],
+
     }),
     NgDocModule.forRoot(),
     NgDocGeneratedModule.forRoot()
