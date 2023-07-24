@@ -1,0 +1,23 @@
+<mat-form-field class="form-field">
+  <mat-label>
+    Panel With Footer
+  </mat-label>
+
+  <ngx-mat-select
+    clientSide
+    [options]="options"
+    [multiple]="true"
+    [hasSearchBox]="true"
+    [multipleDisplay]="'oneRowChip'"
+    [panelHeight]="450"
+    [value]="value"
+    [optionValue]="'id'"
+    [optionLabel]="'name'"
+
+  >
+    <div class="footer" ngxMatSelectFooter>
+      <div>Total Price: {{totalPrice}}$</div>
+      <button color="warn" mat-raised-button> Buy The Items</button>
+    </div>
+  </ngx-mat-select>
+</mat-form-field>
