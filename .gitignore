@@ -46,3 +46,8 @@ testem.log
 Thumbs.db
 
 .angular
+
+
+# NgDoc files
+.ng-doc
+/demo

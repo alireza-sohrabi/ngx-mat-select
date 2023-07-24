@@ -15,7 +15,7 @@
   <div
     class="ngx-mat-select-panel mdc-menu-surface mdc-menu-surface--open {{ theme }}"
     [ngClass]="panelClass"
-    [style.height.px]="height"
+    [style.height.px]="viewType === 'Default'? height: ''"
     role="listbox"
     [@transformPanel]="(isOpen$ | async) ? 'showing' : ''"
   >

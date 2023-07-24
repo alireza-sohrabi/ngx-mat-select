@@ -1,0 +1,16 @@
+<mat-form-field class="form-field">
+  <mat-label>Custom Trigger</mat-label>
+  <ngx-mat-select
+    clientSide
+    [options]="options"
+    [multiple]="true"
+    [hasSearchBox]="true"
+  >
+    <ng-template ngxMatSelectTrigger let-selected>
+      <div>
+        This is custom trigger {{selected}}
+      </div>
+    </ng-template>
+  </ngx-mat-select>
+
+</mat-form-field>

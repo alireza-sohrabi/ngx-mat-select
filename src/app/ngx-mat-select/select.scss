@@ -253,15 +253,15 @@ ngx-mat-select-panel {
 }
 
 
-.ngx-mat-select-panel-sheet-view-type {
+.ngx-mat-select-panel-bottom-sheet-view-type {
   left: 0 !important;
   right: 0 !important;
   width: 100% !important;
   top: 20% !important;
-  bottom: 0;
+  bottom: 0 !important;
 }
 
-.ngx-mat-select-panel-screen-view-type {
+.ngx-mat-select-panel-full-screen-view-type {
   top: 0 !important;
   bottom: 0 !important;
   left: 0 !important;
