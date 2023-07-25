@@ -1946,6 +1946,19 @@
     "section": "Properties",
     "route": "/api/select-api/classes/NgxMatSelectFetchOptionsClientSideDirective",
     "fragment": "properties",
+    "content": "the options that we want to pick up an item or items from them"
+  },
+  {
+    "breadcrumbs": [
+      "API References",
+      "select",
+      "NgxMatSelectFetchOptionsClientSideDirective"
+    ],
+    "pageType": "api",
+    "title": "NgxMatSelectFetchOptionsClientSideDirective",
+    "section": "Properties",
+    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsClientSideDirective",
+    "fragment": "properties",
     "content": "the type of received options"
   },
   {
@@ -2038,19 +2051,6 @@
     "route": "/api/select-api/classes/NgxMatSelectFetchOptionsClientSideDirective",
     "fragment": "accessors",
     "content": "if true the loading indicator appears in the panel, you can use this, when the options are loading for the very first time"
-  },
-  {
-    "breadcrumbs": [
-      "API References",
-      "select",
-      "NgxMatSelectFetchOptionsClientSideDirective"
-    ],
-    "pageType": "api",
-    "title": "NgxMatSelectFetchOptionsClientSideDirective",
-    "section": "Accessors",
-    "route": "/api/select-api/classes/NgxMatSelectFetchOptionsClientSideDirective",
-    "fragment": "accessors",
-    "content": "the options that we want to pick up an item or items from them"
   },
   {
     "breadcrumbs": [
