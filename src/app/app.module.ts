@@ -28,7 +28,7 @@ export const ngxMatSelectConfigs: NgxMatSelectConfig = {}
       scrollPositionRestoration: 'enabled',
       anchorScrolling: 'enabled',
       scrollOffset: [0, 70],
-
+      useHash: true
     }),
     NgDocModule.forRoot(),
     NgDocGeneratedModule.forRoot()
