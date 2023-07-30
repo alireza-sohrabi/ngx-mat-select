@@ -1,0 +1,92 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Use value property
+    </mat-card-title>
+    <mat-card-subtitle>
+      <ul>
+        <li>
+          change the value of the select-box with value input property
+        </li>
+      </ul>
+    </mat-card-subtitle>
+
+  </mat-card-header>
+  <mat-card-content>
+    <div class="ngx-mat-select-forms-container">
+
+        <div>
+          <ng-container *ngIf="config.multiple">
+            <mat-form-field>
+              <mat-label>
+                Set Value
+              </mat-label>
+              <ngx-mat-select
+                #selectBox1="ngxMatSelect"
+                [(value)]="value"
+                clientSide
+                [options]="options"
+                [multiple]="true"
+                [hasSearchBox]="config.hasSearchBox"
+                [hasBackButton]="config.hasBackButton"
+                [viewType]="config.viewType"
+                [placeholder]="config.placeholder"
+                [multipleDisplay]="config.multipleDisplay"
+                [searchBoxPlaceholder]="config.searchBoxPlaceholder"
+                [optionHeight]="config.optionHeight"
+                [panelHeight]="config.panelHeight"
+                [panelWidth]="config.panelWidth"
+                [disabled]="config.disabled"
+                [required]="config.required"
+              >
+              </ngx-mat-select>
+            </mat-form-field>
+
+            <div>
+              <b>Value</b>: {{value | json}}
+            </div>
+            <div>
+              <b>Select Box Value</b>: {{selectBox1.value | json}}
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="!config.multiple">
+            <mat-form-field
+              class="form-field">
+              <mat-label> Set Value</mat-label>
+              <ngx-mat-select
+                clientSide
+                #selectBox2="ngxMatSelect"
+                [options]="options"
+                [(ngModel)]="valueSingle"
+                [required]="config.required"
+                [disabled]="config.disabled"
+                [hasSearchBox]="config.hasSearchBox"
+                [hasBackButton]="config.hasBackButton"
+                [viewType]="config.viewType"
+                [placeholder]="config.placeholder"
+                [multipleDisplay]="config.multipleDisplay"
+                [searchBoxPlaceholder]="config.searchBoxPlaceholder"
+                [optionHeight]="config.optionHeight"
+                [panelHeight]="config.panelHeight"
+                [panelWidth]="config.panelWidth"
+                [multiple]="false"
+
+              >
+              </ngx-mat-select>
+
+            </mat-form-field>
+            <div>
+              <b>Value</b>: {{value[0]}}
+            </div>
+            <div>
+              <b>Select Box Value</b>: {{selectBox2.value | json}}
+            </div>
+
+          </ng-container>
+
+        </div>
+
+    </div>
+  </mat-card-content>
+</mat-card>

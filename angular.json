@@ -11,7 +11,7 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@ng-doc/builder:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/ngx-mat-select",
             "index": "src/index.html",
@@ -19,26 +19,10 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "node_modules/@ng-doc/app/assets",
-                "output": "assets/ng-doc/app"
-              },
-              {
-                "glob": "**/*",
-                "input": "node_modules/@ng-doc/ui-kit/assets",
-                "output": "assets/ng-doc/ui-kit"
-              },
-              {
-                "glob": "**/*",
-                "input": ".ng-doc/ngx-mat-select/assets",
-                "output": "assets/ng-doc"
-              },
               "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
-              "node_modules/@ng-doc/app/styles/global.css",
               "src/styles.scss"
             ],
             "stylePreprocessorOptions": {
@@ -46,10 +30,7 @@
                 "node_modules/@angular/material"
               ]
             },
-            "scripts": [],
-            "allowedCommonJsDependencies": [
-              "@ng-doc/core"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -82,7 +63,7 @@
           }
         },
         "serve": {
-          "builder": "@ng-doc/builder:dev-server",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "ngx-mat-select:build"
           },

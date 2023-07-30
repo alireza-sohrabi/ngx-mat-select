@@ -1,0 +1,193 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Server Side
+    </mat-card-title>
+    <mat-card-subtitle>
+      <ul>
+        <li>
+          You need to use Server-Side mode, When there are enormous options that the loading of them costs huge then
+          you have to load them page per page.
+
+        </li>
+        <li>
+          You should not use primitive values in Server-Side mode because all the options are not loaded at first and
+          then the display-member won't be found by
+          the Select, so you should use an object, provided with display-member and value-member as the value of the
+          Select
+        </li>
+
+        <li>
+          Select always takes advantage of virtual and Infinite Scroll together in the Server-Side Mode that
+          means
+          don't worry about the rendered
+          options in the DOM
+
+        </li>
+      </ul>
+    </mat-card-subtitle>
+
+  </mat-card-header>
+  <mat-card-content>
+    <div class="ngx-mat-select-forms-container">
+      <ng-container *ngIf="config.multiple">
+        <form [formGroup]="reactiveFormGroup">
+          <mat-form-field
+            class="form-field">
+            <mat-label>Reactive Forms</mat-label>
+            <ngx-mat-select
+              #selectBox1
+              serverSide
+              [pageSize]="20"
+              [fetchOptions]="fetchFn"
+              [multiple]="true"
+              formControlName="multipleControl"
+              [hasSearchBox]="config.hasSearchBox"
+              [hasBackButton]="config.hasBackButton"
+              [viewType]="config.viewType"
+              [placeholder]="config.placeholder"
+              [multipleDisplay]="config.multipleDisplay"
+              [optionLabel]="config.optionLabel"
+              [dataKey]="config.dataKey"
+              [searchBoxPlaceholder]="config.searchBoxPlaceholder"
+              [optionHeight]="config.optionHeight"
+              [panelHeight]="config.panelHeight"
+              [panelWidth]="config.panelWidth"
+            >
+            </ngx-mat-select>
+
+          </mat-form-field>
+          <div>
+            <b>Form Value</b>: {{reactiveFormGroup.value.multipleControl | json}}
+          </div>
+          <div style="margin-bottom: 1rem"></div>
+
+          <div>
+            <b>Select Box Value</b>: {{selectBox1.value | json}}
+          </div>
+
+        </form>
+        <form #templateDrivenForm="ngForm">
+          <mat-form-field
+            class="form-field">
+            <mat-label> Template Driven Form</mat-label>
+            <ngx-mat-select
+              #selectBox2
+              serverSide
+              [pageSize]="20"
+              [fetchOptions]="fetchFn"
+              [multiple]="true"
+              [ngModel]="defaultValue"
+              name="multipleControl"
+              [required]="config.required"
+              [disabled]="config.disabled"
+              [hasSearchBox]="config.hasSearchBox"
+              [hasBackButton]="config.hasBackButton"
+              [viewType]="config.viewType"
+              [placeholder]="config.placeholder"
+              [multipleDisplay]="config.multipleDisplay"
+              [dataKey]="config.dataKey"
+              [optionLabel]="config.optionLabel"
+              [searchBoxPlaceholder]="config.searchBoxPlaceholder"
+              [optionHeight]="config.optionHeight"
+              [panelHeight]="config.panelHeight"
+              [panelWidth]="config.panelWidth"
+
+            >
+            </ngx-mat-select>
+
+          </mat-form-field>
+          <div>
+            <b>Form Value</b>: {{templateDrivenForm.value['multipleControl'] | json}}
+          </div>
+          <div style="margin-bottom: 1rem"></div>
+          <div>
+            <b>Select Box Value</b>: {{selectBox2.value | json}}
+          </div>
+        </form>
+      </ng-container>
+
+      <ng-container *ngIf="!config.multiple">
+        <form [formGroup]="reactiveFormGroup">
+          <mat-form-field
+            class="form-field">
+            <mat-label>Reactive Form</mat-label>
+            <ngx-mat-select
+              #selectBox1
+              serverSide
+              [pageSize]="20"
+              [fetchOptions]="fetchFn"
+              [multiple]="false"
+              formControlName="singleControl"
+              [hasSearchBox]="config.hasSearchBox"
+              [hasBackButton]="config.hasBackButton"
+              [viewType]="config.viewType"
+              [placeholder]="config.placeholder"
+              [multipleDisplay]="config.multipleDisplay"
+              [dataKey]="config.dataKey"
+              [optionLabel]="config.optionLabel"
+              [searchBoxPlaceholder]="config.searchBoxPlaceholder"
+              [optionHeight]="config.optionHeight"
+              [panelHeight]="config.panelHeight"
+              [panelWidth]="config.panelWidth"
+
+            >
+            </ngx-mat-select>
+
+          </mat-form-field>
+          <div>
+            <b>Form Value</b>: {{reactiveFormGroup.value.singleControl | json}}
+          </div>
+          <div style="margin-bottom: 1rem"></div>
+
+          <div>
+            <b>Select Box Value</b>: {{selectBox1.value | json}}
+          </div>
+
+        </form>
+        <form #templateDrivenForm="ngForm">
+          <mat-form-field
+            class="form-field">
+            <mat-label> Template Driven Form</mat-label>
+            <ngx-mat-select
+              #selectBox2
+              serverSide
+              [pageSize]="20"
+              [fetchOptions]="fetchFn"
+              [multiple]="false"
+              [ngModel]="defaultValue[0]"
+              name="singleControl"
+              [required]="config.required"
+              [disabled]="config.disabled"
+              [hasSearchBox]="config.hasSearchBox"
+              [hasBackButton]="config.hasBackButton"
+              [viewType]="config.viewType"
+              [placeholder]="config.placeholder"
+              [multipleDisplay]="config.multipleDisplay"
+              [dataKey]="config.dataKey"
+              [optionLabel]="config.optionLabel"
+              [searchBoxPlaceholder]="config.searchBoxPlaceholder"
+              [optionHeight]="config.optionHeight"
+              [panelHeight]="config.panelHeight"
+              [panelWidth]="config.panelWidth"
+
+            >
+            </ngx-mat-select>
+
+          </mat-form-field>
+          <div>
+            <b>Form Value</b>: {{templateDrivenForm.value['singleControl'] | json}}
+          </div>
+          <div style="margin-bottom: 1rem"></div>
+
+          <div>
+            <b>Select Box Value</b>: {{selectBox2.value | json}}
+          </div>
+        </form>
+      </ng-container>
+    </div>
+
+  </mat-card-content>
+
+
+</mat-card>
