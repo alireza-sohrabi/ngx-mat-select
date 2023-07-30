@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
-import {NgxMatSelectConfigExample} from '../customize-model';
-import {NgxMatSelectMultipleDisplay, NgxMatSelectViewType} from "../../../../ngx-mat-select";
+import {NgxMatSelectConfigExample} from '../expamles-select';
+import {NgxMatSelectMultipleDisplay} from "../../ngx-mat-select";
 
 @Component({
   selector: 'app-config',
@@ -13,14 +13,12 @@ export class ConfigComponent implements AfterViewInit {
   @Output() configChange = new EventEmitter<NgxMatSelectConfigExample>();
   @Output() clearForms = new EventEmitter();
   multipleViewType: NgxMatSelectMultipleDisplay[] = ['oneRowChip', 'multipleRowChip', 'text'];
-  viewTypes: NgxMatSelectViewType[] = ['Default', 'FullScreen', 'BottomSheet'];
-
   darkMode = true;
 
-  onConfigChange<T extends NgxMatSelectConfigExample, P extends keyof T>(prop: P, value: T[P], recreate?: boolean) {
+  onConfigChange<T extends NgxMatSelectConfigExample, P extends keyof T>(prop: P, value: T[P]) {
     if (this.config) {
       ((this.config as any)[prop]) = value;
-      this.configChange.emit({...this.config, recreate});
+      this.configChange.emit({...this.config});
     }
   }
 

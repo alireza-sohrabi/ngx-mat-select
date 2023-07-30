@@ -1,0 +1,122 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Custom Trigger
+    </mat-card-title>
+    <mat-card-subtitle>
+      <ul>
+        <li>
+          You can display whatever you want instead of the default display on the form-field
+        </li>
+        <li>
+          ngx-mat-Select provide you with selected items as $implicit property on the template context
+        </li>
+        <li>
+          if the selected items are not primitive they always have display-member and value-member in their objects
+        </li>
+
+      </ul>
+    </mat-card-subtitle>
+
+  </mat-card-header>
+  <mat-card-content>
+    <div class="ngx-mat-select-forms-container">
+
+      <ng-container *ngIf="config.multiple">
+        <form #templateDrivenForm="ngForm">
+          <mat-form-field>
+            <mat-label>
+              Custom Trigger
+            </mat-label>
+            <ngx-mat-select
+              #selectBox1="ngModel"
+              [ngModel]="defaultValue"
+              name="multipleControl"
+              clientSide
+              [options]="options"
+              [multiple]="config.multiple"
+              [hasSearchBox]="config.hasSearchBox"
+              [hasBackButton]="config.hasBackButton"
+              [viewType]="config.viewType"
+              [placeholder]="config.placeholder"
+              [multipleDisplay]="config.multipleDisplay"
+              [optionValue]="config.optionValue"
+              [optionLabel]="config.optionLabel"
+              [searchBoxPlaceholder]="config.searchBoxPlaceholder"
+              [optionHeight]="config.optionHeight"
+              [panelHeight]="config.panelHeight"
+              [panelWidth]="config.panelWidth"
+              [disabled]="config.disabled"
+              [required]="config.required"
+
+            >
+              <ng-template ngxMatSelectTrigger let-selected>
+                <div>
+                  this is custom trigger {{selected}}
+                </div>
+              </ng-template>
+            </ngx-mat-select>
+          </mat-form-field>
+
+          <div>
+            <b>Form Value</b>: {{templateDrivenForm.value['multipleControl'] | json}}
+          </div>
+          <div>
+            <b>Select Box Value</b>: {{selectBox1.value | json}}
+          </div>
+        </form>
+
+
+      </ng-container>
+
+      <ng-container *ngIf="!config.multiple">
+        <form #templateDrivenForm="ngForm">
+          <mat-form-field
+            class="form-field">
+            <mat-label> Custom Trigger</mat-label>
+            <ngx-mat-select
+              #selectBox2
+              clientSide
+              [options]="options"
+              [multiple]="false"
+              [ngModel]="defaultValue[0]"
+              name="singleControl"
+              [required]="config.required"
+              [disabled]="config.disabled"
+              [hasSearchBox]="config.hasSearchBox"
+              [hasBackButton]="config.hasBackButton"
+              [viewType]="config.viewType"
+              [placeholder]="config.placeholder"
+              [multipleDisplay]="config.multipleDisplay"
+              [optionValue]="config.optionValue"
+              [optionLabel]="config.optionLabel"
+              [searchBoxPlaceholder]="config.searchBoxPlaceholder"
+              [optionHeight]="config.optionHeight"
+              [panelHeight]="config.panelHeight"
+              [panelWidth]="config.panelWidth"
+
+            >
+              <ng-template ngxMatSelectTrigger let-selected>
+                <div>
+                  this is custom trigger {{selected}}
+                </div>
+              </ng-template>
+            </ngx-mat-select>
+
+          </mat-form-field>
+          <div>
+            <b>Form Value</b>: {{templateDrivenForm.value['singleControl'] | json}}
+          </div>
+          <div>
+            <b>Select Box Value</b>: {{selectBox2.value | json}}
+          </div>
+        </form>
+
+      </ng-container>
+
+    </div>
+
+  </mat-card-content>
+</mat-card>
+
+

@@ -7,13 +7,11 @@ import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {MatButtonModule} from "@angular/material/button";
 import {NgxMatSelectModule} from "../../ngx-mat-select";
-import {FetchOptionsComponent} from "./fetch-options/fetch-options.component";
-import {ObjectValueComponent} from "./object-value/object-value.component";
-import {PrimitiveValueComponent} from "./primitive-value/primitive-value.component";
+import {ServerSideComponent} from "./server-side.component";
 
 
 @NgModule({
-  declarations: [FetchOptionsComponent, ObjectValueComponent, PrimitiveValueComponent],
+  declarations: [ServerSideComponent],
   imports: [
     CommonModule,
     MatCardModule,
@@ -25,9 +23,8 @@ import {PrimitiveValueComponent} from "./primitive-value/primitive-value.compone
     MatSelectModule,
     MatButtonModule,
 
-
   ],
-  exports: [FetchOptionsComponent, ObjectValueComponent, PrimitiveValueComponent]
+  exports: [ServerSideComponent]
 })
 export class ServerSideModule {
 }

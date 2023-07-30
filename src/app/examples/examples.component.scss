@@ -1,0 +1,19 @@
+.ngx-mat-select-main-configs {
+  padding: 1.5rem;
+}
+
+
+mat-form-field {
+  width: 100%;
+  display: block;
+}
+
+.ngx-mat-select-forms-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 650px);
+  padding: 2rem;
+  width: 100%;
+  align-items: flex-start;
+  grid-gap: 1.5rem;
+}
+

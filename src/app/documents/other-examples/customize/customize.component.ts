@@ -3,7 +3,7 @@ import {NgxMatSelectConfigExample} from "./customize-model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
-  selector: 'app-ngx-mat-select',
+  selector: 'app-customize',
   templateUrl: './customize.component.html',
 })
 export class CustomizeComponent {
