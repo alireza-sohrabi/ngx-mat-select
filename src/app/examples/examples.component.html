@@ -1,0 +1,50 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Configs
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <app-config [(config)]="config" (configChange)="onConfigChange($event)"
+                (clearForms)="onClearForms()">
+    </app-config>
+    <div style="margin-bottom: 2rem"></div>
+
+    <app-client-side [config]="config">
+    </app-client-side>
+
+    <div style="margin-bottom: 2rem"></div>
+
+    <app-server-side [config]="config">
+    </app-server-side>
+
+    <div style="margin-bottom: 2rem"></div>
+
+    <app-use-primitives [config]="config">
+    </app-use-primitives>
+
+    <div style="margin-bottom: 2rem"></div>
+
+    <app-custom-trigger [config]="config">
+    </app-custom-trigger>
+    <div style="margin-bottom: 2rem"></div>
+
+    <app-custom-option [config]="config">
+    </app-custom-option>
+
+    <div style="margin-bottom: 2rem"></div>
+
+    <app-change-value [config]="config">
+    </app-change-value>
+
+    <div style="margin-bottom: 2rem"></div>
+
+
+    <app-global-config>
+    </app-global-config>
+
+    <div style="margin-bottom: 2rem"></div>
+
+  </mat-card-content>
+</mat-card>
