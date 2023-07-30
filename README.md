@@ -14,7 +14,7 @@ RLT support (use dir='rtl' in html tag)
 <a target="_blank" href="https://alireza-sohrabi.github.io/ngx-mat-select">Documents `Online`
 </a>
 
-<a target="_blank" href="http://localhost:4200/#/other-examples/customize">Customize `Online`
+<a target="_blank" href="https://alireza-sohrabi.github.io/ngx-mat-select/#/other-examples/customize">Customize `Online`
 </a>
 
 <a target="_blank" href="https://stackblitz.com/edit/ngx-mat-select?file=src/app/app.component.html">Source Code 
