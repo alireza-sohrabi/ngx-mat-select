@@ -1,6 +1,6 @@
 {
   "name": "ngx-mat-select",
-  "version": "16.0.1",
+  "version": "16.0.3",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
