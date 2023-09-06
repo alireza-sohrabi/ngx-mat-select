@@ -907,7 +907,7 @@ export class NgxMatSelectComponent
    * @param selected
    * @param options
    */
-  updateSelection(selected: boolean, options: any) {
+  private updateSelection(selected: boolean, options: any) {
     this.scrollTop = 0;
     this.renderer.setProperty(this.virtualScroll.elementRef.nativeElement, 'scrollTop', this.scrollTop);
     setTimeout(() => {
