@@ -883,6 +883,61 @@ export class NgxMatSelectComponent
   }
 
   /**
+   * select all of the filtered options
+   */
+  selectAll() {
+    this.filteredOptions$.pipe(take(1)).subscribe(options => {
+      this.selectionModel?.select(...options);
+
+      this.updateSelection(false, options);
+    });
+  }
+
+  /**
+   * clears all of the selected options
+   */
+  clearAll() {
+    this.selectionModel?.clear();
+
+    this.updateSelection(false, []);
+  }
+
+  /**
+   * to update the selection model and the form-control value
+   * @param selected
+   * @param options
+   */
+  private updateSelection(selected: boolean, options: any) {
+    this.scrollTop = 0;
+    this.renderer.setProperty(this.virtualScroll.elementRef.nativeElement, 'scrollTop', this.scrollTop);
+    setTimeout(() => {
+      this.virtualScroll.checkViewportSize();
+    });
+
+    const flatValue = this.getFlatValueFromSelection();
+
+    this.setValue(flatValue, false, true);
+
+    if (!this.panel.isOpen) {
+      this.blur();
+    } else {
+      this.stateChanges.next();
+    }
+
+    if (!this.multiple) {
+      this.panel.close();
+    } else {
+      this._changeDetectorRef.detectChanges();
+      this.panel.updatePosition();
+    }
+
+    this.selectionChange.emit({
+      selected: selected,
+      value: options
+    });
+  }
+
+  /**
    * according to using multiple or single selection, whenever we want to update the form-control value from here we need to get the
    * appropriate value for the form.
    * @private
