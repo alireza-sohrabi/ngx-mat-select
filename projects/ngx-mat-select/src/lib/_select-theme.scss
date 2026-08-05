@@ -1,24 +1,28 @@
-@use '@angular/material' as mat;
-@use 'sass:map';
+@use "@angular/material" as mat;
+@use "sass:map";
 
 @mixin color($theme) {
-  $config: mat.get-color-config($theme);
+  $config: mat.m2-get-color-config($theme);
   $primary: map.get($config, primary);
   $accent: map.get($config, accent);
   $warn: map.get($config, warn);
   $foreground: map.get($config, foreground);
   $background: map.get($config, background);
 
-  $text-color: mat.get-color-from-palette($foreground, text, 0.87);
-  $secondary-text-color: mat.get-color-from-palette($foreground, secondary-text, 0.6);
-  $disabled-color: mat.get-color-from-palette($foreground, disabled-text);
-  $divider-color: mat.get-color-from-palette($foreground, divider);
-  $primary-color: mat.get-color-from-palette($primary);
-  $accent-color: mat.get-color-from-palette($accent);
-  $warn-color: mat.get-color-from-palette($warn);
+  $text-color: mat.m2-get-color-from-palette($foreground, text, 0.87);
+  $secondary-text-color: mat.m2-get-color-from-palette(
+    $foreground,
+    secondary-text,
+    0.6
+  );
+  $disabled-color: mat.m2-get-color-from-palette($foreground, disabled-text);
+  $divider-color: mat.m2-get-color-from-palette($foreground, divider);
+  $primary-color: mat.m2-get-color-from-palette($primary);
+  $accent-color: mat.m2-get-color-from-palette($accent);
+  $warn-color: mat.m2-get-color-from-palette($warn);
 
   .ngx-mat-select-panel {
-    background-color: mat.get-color-from-palette($background, card);
+    background-color: mat.m2-get-color-from-palette($background, card);
     color: $text-color;
   }
 
@@ -98,11 +102,11 @@
 }
 
 @mixin typography($theme) {
-  $config: mat.get-typography-config($theme);
+  $config: mat.m2-get-typography-config($theme);
 
   @if $config != null {
     .ngx-mat-select {
-      @include mat.typography-level($config, body-1);
+      @include mat.m2-typography-level($config, body-1);
     }
   }
 }

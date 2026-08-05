@@ -1,4 +1,4 @@
-# {{ NgDocPage.title }}
+
 
 You need to use Server-Side mode, When there are enormous options that the loading of them costs huge then
 you have to load them page per page.
