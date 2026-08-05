@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NgxMatSelectMultipleDisplay} from "../../../ngx-mat-select";
+import {NgxMatSelectMultipleDisplay} from "ngx-mat-select";
 
 @Component({
   templateUrl: './multiple-display-type.component.html',

@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {NgxMatSelectComponent} from "../../../ngx-mat-select";
+import {NgxMatSelectComponent} from "ngx-mat-select";
 
 @Component({
   templateUrl: './footer.component.html',

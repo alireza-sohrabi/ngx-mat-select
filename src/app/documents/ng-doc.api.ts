@@ -8,7 +8,7 @@ const Api: NgDocApi = {
     {
       name: 'select',
       route: 'select-api',
-      include: 'src/app/ngx-mat-select/public-api.ts',
+      include: 'projects/ngx-mat-select/src/public-api.ts',
     },
 
   ],

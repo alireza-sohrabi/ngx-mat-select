@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ngx-mat-select": {
+    "demo": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@ng-doc/builder:browser",
           "options": {
-            "outputPath": "dist/ngx-mat-select",
+            "outputPath": "dist/demo",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -84,18 +84,18 @@
         "serve": {
           "builder": "@ng-doc/builder:dev-server",
           "options": {
-            "browserTarget": "ngx-mat-select:build"
+            "browserTarget": "demo:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ngx-mat-select:build:production"
+              "browserTarget": "demo:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngx-mat-select:build"
+            "browserTarget": "demo:build"
           }
         },
         "test": {
@@ -119,6 +119,49 @@
               ]
             },
             "scripts": []
+          }
+        }
+      }
+    },
+    "ngx-mat-select": {
+      "projectType": "library",
+      "root": "projects/ngx-mat-select",
+      "sourceRoot": "projects/ngx-mat-select/src",
+      "prefix": "ngx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ngx-mat-select/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-mat-select/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ngx-mat-select/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/ngx-mat-select/tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
+            "browsers": "ChromeHeadless",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/@angular/material"
+              ]
+            }
           }
         }
       }

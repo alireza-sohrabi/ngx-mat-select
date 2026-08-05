@@ -8,6 +8,9 @@
       ],
       "@ng-doc/generated/*": [
         ".ng-doc/ngx-mat-select/*"
+      ],
+      "ngx-mat-select": [
+        "dist/ngx-mat-select"
       ]
     },
     "baseUrl": "./",

@@ -6,7 +6,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {MatButtonModule} from "@angular/material/button";
-import {NgxMatSelectModule} from "../../ngx-mat-select";
+import {NgxMatSelectModule} from "ngx-mat-select";
 import {WithoutAnyValueComponent} from "./without-any-value/without-any-value.component";
 import {ConfigModule} from "../other-examples/customize/config/config.module";
 import {PrimitiveComponent} from "./primitive/primitive.component";

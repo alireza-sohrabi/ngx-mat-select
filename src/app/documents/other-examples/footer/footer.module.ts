@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from './footer.component';
 import {MatInputModule} from "@angular/material/input";
-import {NgxMatSelectModule} from "../../../ngx-mat-select";
+import {NgxMatSelectModule} from "ngx-mat-select";
 import {MatButtonModule} from "@angular/material/button";
 
 

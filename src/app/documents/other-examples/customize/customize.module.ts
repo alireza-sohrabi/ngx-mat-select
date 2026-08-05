@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CustomizeComponent } from './customize.component';
-import {NgxMatSelectModule} from "../../../ngx-mat-select";
+import {NgxMatSelectModule} from "ngx-mat-select";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {ConfigModule} from "./config/config.module";
 import {ReactiveFormsModule} from "@angular/forms";

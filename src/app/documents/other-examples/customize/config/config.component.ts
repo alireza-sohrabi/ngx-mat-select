@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 import {NgxMatSelectConfigExample} from '../customize-model';
-import {NgxMatSelectMultipleDisplay, NgxMatSelectViewType} from "../../../../ngx-mat-select";
+import {NgxMatSelectMultipleDisplay, NgxMatSelectViewType} from "ngx-mat-select";
 
 @Component({
   selector: 'app-config',

@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {of} from 'rxjs';
 import {delay} from 'rxjs/operators';
-import {NgxMatSelectSearchParams} from "../../../ngx-mat-select";
+import {NgxMatSelectSearchParams} from "ngx-mat-select";
 
 @Component({
   templateUrl: './primitive-value.component.html',
