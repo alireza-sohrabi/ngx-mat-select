@@ -14,7 +14,9 @@
     "packagr": "npm run build:library",
     "pack:library": "npm pack ./dist/ngx-mat-select",
     "build:ci": "npm run build:library && ng build demo --configuration production --progress=false --base-href=/ngx-mat-select/",
-    "verify:consumer:20": "node scripts/verify-consumer.mjs 20 --ssr"
+    "verify:consumer:21": "node scripts/verify-consumer.mjs 21",
+    "verify:consumer:22": "node scripts/verify-consumer.mjs 22",
+    "verify:public-api": "npm run build:library && node scripts/verify-public-api.mjs"
   },
   "author": "Alireze Sohrabi, Tehran IRAN",
   "bugs": {
