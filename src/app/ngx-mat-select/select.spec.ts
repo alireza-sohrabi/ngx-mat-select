@@ -7,12 +7,12 @@ import {Component, Provider, ViewChild} from '@angular/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {OverlayContainer, OverlayModule} from '@angular/cdk/overlay';
+import {OverlayContainer} from '@angular/cdk/overlay';
 import {Directionality} from '@angular/cdk/bidi';
 import {By} from '@angular/platform-browser';
 import {NgxMatSelectModule} from './select.module';
 
-describe('LibSelectComponent', () => {
+describe('NgxMatSelectComponent', () => {
   let overlayContainerElement: HTMLElement;
   let dir: {value: 'ltr' | 'rtl'; change: Observable<string>};
 
@@ -31,7 +31,6 @@ describe('LibSelectComponent', () => {
         ReactiveFormsModule,
         FormsModule,
         NoopAnimationsModule,
-        OverlayModule,
       ],
       declarations: declarations,
       providers: [{provide: Directionality, useFactory: () => (dir = {value: 'ltr', change: EMPTY})}, ...providers],
@@ -54,7 +53,7 @@ describe('LibSelectComponent', () => {
         fixture = TestBed.createComponent(BasicSelect);
         fixture.detectChanges();
         formField = fixture.debugElement.query(By.css('.mat-mdc-form-field'))!.nativeElement;
-        trigger = formField.querySelector('trigger') as HTMLElement;
+        trigger = formField.querySelector('ngx-mat-select-trigger') as HTMLElement;
         flush();
       }));
 
@@ -82,6 +81,28 @@ describe('LibSelectComponent', () => {
         expect(overlayContainerElement.textContent).toEqual('');
         expect(fixture.componentInstance.select.panelOpen).toBe(false);
       }));
+
+      it('should write the selected option value to the form control', fakeAsync(() => {
+        trigger.click();
+        fixture.detectChanges();
+        flush();
+
+        const option = overlayContainerElement.querySelector('mat-option') as HTMLElement;
+        option.click();
+        fixture.detectChanges();
+        flush();
+
+        expect(fixture.componentInstance.control.value).toBe('steak-0');
+        expect(trigger.textContent).toContain('Steak');
+      }));
+
+      it('should expose the current combobox accessibility state', () => {
+        const select = fixture.nativeElement.querySelector('ngx-mat-select') as HTMLElement;
+
+        expect(select.getAttribute('role')).toBe('combobox');
+        expect(select.getAttribute('aria-expanded')).toBe('false');
+        expect(trigger.textContent).toContain('Food');
+      });
 
       it('should close the panel when a click occurs outside the panel', fakeAsync(() => {
         trigger.click();
@@ -137,12 +158,12 @@ describe('LibSelectComponent', () => {
       it('should be able to set extra classes on the panel', fakeAsync(() => {
         trigger.click();
         fixture.detectChanges();
+        flush();
 
-        const panel = overlayContainerElement.querySelector('.panel') as HTMLElement;
+        const panel = overlayContainerElement.querySelector('.ngx-mat-select-panel') as HTMLElement;
 
         expect(panel.classList).toContain('custom-one');
         expect(panel.classList).toContain('custom-two');
-        flush();
       }));
 
       it('should update disableRipple properly on each option', fakeAsync(() => {
@@ -175,7 +196,7 @@ describe('LibSelectComponent', () => {
       it(
         'should not consider itself as blurred if the trigger loses focus while the ' + 'panel is still open',
         fakeAsync(() => {
-          const selectElement = fixture.nativeElement.querySelector('.lib-select');
+          const selectElement = fixture.nativeElement.querySelector('ngx-mat-select');
           const selectInstance = fixture.componentInstance.select;
 
           dispatchFakeEvent(selectElement, 'focus');
@@ -205,9 +226,9 @@ describe('LibSelectComponent', () => {
     <div [style.height.px]="heightAbove"></div>
     <mat-form-field>
       <mat-label *ngIf="hasLabel">Select a food</mat-label>
-      <lib-select
+      <ngx-mat-select
         placeholder="Food"
-        libClientSide
+        clientSide
         [options]="foods"
         [formControl]="control"
         [required]="isRequired"
@@ -217,7 +238,7 @@ describe('LibSelectComponent', () => {
         [disableRipple]="disableRipple"
         [panelClass]="panelClass"
         [panelWidth]="panelWidth">
-      </lib-select>
+      </ngx-mat-select>
       <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
     </mat-form-field>
     <div [style.height.px]="heightBelow"></div>
@@ -248,4 +269,3 @@ class BasicSelect {
 
   @ViewChild(NgxMatSelectComponent, {static: true}) select!: NgxMatSelectComponent;
 }
-
