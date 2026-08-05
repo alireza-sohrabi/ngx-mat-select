@@ -3,15 +3,22 @@
 This project-specific STDIO server exposes guarded release tools for `ngx-mat-select`:
 
 - `npm_release_status` checks the repository, registry, and npm authentication.
-- `npm_validate_release` runs the complete release validation and packs the artifact without publishing.
+- `npm_validate_release` runs complete release validation and packs the artifact without publishing.
 - `npm_publish_release` repeats validation and publishes only after receiving an exact confirmation phrase.
 
 The server permits only this release sequence:
 
-1. `21.0.0-next.0` with the `next` dist-tag.
-2. `21.0.0` with the `latest` dist-tag, after the prerelease exists on npm.
+1. `17.0.0` with the `angular17` dist-tag.
+2. `18.0.0` with the `angular18` dist-tag.
+3. `19.0.0` with the `angular19` dist-tag.
+4. `20.0.0` with the `angular20` dist-tag.
+5. `21.0.0-next.0` with the `next` dist-tag.
+6. `21.0.0` with the `latest` dist-tag, after the prerelease exists on npm.
 
-Angular 17–20 versions were migration checkpoints and cannot be published through this server.
+Angular 17–20 releases are built from isolated sibling worktrees named
+`ngx-mat-select-release-17` through `ngx-mat-select-release-20`. This keeps each
+artifact tied to its matching Angular migration checkpoint while the main worktree
+remains on Angular 21.
 
 ## Install
 
@@ -38,7 +45,11 @@ Restart Codex after changing the MCP configuration.
 
 ## Authentication
 
-Use a granular npm access token that can publish `ngx-mat-select`. Keep it outside the repository and expose it as `NPM_TOKEN` before starting Codex. The server writes the token to a temporary npm user configuration for each npm command and removes it immediately afterward. An existing user-level npm login is also supported when `NPM_TOKEN` is unset.
+Use a granular npm access token that can publish `ngx-mat-select`. Keep it outside
+the repository and expose it as `NPM_TOKEN` before starting Codex. The server writes
+the token to a temporary npm user configuration for each npm command and removes it
+immediately afterward. An existing user-level npm login is also supported when
+`NPM_TOKEN` is unset.
 
 Do not put a token in this README, `config.toml`, or any repository file.
 
@@ -47,10 +58,12 @@ Do not put a token in this README, `config.toml`, or any repository file.
 Before validation or publishing:
 
 - both `package.json` files must contain the requested release version;
-- the current branch must be `master`;
+- the current branch must match the version-specific release policy;
 - the working tree must be clean;
 - the version must not already exist on npm;
 - npm authentication must succeed;
-- for `21.0.0`, `21.0.0-next.0` must already exist on npm.
+- every release prerequisite must already exist on npm before publication.
 
-The server runs installation, unit tests, public API validation, Angular 21 and 22 consumer validation, a production library build, and `npm pack` before publishing.
+The server runs installation, unit tests, a production library build, public API
+validation, clean consumer validation for the matching Angular major (plus Angular
+22 for the Angular 21 package), and `npm pack` before publishing.

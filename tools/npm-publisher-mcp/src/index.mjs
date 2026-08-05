@@ -6,11 +6,19 @@ import {
   confirmationPhrase,
   getStatus,
   publishRelease,
+  resolveReleaseRepository,
   resolveRepository,
   validateRelease,
 } from './release.mjs';
 
-const releaseVersionSchema = z.enum(['21.0.0-next.0', '21.0.0']);
+const releaseVersionSchema = z.enum([
+  '17.0.0',
+  '18.0.0',
+  '19.0.0',
+  '20.0.0',
+  '21.0.0-next.0',
+  '21.0.0',
+]);
 
 function result(value) {
   return {
@@ -45,7 +53,7 @@ export function createServer() {
     { name: 'ngx-mat-select-publisher', version: '1.0.0' },
     {
       instructions:
-        'This server only releases ngx-mat-select. Publish 21.0.0-next.0 with the next tag, validate it, then publish 21.0.0 with the latest tag. Never publish Angular 17-20 checkpoint versions. Always call npm_release_status first, then npm_validate_release, and ask the user for the exact confirmation phrase before npm_publish_release.',
+        'This server only releases ngx-mat-select. Publish 17.0.0 through 20.0.0 from their matching release worktrees with angular-major tags, then publish 21.0.0-next.0 with next, and only later 21.0.0 with latest. Always call npm_release_status first, then npm_validate_release, and ask the user for the exact release-specific confirmation phrase before every npm_publish_release call.',
     },
   );
 
@@ -71,7 +79,7 @@ export function createServer() {
     {
       title: 'Validate an ngx-mat-select release',
       description:
-        'Require a clean master branch and matching unpublished package version, run the full test and consumer validation suite, and inspect the packed artifact without publishing it.',
+        'Require the clean version-specific release branch and matching unpublished package version, run the full test and consumer validation suite, and inspect the packed artifact without publishing it.',
       inputSchema: { version: releaseVersionSchema },
       annotations: {
         readOnlyHint: false,
@@ -80,7 +88,10 @@ export function createServer() {
         openWorldHint: true,
       },
     },
-    guarded(async ({ version }) => validateRelease(version, resolveRepository())),
+    guarded(async ({ version }) => validateRelease(
+      version,
+      resolveReleaseRepository(version, resolveRepository()),
+    )),
   );
 
   server.registerTool(
@@ -88,7 +99,7 @@ export function createServer() {
     {
       title: 'Publish an ngx-mat-select release',
       description:
-        'Run all release checks and publish exactly 21.0.0-next.0 with tag next or 21.0.0 with tag latest. Requires the exact release-specific confirmation phrase.',
+        'Run all release checks and publish one permitted release with its fixed dist-tag. Requires the exact release-specific confirmation phrase.',
       inputSchema: {
         version: releaseVersionSchema,
         confirmation: z.string().describe(
@@ -106,7 +117,11 @@ export function createServer() {
       if (confirmation !== confirmationPhrase(version)) {
         throw new Error(`Confirmation must exactly match: ${confirmationPhrase(version)}`);
       }
-      return publishRelease(version, confirmation, resolveRepository());
+      return publishRelease(
+        version,
+        confirmation,
+        resolveReleaseRepository(version, resolveRepository()),
+      );
     }),
   );
 

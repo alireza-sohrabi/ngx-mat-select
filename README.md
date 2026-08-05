@@ -20,11 +20,15 @@ The current npm stable release is `16.0.4`. The repository source is being prepa
 | ngx-mat-select | Angular and Angular Material | Status |
 | --- | --- | --- |
 | `21.0.0-next.0` / `21.x` | `21.x` or `22.x` | Upcoming; verified with clean Angular 21 and 22 consumers |
+| `20.x` | `20.x` | Compatibility release |
+| `19.x` | `19.x` | Compatibility release |
+| `18.x` | `18.x` | Compatibility release |
+| `17.x` | `17.x` | Compatibility release |
 | `16.x` | `16.x` | Current npm stable release |
 | `15.x` | `15.x` | Previous release line |
 | `14.x` | `14.x` | Previous release line |
 
-The Angular 17–20 upgrade checkpoints were used to migrate and validate the source. They are not published package versions.
+The Angular 17–20 compatibility releases preserve the validated migration checkpoints for applications that cannot yet move to Angular 21.
 
 ## Installation
 

@@ -10,17 +10,28 @@ import { basename, dirname, join, resolve } from 'node:path';
 
 const major = process.argv[2];
 const withSsr = process.argv.includes('--ssr');
+const packageRootIndex = process.argv.indexOf('--package-root');
 const versions = {
+  '17': { angular: '17.3.12', cli: '17.3.17', material: '17.3.10' },
+  '18': { angular: '18.2.14', cli: '18.2.21', material: '18.2.14' },
+  '19': { angular: '19.2.25', cli: '19.2.27', material: '19.2.19' },
   '20': { angular: '20.3.27', cli: '20.3.33', material: '20.2.14' },
   '21': { angular: '21.2.19', cli: '21.2.20', material: '21.2.14' },
   '22': { angular: '22.1.0', cli: '22.1.3', material: '22.1.1' },
 };
 
 if (!major || !versions[major]) {
-  throw new Error('Usage: node scripts/verify-consumer.mjs <angular-major> [--ssr]');
+  throw new Error(
+    'Usage: node scripts/verify-consumer.mjs <angular-major> [--ssr] [--package-root <path>]',
+  );
+}
+if (packageRootIndex >= 0 && !process.argv[packageRootIndex + 1]) {
+  throw new Error('--package-root requires a path.');
 }
 
-const root = resolve(import.meta.dirname, '..');
+const root = packageRootIndex >= 0
+  ? resolve(process.argv[packageRootIndex + 1])
+  : resolve(import.meta.dirname, '..');
 const workspace = mkdtempSync(join(tmpdir(), `ngx-mat-select-angular-${major}-`));
 const npmCli = process.env.npm_execpath;
 if (!npmCli) throw new Error('Run this verifier through an npm script.');
@@ -158,9 +169,9 @@ describe('packed ngx-mat-select', () => {
 @use 'ngx-mat-select' as ngx-mat-select;
 
 @include mat.core();
-$theme: mat.m2-define-light-theme((color: (
-  primary: mat.m2-define-palette(mat.$m2-indigo-palette),
-  accent: mat.m2-define-palette(mat.$m2-pink-palette)
+$theme: mat.${Number(major) >= 18 ? 'm2-' : ''}define-light-theme((color: (
+  primary: mat.${Number(major) >= 18 ? 'm2-' : ''}define-palette(mat.$${Number(major) >= 18 ? 'm2-' : ''}indigo-palette),
+  accent: mat.${Number(major) >= 18 ? 'm2-' : ''}define-palette(mat.$${Number(major) >= 18 ? 'm2-' : ''}pink-palette)
 )));
 @include mat.all-component-themes($theme);
 @include ngx-mat-select.theme($theme);

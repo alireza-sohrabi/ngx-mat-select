@@ -1,11 +1,25 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-const root = resolve(import.meta.dirname, '..');
+const packageRootIndex = process.argv.indexOf('--package-root');
+if (packageRootIndex >= 0 && !process.argv[packageRootIndex + 1]) {
+  throw new Error('--package-root requires a path.');
+}
+const root = packageRootIndex >= 0
+  ? resolve(process.argv[packageRootIndex + 1])
+  : resolve(import.meta.dirname, '..');
 const dist = resolve(root, 'dist/ngx-mat-select');
 const packageJson = JSON.parse(readFileSync(resolve(dist, 'package.json'), 'utf8'));
 const typesPath = resolve(dist, packageJson.exports['.'].types);
-const declarations = readFileSync(typesPath, 'utf8');
+function readDeclarations(directory) {
+  return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const entryPath = resolve(directory, entry.name);
+    if (entry.isDirectory()) return readDeclarations(entryPath);
+    return entry.name.endsWith('.d.ts') ? [readFileSync(entryPath, 'utf8')] : [];
+  });
+}
+
+const declarations = [readFileSync(typesPath, 'utf8'), ...readDeclarations(dist)].join('\n');
 const bundle = readFileSync(resolve(dist, packageJson.exports['.'].default), 'utf8');
 
 const exports = [
