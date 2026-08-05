@@ -51,3 +51,4 @@ Thumbs.db
 # NgDoc files
 .ng-doc
 /demo
+/ngx-mat-select-*.tgz

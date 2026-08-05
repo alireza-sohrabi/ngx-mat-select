@@ -9,8 +9,9 @@
     "build.ci": "npm run build -- --progress=false",
     "test": "ng test --watch=false",
     "test.ci": "npm run test -- --progress=false --watch=false",
-    "lint": "tslint --project src/tsconfig.app.json",
-    "packagr": "ng-packagr -p ng-package.json",
+    "build:library": "ng-packagr -p ng-package.json",
+    "packagr": "npm run build:library",
+    "pack:library": "npm pack ./dist",
     "build:ci": "ng build --output-path demo --base-href /ngx-mat-select/",
     "test:ci": "ng test --watch=false --code-coverage --source-map true"
   },
@@ -38,7 +39,7 @@
   "homepage": "https://github.com/alireza-sohrabi/ngx-mat-select",
   "exports": {
     ".": {
-      "sass": "./src/app/ngx-mat-select/_index.scss"
+      "sass": "./index.scss"
     }
   },
   "peerDependencies": {
