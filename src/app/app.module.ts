@@ -1,9 +1,13 @@
-import {provideSearchEngine, NgDocDefaultSearchEngine} from "@ng-doc/app";
-import {NgDocModule} from "@ng-doc/app";
-import {NG_DOC_ROUTING, NgDocGeneratedModule} from "@ng-doc/generated";
+import {
+  NgDocDefaultSearchEngine,
+  NgDocNavbarComponent,
+  NgDocRootComponent,
+  NgDocSidebarComponent,
+  provideNgDocApp,
+  provideSearchEngine,
+} from '@ng-doc/app';
+import {NG_DOC_ROUTING, provideNgDocContext} from '@ng-doc/generated';
 import {RouterModule} from "@angular/router";
-import {NgDocSidebarModule} from "@ng-doc/app/components/sidebar";
-import {NgDocNavbarModule} from "@ng-doc/app/components/navbar";
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
@@ -20,8 +24,9 @@ export const ngxMatSelectConfigs: NgxMatSelectConfig = {}
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    NgDocNavbarModule,
-    NgDocSidebarModule,
+    NgDocRootComponent,
+    NgDocNavbarComponent,
+    NgDocSidebarComponent,
     RouterModule.forRoot([...NG_DOC_ROUTING,
       {path: '', redirectTo: 'introduction', pathMatch: 'full'},
       {path: "**", redirectTo: 'introduction', pathMatch: 'full'}], {
@@ -30,11 +35,11 @@ export const ngxMatSelectConfigs: NgxMatSelectConfig = {}
       scrollOffset: [0, 70],
       useHash: true
     }),
-    NgDocModule.forRoot(),
-    NgDocGeneratedModule.forRoot()
   ],
   providers: [
     {provide: NGX_MAT_SELECT_CONFIG, useValue: ngxMatSelectConfigs},
+    provideNgDocApp(),
+    provideNgDocContext(),
     provideSearchEngine(NgDocDefaultSearchEngine)
   ],
   bootstrap: [AppComponent]
