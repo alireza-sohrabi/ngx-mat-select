@@ -1,46 +1,73 @@
 <ng-template #defaultTrigger>
-  <ng-container *ngIf="multiple; else singleTemplate">
-    <mat-chip-grid [disabled]="disabled" *ngIf="multipleDisplay !== 'text'" class="ngx-mat-select-chips"
-                   #multipleTemplate>
-      <div [ngClass]="['ngx-mat-select-chip-grid-row', 'ngx-mat-select-chip-grid-row--' + multipleDisplay]">
-        <mat-chip-row *ngFor="let selected of selection" (removed)="deselect.emit(selected)" [editable]="false">
-          {{ selected | toOptionLabel: optionLabel }}
-          <button matChipRemove>
-            <ngx-mat-select-icon class="ngx-mat-select-chip-grid-row-icon" [width]="18" [height]="18"
-                                 icon="Remove"></ngx-mat-select-icon>
-          </button>
-        </mat-chip-row>
-      </div>
-      <input readonly type="text" [matChipInputFor]="multipleTemplate" class="ngx-mat-select-input-chips"/>
-    </mat-chip-grid>
-
-    <ng-container *ngIf="multipleDisplay === 'text'">
-      <div class="ngx-mat-select-value">
-        {{ selection | toOptionLabel: optionLabel }}
-      </div>
-    </ng-container>
-  </ng-container>
-
-  <ng-template #singleTemplate>
-    <div class="ngx-mat-select-value">{{ selection[0] | toOptionLabel: optionLabel }}</div>
-  </ng-template>
+  @if (multiple) { @if (multipleDisplay !== 'text') {
+  <mat-chip-grid
+    [disabled]="disabled"
+    class="ngx-mat-select-chips"
+    #multipleTemplate
+  >
+    <div
+      [ngClass]="[
+        'ngx-mat-select-chip-grid-row',
+        'ngx-mat-select-chip-grid-row--' + multipleDisplay
+      ]"
+    >
+      @for (selected of selection; track selected) {
+      <mat-chip-row (removed)="deselect.emit(selected)" [editable]="false">
+        {{ selected | toOptionLabel: optionLabel }}
+        <button matChipRemove>
+          <ngx-mat-select-icon
+            class="ngx-mat-select-chip-grid-row-icon"
+            [width]="18"
+            [height]="18"
+            icon="Remove"
+          ></ngx-mat-select-icon>
+        </button>
+      </mat-chip-row>
+      }
+    </div>
+    <input
+      readonly
+      type="text"
+      [matChipInputFor]="multipleTemplate"
+      class="ngx-mat-select-input-chips"
+    />
+  </mat-chip-grid>
+  } @if (multipleDisplay === 'text') {
+  <div class="ngx-mat-select-value">
+    {{ selection | toOptionLabel: optionLabel }}
+  </div>
+  } } @else {
+  <div class="ngx-mat-select-value">
+    {{ selection[0] | toOptionLabel: optionLabel }}
+  </div>
+  }
 </ng-template>
 
-<div class="ngx-mat-select-value ngx-mat-select-value--{{ multipleDisplay }}" [ngSwitch]="empty">
-  <span class="ngx-mat-select-placeholder ngx-mat-select-min-line" *ngSwitchCase="true">{{ placeholder }}</span>
-  <span class="ngx-mat-select-value-text" *ngSwitchCase="false" [ngSwitch]="!!customTrigger">
-    <span class="ngx-mat-select-min-line" *ngSwitchDefault>
+<div class="ngx-mat-select-value ngx-mat-select-value--{{ multipleDisplay }}">
+  @switch (empty) { @case (true) {
+  <span class="ngx-mat-select-placeholder ngx-mat-select-min-line">{{
+    placeholder
+  }}</span>
+  } @case (false) {
+  <span class="ngx-mat-select-value-text">
+    @switch (!!customTrigger) { @default {
+    <span class="ngx-mat-select-min-line">
       <ng-container [ngTemplateOutlet]="defaultTrigger"></ng-container>
     </span>
-    <ng-container *ngSwitchCase="true">
-      <ng-container *ngIf="customTrigger">
-                              <ng-container
-                                *ngTemplateOutlet="customTrigger; context: {$implicit: multiple ? selection : selection[0]}"></ng-container>
-      </ng-container>
-
-    </ng-container>
+    } @case (true) { @if (customTrigger) {
+    <ng-container
+      *ngTemplateOutlet="
+        customTrigger;
+        context: { $implicit: multiple ? selection : selection[0] }
+      "
+    ></ng-container>
+    } } }
   </span>
+  } }
 </div>
 <div class="ngx-mat-select-arrow-wrapper">
-  <ngx-mat-select-icon class="ngx-mat-select-arrow" icon="ArrowDown"></ngx-mat-select-icon>
+  <ngx-mat-select-icon
+    class="ngx-mat-select-arrow"
+    icon="ArrowDown"
+  ></ngx-mat-select-icon>
 </div>

@@ -9,7 +9,13 @@ import { dispatchFakeEvent } from './test-helper';
 
 import { NgxMatSelectComponent } from './select';
 import { EMPTY, Observable } from 'rxjs';
-import { Component, Provider, signal, ViewChild } from '@angular/core';
+import {
+  Component,
+  Provider,
+  signal,
+  ViewChild,
+  WritableSignal,
+} from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -22,7 +28,7 @@ describe('NgxMatSelectComponent', () => {
   let overlayContainerElement: HTMLElement;
   let dir: {
     value: 'ltr' | 'rtl';
-    valueSignal: ReturnType<typeof signal<'ltr' | 'rtl'>>;
+    valueSignal: WritableSignal<'ltr' | 'rtl'>;
     change: Observable<string>;
   };
 
@@ -275,7 +281,9 @@ describe('NgxMatSelectComponent', () => {
   template: `
     <div [style.height.px]="heightAbove"></div>
     <mat-form-field>
-      <mat-label *ngIf="hasLabel">Select a food</mat-label>
+      @if (hasLabel) {
+        <mat-label>Select a food</mat-label>
+      }
       <ngx-mat-select
         placeholder="Food"
         clientSide
@@ -288,12 +296,14 @@ describe('NgxMatSelectComponent', () => {
         [disableRipple]="disableRipple"
         [panelClass]="panelClass"
         [panelWidth]="panelWidth"
-      >
+        >
       </ngx-mat-select>
-      <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
+      @if (hint) {
+        <mat-hint>{{ hint }}</mat-hint>
+      }
     </mat-form-field>
     <div [style.height.px]="heightBelow"></div>
-  `,
+    `,
   standalone: false,
 })
 class BasicSelect {

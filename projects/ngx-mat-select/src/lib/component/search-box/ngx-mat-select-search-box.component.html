@@ -1,11 +1,13 @@
 <div class="ngx-mat-select-search-box-icon">
-  <div *ngIf="!value">
+  @if (!value) {
+  <div>
     <ngx-mat-select-icon icon="Search"> </ngx-mat-select-icon>
   </div>
-
-  <div (click)="clear()" *ngIf="!!value">
+  } @if (!!value) {
+  <div (click)="clear()">
     <ngx-mat-select-icon icon="Times"> </ngx-mat-select-icon>
   </div>
+  }
 </div>
 
 <input
@@ -16,4 +18,5 @@
   #searchBox
   [(ngModel)]="value"
   [placeholder]="placeholder || ''"
-  (keydown)="handleKeydown.emit($event)" />
+  (keydown)="handleKeydown.emit($event)"
+/>
