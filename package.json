@@ -53,6 +53,7 @@
     "@angular/router": "^19.2.25",
     "@types/jasmine": "~4.3.0",
     "@types/d3": "^7.4.3",
+    "@types/dompurify": "3.0.5",
     "angular-cli-ghpages": "^1.0.6",
     "jasmine-core": "~4.6.0",
     "karma": "~6.4.0",
