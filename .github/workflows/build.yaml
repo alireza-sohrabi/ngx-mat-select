@@ -30,6 +30,12 @@ jobs:
         run: npm run verify:consumer:21
       - name: Verify Angular 22 consumer
         run: npm run verify:consumer:22
+      - name: Install npm publisher dependencies
+        working-directory: tools/npm-publisher-mcp
+        run: npm ci
+      - name: Test npm publisher
+        working-directory: tools/npm-publisher-mcp
+        run: npm test
       - name: Archive build
         if: success()
         uses: actions/upload-artifact@v4
