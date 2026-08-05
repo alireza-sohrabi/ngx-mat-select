@@ -1,12 +1,12 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   templateUrl: './reactive-form-object-value.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ReactiveFormObjectValueComponent {
-
   reactiveFormGroup = new FormGroup({
     /**
      * value items are object
@@ -20,16 +20,14 @@ export class ReactiveFormObjectValueComponent {
         id: 2500,
         name: `Reactive Form_${2500}`,
       },
-      {id: 1, name: `Reactive Form_${1}`},
-      {id: 2, name: `Reactive Form_${2}`},
+      { id: 1, name: `Reactive Form_${1}` },
+      { id: 2, name: `Reactive Form_${2}` },
       {
         id: 160,
         name: `Reactive Form_${160}`,
       },
-
     ]),
   });
-
 
   /**
    * options are object

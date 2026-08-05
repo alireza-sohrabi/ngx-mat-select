@@ -1,20 +1,26 @@
-import {ComponentFixture, fakeAsync, flush, TestBed, waitForAsync} from '@angular/core/testing';
-import {dispatchFakeEvent} from './test-helper';
+import {
+  ComponentFixture,
+  fakeAsync,
+  flush,
+  TestBed,
+  waitForAsync,
+} from '@angular/core/testing';
+import { dispatchFakeEvent } from './test-helper';
 
-import {NgxMatSelectComponent} from './select';
-import {EMPTY, Observable} from 'rxjs';
-import {Component, Provider, ViewChild} from '@angular/core';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {OverlayContainer} from '@angular/cdk/overlay';
-import {Directionality} from '@angular/cdk/bidi';
-import {By} from '@angular/platform-browser';
-import {NgxMatSelectModule} from './select.module';
+import { NgxMatSelectComponent } from './select';
+import { EMPTY, Observable } from 'rxjs';
+import { Component, Provider, ViewChild } from '@angular/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { OverlayContainer } from '@angular/cdk/overlay';
+import { Directionality } from '@angular/cdk/bidi';
+import { By } from '@angular/platform-browser';
+import { NgxMatSelectModule } from './select.module';
 
 describe('NgxMatSelectComponent', () => {
   let overlayContainerElement: HTMLElement;
-  let dir: {value: 'ltr' | 'rtl'; change: Observable<string>};
+  let dir: { value: 'ltr' | 'rtl'; change: Observable<string> };
 
   /**
    * Configures the test module for MatSelect with the given declarations. This is broken out so
@@ -23,7 +29,10 @@ describe('NgxMatSelectComponent', () => {
    * @param declarations Components to declare for this block
    * @param providers Additional providers for this block
    */
-  function configureMatSelectTestingModule(declarations: any[], providers: Provider[] = []) {
+  function configureMatSelectTestingModule(
+    declarations: any[],
+    providers: Provider[] = []
+  ) {
     TestBed.configureTestingModule({
       imports: [
         MatFormFieldModule,
@@ -33,10 +42,17 @@ describe('NgxMatSelectComponent', () => {
         NoopAnimationsModule,
       ],
       declarations: declarations,
-      providers: [{provide: Directionality, useFactory: () => (dir = {value: 'ltr', change: EMPTY})}, ...providers],
+      providers: [
+        {
+          provide: Directionality,
+          useFactory: () => (dir = { value: 'ltr', change: EMPTY }),
+        },
+        ...providers,
+      ],
     }).compileComponents();
 
-    overlayContainerElement = TestBed.inject(OverlayContainer).getContainerElement();
+    overlayContainerElement =
+      TestBed.inject(OverlayContainer).getContainerElement();
   }
 
   describe('core', () => {
@@ -52,8 +68,12 @@ describe('NgxMatSelectComponent', () => {
       beforeEach(fakeAsync(() => {
         fixture = TestBed.createComponent(BasicSelect);
         fixture.detectChanges();
-        formField = fixture.debugElement.query(By.css('.mat-mdc-form-field'))!.nativeElement;
-        trigger = formField.querySelector('ngx-mat-select-trigger') as HTMLElement;
+        formField = fixture.debugElement.query(
+          By.css('.mat-mdc-form-field')
+        )!.nativeElement;
+        trigger = formField.querySelector(
+          'ngx-mat-select-trigger'
+        ) as HTMLElement;
         flush();
       }));
 
@@ -73,7 +93,9 @@ describe('NgxMatSelectComponent', () => {
         fixture.detectChanges();
         flush();
 
-        const option = overlayContainerElement.querySelector('mat-option') as HTMLElement;
+        const option = overlayContainerElement.querySelector(
+          'mat-option'
+        ) as HTMLElement;
         option.click();
         fixture.detectChanges();
         flush();
@@ -87,7 +109,9 @@ describe('NgxMatSelectComponent', () => {
         fixture.detectChanges();
         flush();
 
-        const option = overlayContainerElement.querySelector('mat-option') as HTMLElement;
+        const option = overlayContainerElement.querySelector(
+          'mat-option'
+        ) as HTMLElement;
         option.click();
         fixture.detectChanges();
         flush();
@@ -97,7 +121,9 @@ describe('NgxMatSelectComponent', () => {
       }));
 
       it('should expose the current combobox accessibility state', () => {
-        const select = fixture.nativeElement.querySelector('ngx-mat-select') as HTMLElement;
+        const select = fixture.nativeElement.querySelector(
+          'ngx-mat-select'
+        ) as HTMLElement;
 
         expect(select.getAttribute('role')).toBe('combobox');
         expect(select.getAttribute('aria-expanded')).toBe('false');
@@ -109,7 +135,9 @@ describe('NgxMatSelectComponent', () => {
         fixture.detectChanges();
         flush();
 
-        const backdrop = overlayContainerElement.querySelector('.cdk-overlay-backdrop') as HTMLElement;
+        const backdrop = overlayContainerElement.querySelector(
+          '.cdk-overlay-backdrop'
+        ) as HTMLElement;
 
         backdrop.click();
         fixture.detectChanges();
@@ -127,7 +155,9 @@ describe('NgxMatSelectComponent', () => {
         fixture.detectChanges();
         flush();
 
-        const pane = overlayContainerElement.querySelector('.cdk-overlay-pane') as HTMLElement;
+        const pane = overlayContainerElement.querySelector(
+          '.cdk-overlay-pane'
+        ) as HTMLElement;
         expect(pane.style.width).toBe('42px');
       }));
 
@@ -139,7 +169,9 @@ describe('NgxMatSelectComponent', () => {
         fixture.detectChanges();
         flush();
 
-        const pane = overlayContainerElement.querySelector('.cdk-overlay-pane') as HTMLElement;
+        const pane = overlayContainerElement.querySelector(
+          '.cdk-overlay-pane'
+        ) as HTMLElement;
         expect(pane.style.width).toBeFalsy();
       }));
 
@@ -151,7 +183,9 @@ describe('NgxMatSelectComponent', () => {
         fixture.detectChanges();
         flush();
 
-        const pane = overlayContainerElement.querySelector('.cdk-overlay-pane') as HTMLElement;
+        const pane = overlayContainerElement.querySelector(
+          '.cdk-overlay-pane'
+        ) as HTMLElement;
         expect(pane.style.width).toBeFalsy();
       }));
 
@@ -160,21 +194,28 @@ describe('NgxMatSelectComponent', () => {
         fixture.detectChanges();
         flush();
 
-        const panel = overlayContainerElement.querySelector('.ngx-mat-select-panel') as HTMLElement;
+        const panel = overlayContainerElement.querySelector(
+          '.ngx-mat-select-panel'
+        ) as HTMLElement;
 
         expect(panel.classList).toContain('custom-one');
         expect(panel.classList).toContain('custom-two');
       }));
 
       it('should update disableRipple properly on each option', fakeAsync(() => {
-        const options = fixture.componentInstance.select.visibleOptions.toArray();
+        const options =
+          fixture.componentInstance.select.visibleOptions.toArray();
 
-        expect(options.every(option => option.disableRipple === false)).toBeTruthy();
+        expect(
+          options.every((option) => option.disableRipple === false)
+        ).toBeTruthy();
 
         fixture.componentInstance.disableRipple = true;
         fixture.detectChanges();
 
-        expect(options.every(option => option.disableRipple === true)).toBeTruthy();
+        expect(
+          options.every((option) => option.disableRipple === true)
+        ).toBeTruthy();
       }));
 
       it('should not show ripples if they were disabled', fakeAsync(() => {
@@ -194,9 +235,11 @@ describe('NgxMatSelectComponent', () => {
       }));
 
       it(
-        'should not consider itself as blurred if the trigger loses focus while the ' + 'panel is still open',
+        'should not consider itself as blurred if the trigger loses focus while the ' +
+          'panel is still open',
         fakeAsync(() => {
-          const selectElement = fixture.nativeElement.querySelector('ngx-mat-select');
+          const selectElement =
+            fixture.nativeElement.querySelector('ngx-mat-select');
           const selectInstance = fixture.componentInstance.select;
 
           dispatchFakeEvent(selectElement, 'focus');
@@ -214,9 +257,7 @@ describe('NgxMatSelectComponent', () => {
         })
       );
     });
-
   });
-
 });
 
 @Component({
@@ -237,23 +278,25 @@ describe('NgxMatSelectComponent', () => {
         [tabIndex]="tabIndexOverride"
         [disableRipple]="disableRipple"
         [panelClass]="panelClass"
-        [panelWidth]="panelWidth">
+        [panelWidth]="panelWidth"
+      >
       </ngx-mat-select>
       <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
     </mat-form-field>
     <div [style.height.px]="heightBelow"></div>
   `,
+  standalone: false,
 })
 class BasicSelect {
   foods: any[] = [
-    {value: 'steak-0', viewValue: 'Steak'},
-    {value: 'pizza-1', viewValue: 'Pizza'},
-    {value: 'tacos-2', viewValue: 'Tacos', disabled: true},
-    {value: 'sandwich-3', viewValue: 'Sandwich'},
-    {value: 'chips-4', viewValue: 'Chips'},
-    {value: 'eggs-5', viewValue: 'Eggs'},
-    {value: 'pasta-6', viewValue: 'Pasta'},
-    {value: 'sushi-7', viewValue: 'Sushi'},
+    { value: 'steak-0', viewValue: 'Steak' },
+    { value: 'pizza-1', viewValue: 'Pizza' },
+    { value: 'tacos-2', viewValue: 'Tacos', disabled: true },
+    { value: 'sandwich-3', viewValue: 'Sandwich' },
+    { value: 'chips-4', viewValue: 'Chips' },
+    { value: 'eggs-5', viewValue: 'Eggs' },
+    { value: 'pasta-6', viewValue: 'Pasta' },
+    { value: 'sushi-7', viewValue: 'Sushi' },
   ];
   control = new FormControl<string | null>(null);
   isRequired!: boolean;
@@ -267,5 +310,6 @@ class BasicSelect {
   typeaheadDebounceInterval!: number;
   panelWidth: string | null | number = 'auto';
 
-  @ViewChild(NgxMatSelectComponent, {static: true}) select!: NgxMatSelectComponent;
+  @ViewChild(NgxMatSelectComponent, { static: true })
+  select!: NgxMatSelectComponent;
 }

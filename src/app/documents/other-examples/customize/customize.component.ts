@@ -1,10 +1,11 @@
-import {ChangeDetectorRef, Component} from '@angular/core';
-import {NgxMatSelectConfigExample} from "./customize-model";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { NgxMatSelectConfigExample } from './customize-model';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-customize',
   templateUrl: './customize.component.html',
+  standalone: false,
 })
 export class CustomizeComponent {
   options = Array.from(new Array(2000)).map((_, index) => ({
@@ -34,8 +35,8 @@ export class CustomizeComponent {
   };
 
   defaultValue = [
-    {id: 150, name: `option_${150}`},
-    {id: 250, name: `option_${250}`},
+    { id: 150, name: `option_${150}` },
+    { id: 250, name: `option_${250}` },
     {
       id: 160,
       name: `option_${160}`,
@@ -43,20 +44,23 @@ export class CustomizeComponent {
   ];
 
   reactiveFormGroup = new FormGroup({
-    multipleControl: new FormControl(this.defaultValue, {initialValueIsDefault: false}),
-    singleControl: new FormControl({value: this.defaultValue[0], disabled: false}, {initialValueIsDefault: true}),
+    multipleControl: new FormControl(this.defaultValue, {
+      initialValueIsDefault: false,
+    }),
+    singleControl: new FormControl(
+      { value: this.defaultValue[0], disabled: false },
+      { initialValueIsDefault: true }
+    ),
   });
-
 
   onConfigChange(config: NgxMatSelectConfigExample) {
     if (config.recreate) {
-
       this.show = false;
 
       setTimeout(() => {
         this.show = true;
         this.cdk.detectChanges();
-      })
+      });
     }
 
     const form = this.reactiveFormGroup;
@@ -78,7 +82,10 @@ export class CustomizeComponent {
           if (control.hasValidator(Validators.required) && !config.required) {
             control.removeValidators(Validators.required);
             control.updateValueAndValidity();
-          } else if (!control.hasValidator(Validators.required) && config.required) {
+          } else if (
+            !control.hasValidator(Validators.required) &&
+            config.required
+          ) {
             control.addValidators(Validators.required);
             control.updateValueAndValidity();
           }
@@ -91,6 +98,5 @@ export class CustomizeComponent {
     this.reactiveFormGroup?.reset();
   }
 
-  constructor(private cdk: ChangeDetectorRef) {
-  }
+  constructor(private cdk: ChangeDetectorRef) {}
 }

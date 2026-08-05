@@ -1,8 +1,9 @@
-import {Component} from '@angular/core';
-import {NgxMatSelectionChangeEvent} from "ngx-mat-select";
+import { Component } from '@angular/core';
+import { NgxMatSelectionChangeEvent } from 'ngx-mat-select';
 
 @Component({
   templateUrl: './without-any-value.component.html',
+  standalone: false,
 })
 export class WithoutAnyValueComponent {
   options = [
@@ -13,13 +14,12 @@ export class WithoutAnyValueComponent {
   ];
   protected readonly onselectionchange = onselectionchange;
 
-
   onSelectionChange(event: NgxMatSelectionChangeEvent) {
     /**
      * do whatever you want like fill a form-control;
      * but if you have set the optionValue the value of the event would be like this option[optionValue]
      */
 
-    console.log(event.value)
+    console.log(event.value);
   }
 }

@@ -1,11 +1,12 @@
-import {Directive, TemplateRef} from '@angular/core';
+import { Directive, TemplateRef } from '@angular/core';
 
 @Directive({
   selector: '[ngxMatSelectTrigger]',
+  standalone: false,
 })
 /**
  * to show a custom template for the selected options inside the form-field
  */
 export class NgxMatSelectTriggerDirective {
-  constructor(public template: TemplateRef<{$implicit: boolean}>) {}
+  constructor(public template: TemplateRef<{ $implicit: boolean }>) {}
 }

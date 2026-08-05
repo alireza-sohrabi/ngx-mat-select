@@ -1,11 +1,12 @@
-import {Directive, Input} from '@angular/core';
-import {MatOption} from '@angular/material/core';
+import { Directive, Input } from '@angular/core';
+import { MatOption } from '@angular/material/core';
 
 @Directive({
   selector: 'mat-option[ngxMatSelectOption]',
   host: {
     class: 'ngx-mat-select-option',
   },
+  standalone: false,
 })
 export class NgxMatSelectOptionDirective {
   /**
@@ -32,6 +33,5 @@ export class NgxMatSelectOptionDirective {
     }
   }
 
-  constructor(private option: MatOption) {
-  }
+  constructor(private option: MatOption) {}
 }
