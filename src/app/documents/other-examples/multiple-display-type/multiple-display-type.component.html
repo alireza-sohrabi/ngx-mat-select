@@ -1,13 +1,15 @@
 <div>
   <mat-form-field>
     <mat-label>Multiple Display Type</mat-label>
-    <mat-select [value]="multipleDisplay"
-                [placeholder]="'select Multiple Display Type'" [multiple]="false"
-                (selectionChange)="multipleDisplay = $event.value">
-      <mat-option
-        [value]="display"
-
-        *ngFor="let display of multipleViewTypes">{{display}}</mat-option>
+    <mat-select
+      [value]="multipleDisplay"
+      [placeholder]="'select Multiple Display Type'"
+      [multiple]="false"
+      (selectionChange)="multipleDisplay = $event.value"
+    >
+      @for (display of multipleViewTypes; track display) {
+      <mat-option [value]="display">{{ display }}</mat-option>
+      }
     </mat-select>
   </mat-form-field>
 </div>
@@ -23,5 +25,4 @@
     [value]="value"
   >
   </ngx-mat-select>
-
 </mat-form-field>

@@ -24,8 +24,12 @@ jobs:
         run: npm run build:ci
       - name: Test
         run: npm test -- --progress=false
-      - name: Verify Angular 20 consumer and SSR build
-        run: npm run verify:consumer:20
+      - name: Verify public API
+        run: npm run verify:public-api
+      - name: Verify Angular 21 consumer
+        run: npm run verify:consumer:21
+      - name: Verify Angular 22 consumer
+        run: npm run verify:consumer:22
       - name: Archive build
         if: success()
         uses: actions/upload-artifact@v4

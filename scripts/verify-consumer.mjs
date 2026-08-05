@@ -60,6 +60,7 @@ try {
     '--defaults',
   ];
   if (withSsr) generateArgs.push('--ssr');
+  if (Number(major) >= 21) generateArgs.push('--test-runner=karma');
   runNpx(generateArgs, tmpdir());
 
   writeFileSync(
@@ -119,7 +120,7 @@ export class AppModule {}
 
   writeFileSync(
     join(workspace, 'src/app/app.component.spec.ts'),
-    `import { fakeAsync, flush, TestBed } from '@angular/core/testing';
+    `import { TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -135,17 +136,18 @@ describe('packed ngx-mat-select', () => {
     }).compileComponents();
   });
 
-  it('supports forms, search, overlay, and virtual scrolling', fakeAsync(() => {
+  it('supports forms, search, overlay, and virtual scrolling', async () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const trigger = fixture.nativeElement.querySelector('ngx-mat-select');
     trigger.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     fixture.detectChanges();
-    flush();
+    await fixture.whenStable();
+    fixture.detectChanges();
     expect(document.querySelector('.cdk-overlay-pane')).toBeTruthy();
     expect(document.querySelector('ngx-mat-select-search-box')).toBeTruthy();
     expect(document.querySelector('cdk-virtual-scroll-viewport')).toBeTruthy();
-  }));
+  });
 });
 `
   );
