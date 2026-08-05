@@ -9,7 +9,7 @@ import { dispatchFakeEvent } from './test-helper';
 
 import { NgxMatSelectComponent } from './select';
 import { EMPTY, Observable } from 'rxjs';
-import { Component, Provider, ViewChild } from '@angular/core';
+import { Component, Provider, signal, ViewChild } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -20,7 +20,11 @@ import { NgxMatSelectModule } from './select.module';
 
 describe('NgxMatSelectComponent', () => {
   let overlayContainerElement: HTMLElement;
-  let dir: { value: 'ltr' | 'rtl'; change: Observable<string> };
+  let dir: {
+    value: 'ltr' | 'rtl';
+    valueSignal: ReturnType<typeof signal<'ltr' | 'rtl'>>;
+    change: Observable<string>;
+  };
 
   /**
    * Configures the test module for MatSelect with the given declarations. This is broken out so
@@ -45,7 +49,12 @@ describe('NgxMatSelectComponent', () => {
       providers: [
         {
           provide: Directionality,
-          useFactory: () => (dir = { value: 'ltr', change: EMPTY }),
+          useFactory: () =>
+            (dir = {
+              value: 'ltr',
+              valueSignal: signal<'ltr' | 'rtl'>('ltr'),
+              change: EMPTY,
+            }),
         },
         ...providers,
       ],
