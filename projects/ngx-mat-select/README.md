@@ -25,6 +25,8 @@ RLT support (use dir='rtl' in html tag)
 
 | Angular Material | 	NgxMatSelect |
 |------------------|---------------|
+| 18.x.x           | 	18.x        |
+| 17.x.x           | 	17.x        |
 | 16.x.x           | 	>= 16        |
 | 15.x.x           | 	>= 15        |
 | 14.x.x           | 	>= 14        |
@@ -84,6 +86,5 @@ RLT support (use dir='rtl' in html tag)
                   panelHeight?: number;
                 }}
       ],
-
 
 
