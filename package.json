@@ -13,7 +13,8 @@
     "test:ci": "npm run test -- --progress=false --code-coverage --source-map=true",
     "packagr": "npm run build:library",
     "pack:library": "npm pack ./dist/ngx-mat-select",
-    "build:ci": "npm run build:library && ng build demo --configuration production --progress=false --base-href=/ngx-mat-select/"
+    "build:ci": "npm run build:library && ng build demo --configuration production --progress=false --base-href=/ngx-mat-select/",
+    "verify:consumer:20": "node scripts/verify-consumer.mjs 20 --ssr"
   },
   "author": "Alireze Sohrabi, Tehran IRAN",
   "bugs": {
