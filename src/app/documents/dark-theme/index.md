@@ -1,4 +1,4 @@
-# {{ NgDocPage.title }}
+
 
 If you want to use dark-theme add the `darkMode` class on the body html tag:
 

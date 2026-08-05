@@ -1,4 +1,4 @@
-# {{ NgDocPage.title }}
+
 
 | Angular Material | 	NgxMatSelect |
 |------------------|---------------|
