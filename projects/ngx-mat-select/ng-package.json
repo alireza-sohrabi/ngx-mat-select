@@ -1,0 +1,14 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/ngx-mat-select",
+  "lib": {
+    "entryFile": "src/public-api.ts",
+    "styleIncludePaths": [
+      "../../node_modules/@angular/material"
+    ]
+  },
+  "assets": [
+    { "input": "src/lib", "glob": "index.scss", "output": "./" },
+    { "input": "src/lib", "glob": "_select-theme.scss", "output": "./" }
+  ]
+}

@@ -1,19 +1,19 @@
 {
-  "name": "ngx-mat-select",
+  "name": "ngx-mat-select-workspace",
   "version": "16.0.3",
   "license": "MIT",
+  "private": true,
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build --configuration production",
-    "build.ci": "npm run build -- --progress=false",
-    "test": "ng test --watch=false",
-    "test.ci": "npm run test -- --progress=false --watch=false",
-    "build:library": "ng-packagr -p ng-package.json",
+    "start": "ng serve demo",
+    "build": "npm run build:demo",
+    "build:demo": "npm run build:library && ng build demo --configuration production",
+    "build:library": "ng build ngx-mat-select --configuration production",
+    "test": "ng test ngx-mat-select --watch=false",
+    "test:ci": "npm run test -- --progress=false --code-coverage --source-map=true",
     "packagr": "npm run build:library",
-    "pack:library": "npm pack ./dist",
-    "build:ci": "ng build --output-path demo --base-href /ngx-mat-select/",
-    "test:ci": "ng test --watch=false --code-coverage --source-map true"
+    "pack:library": "npm pack ./dist/ngx-mat-select",
+    "build:ci": "npm run build:library && ng build demo --configuration production --progress=false --base-href=/ngx-mat-select/"
   },
   "author": "Alireze Sohrabi, Tehran IRAN",
   "bugs": {
@@ -37,16 +37,6 @@
     "server-side"
   ],
   "homepage": "https://github.com/alireza-sohrabi/ngx-mat-select",
-  "exports": {
-    ".": {
-      "sass": "./index.scss"
-    }
-  },
-  "peerDependencies": {
-    "@angular/cdk": "^16.x.x",
-    "@angular/material": "^16.x.x",
-    "rxjs": "^7.x.x"
-  },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.1.4",
     "@angular/animations": "^16.1.0",
@@ -57,6 +47,7 @@
     "@angular/compiler-cli": "^16.1.0",
     "@angular/core": "^16.1.0",
     "@angular/forms": "^16.1.0",
+    "@angular/material": "^16.1.0",
     "@angular/platform-browser": "^16.1.0",
     "@angular/platform-browser-dynamic": "^16.1.0",
     "@angular/router": "^16.1.0",

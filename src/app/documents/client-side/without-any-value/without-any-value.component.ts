@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NgxMatSelectionChangeEvent} from "../../../ngx-mat-select";
+import {NgxMatSelectionChangeEvent} from "ngx-mat-select";
 
 @Component({
   templateUrl: './without-any-value.component.html',

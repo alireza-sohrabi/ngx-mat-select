@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {of} from 'rxjs';
 import {delay} from 'rxjs/operators';
-import {NgxMatSelectSearchParams} from "../../../ngx-mat-select";
+import {NgxMatSelectSearchParams} from "ngx-mat-select";
 
 @Component({
   templateUrl: './fetch-options.component.html',
