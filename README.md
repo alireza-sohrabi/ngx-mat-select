@@ -1,89 +1,125 @@
 # NgxMatSelect
 
-It is an independent component like mat-select and a solution for handling
-SearchBox, VirtualScroll and InfiniteScroll which the Angular material select-box does not support them by it-self.
+`ngx-mat-select` is an independent Angular Material select component with built-in search, virtual scrolling, and server-side infinite scrolling.
 
-Extra Advantages that you'll gain more than using mat-select:
+## Features
 
-* `Searchable` in the both client and server side modes
-* `Virtual Scroll` in the both client and server side modes as well
-* `Infinite Scroll` in the server side mode
+- Client-side and server-side search
+- Virtual scrolling for client-side and server-side data
+- Infinite scrolling for server-side data
+- Single and multiple selection
+- Custom option and trigger templates
+- Right-to-left layouts with `dir="rtl"`
 
-RLT support (use dir='rtl' in html tag)
+[Documentation](https://alireza-sohrabi.github.io/ngx-mat-select) · [Customization examples](https://alireza-sohrabi.github.io/ngx-mat-select/#/other-examples/customize) · [StackBlitz](https://stackblitz.com/edit/ngx-mat-select?file=src/app/app.component.html)
 
-<a target="_blank" href="https://alireza-sohrabi.github.io/ngx-mat-select">Documents `Online`
-</a>
+## Version compatibility
 
-<a target="_blank" href="https://alireza-sohrabi.github.io/ngx-mat-select/#/other-examples/customize">Customize `Online`
-</a>
+The current npm stable release is `16.0.4`. The repository source is being prepared for the `21.0.0-next.0` prerelease.
 
-<a target="_blank" href="https://stackblitz.com/edit/ngx-mat-select?file=src/app/app.component.html">Source Code 
-`Stackblitz`</a>
+| ngx-mat-select | Angular and Angular Material | Status |
+| --- | --- | --- |
+| `21.0.0-next.0` / `21.x` | `21.x` or `22.x` | Upcoming; verified with clean Angular 21 and 22 consumers |
+| `16.x` | `16.x` | Current npm stable release |
+| `15.x` | `15.x` | Previous release line |
+| `14.x` | `14.x` | Previous release line |
 
+The Angular 17–20 upgrade checkpoints were used to migrate and validate the source. They are not published package versions.
 
-# Version compatibility
+## Installation
 
-| Angular Material | 	NgxMatSelect |
-|------------------|---------------|
-| 16.x.x           | 	>= 16        | 
-| 15.x.x           | 	>= 15        | 
-| 14.x.x           | 	>= 14        | 
+Install the current stable release:
 
+```bash
+npm install ngx-mat-select
+```
 
-# Installation Guide
+After the Angular 21 prerelease is published, install it with:
 
-* the first step is to initial ngx-mat-select theme like the other
-  Angular Material Components
+```bash
+npm install ngx-mat-select@next
+```
 
-  for example add the following line in the styles.scss file:
+Angular Material, the Angular CDK, and Angular animations are peer dependencies and must use a compatible major version.
 
-      @use "ngx-mat-select" as ngxMatSelect; 
-       or
-      @use "node_modules/ngx-mat-select" as ngxMatSelect; 
+## Theming
 
-  then apply your Angular Material Theme to the ngxMatSelect theme
+Add the library theme to `styles.scss` after creating your Angular Material theme:
 
-        @include ngxMatSelect.theme($your-theme);
-        @include ngxMatSelect.typography($your-typography);
+```scss
+@use "ngx-mat-select" as ngxMatSelect;
 
-  if you want to use dark-theme and light-theme:
+@include ngxMatSelect.theme($your-theme);
+@include ngxMatSelect.typography($your-typography);
+```
 
-        .darkMode {
-            ...
-            @include ngxMatSelect.theme($your-dark-theme);
-        }
+For separate light and dark themes, include the mixins inside the appropriate theme selector:
 
+```scss
+.dark-mode {
+  @include ngxMatSelect.theme($your-dark-theme);
+}
+```
 
-* The second step is to add NgxMatSelectModule into your Module
+## Module setup
 
-      import {NgxMatSelectModule} from "ngx-mat-select";
-      ...
-      @NgModule({
-       imports: [
-        ...
-        NgxMatSelectModule
-        ...
-        ]
-      })
+Import `NgxMatSelectModule` in the Angular module or standalone component that uses the select:
 
-# you can define some global default configs:
+```ts
+import { NgxMatSelectModule } from 'ngx-mat-select';
 
-      providers: [
-      {
-        provide: NGX_MAT_SELECT_CONFIG, 
-        useValue: {
-                  viewType?: NgxMatSelectViewType;
-                  hasBackButton?: boolean;
-                  multipleDisplay?: NgxMatSelectMultipleDisplay;
-                  dataKey?: string;
-                  optionLabel?: string;
-                  optionValue?: string;
-                  panelWidth?: string | number | null;
-                  overlayPanelClass?: string | string[];
-                  optionHeight?: number;
-                  panelHeight?: number;
-                }}
-      ],
+@NgModule({
+  imports: [NgxMatSelectModule],
+})
+export class FeatureModule {}
+```
 
+## Basic usage
 
+```html
+<mat-form-field>
+  <mat-label>Select an option</mat-label>
+  <ngx-mat-select
+    clientSide
+    [hasSearchBox]="true"
+    [options]="options">
+  </ngx-mat-select>
+</mat-form-field>
+```
 
+## Global defaults
+
+Provide `NGX_MAT_SELECT_CONFIG` to set application-wide defaults:
+
+```ts
+import { NGX_MAT_SELECT_CONFIG } from 'ngx-mat-select';
+
+providers: [
+  {
+    provide: NGX_MAT_SELECT_CONFIG,
+    useValue: {
+      viewType: 'Default',
+      hasBackButton: false,
+      multipleDisplay: 'oneRowChip',
+      dataKey: 'id',
+      optionLabel: 'label',
+      optionValue: 'value',
+      panelWidth: 'auto',
+      overlayPanelClass: 'select-panel',
+      optionHeight: 48,
+      panelHeight: 256,
+      searchBoxPlaceholder: 'Search',
+      hasSearchBox: true,
+    },
+  },
+]
+```
+
+## Migrating from 16.x
+
+- Upgrade the application to Angular, Angular Material, and Angular CDK 21 or 22 first.
+- Install `ngx-mat-select@next` while evaluating the prerelease.
+- Keep the Sass theme import and `NgxMatSelectModule` import shown above.
+- Run the application's build, tests, and SSR build if applicable before moving to the final `21.x` release.
+
+The package is validated through its public entry point in clean Angular 21 and Angular 22 consumer applications.
