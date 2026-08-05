@@ -22,32 +22,35 @@ import {
   ViewChildren,
   ViewEncapsulation,
 } from '@angular/core';
-import {AbstractControl, ControlValueAccessor, FormGroupDirective, NgControl, NgForm, Validators} from '@angular/forms';
-import {SelectionModel} from '@angular/cdk/collections';
-import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
-import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
-import {MAT_FORM_FIELD, MatFormField, MatFormFieldControl} from '@angular/material/form-field';
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  FormGroupDirective,
+  NgControl,
+  NgForm,
+  Validators,
+} from '@angular/forms';
+import { SelectionModel } from '@angular/cdk/collections';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
+import {
+  MAT_FORM_FIELD,
+  MatFormField,
+  MatFormFieldControl,
+} from '@angular/material/form-field';
 import {
   MatOption,
   MatOptionSelectionChange,
-  CanDisable,
   MAT_OPTION_PARENT_COMPONENT,
-  mixinDisableRipple,
-  mixinTabIndex,
-  mixinDisabled,
-  mixinErrorState,
   ErrorStateMatcher,
-  HasTabIndex,
-  CanUpdateErrorState,
-  CanDisableRipple,
 } from '@angular/material/core';
 
-import {Observable, of, ReplaySubject, Subject} from 'rxjs';
+import { Observable, of, ReplaySubject, Subject } from 'rxjs';
 
-import {NgxMatSelectPanelComponent} from './component/panel/ngx-mat-select-panel.component';
-import {NgxMatSelectSearchBoxComponent} from './component/search-box/ngx-mat-select-search-box.component';
-import {NgxMatSelectOptionContentDirective} from './template/ngx-mat-select-option-content.directive';
-import {NgxMatSelectTriggerDirective} from './template/ngx-mat-select-trigger.directive';
+import { NgxMatSelectPanelComponent } from './component/panel/ngx-mat-select-panel.component';
+import { NgxMatSelectSearchBoxComponent } from './component/search-box/ngx-mat-select-search-box.component';
+import { NgxMatSelectOptionContentDirective } from './template/ngx-mat-select-option-content.directive';
+import { NgxMatSelectTriggerDirective } from './template/ngx-mat-select-trigger.directive';
 import {
   NGX_MAT_SELECT_CONFIG,
   NgxMatSelectConfig,
@@ -56,46 +59,13 @@ import {
   NgxMatSelectValue,
   NgxMatSelectViewType,
 } from './select-model';
-import {matSelectAnimations} from './shared/animations';
-import {NgxMatSelectFetchOptions} from './component/fetch-options/ngx-mat-select-fetch-options';
-import {isNullOrUndefined} from './shared/utils';
-import {filter, map, take} from 'rxjs/operators';
-import {getSelectDynamicMultipleError} from './select-error';
+import { matSelectAnimations } from './shared/animations';
+import { NgxMatSelectFetchOptions } from './component/fetch-options/ngx-mat-select-fetch-options';
+import { isNullOrUndefined } from './shared/utils';
+import { filter, map, take } from 'rxjs/operators';
+import { getSelectDynamicMultipleError } from './select-error';
 
 let nextUniqueId = 0;
-
-// Boilerplate for applying mixins to SelectBox.
-/** @docs-private */
-const _MatSelectMixinBase = mixinDisableRipple(
-  mixinTabIndex(
-    mixinDisabled(
-      mixinErrorState(
-        class {
-          /**
-           * Emits whenever the component state changes and should cause the parent
-           * form-field to update. Implemented as part of `MatFormFieldControl`.
-           * @docs-private
-           */
-          readonly stateChanges = new Subject<void>();
-
-          constructor(
-            public _elementRef: ElementRef,
-            public _defaultErrorStateMatcher: ErrorStateMatcher,
-            public _parentForm: NgForm,
-            public _parentFormGroup: FormGroupDirective,
-            /**
-             * Form control bound to the component.
-             * Implemented as part of `MatFormFieldControl`.
-             * @docs-private
-             */
-            public ngControl: NgControl
-          ) {
-          }
-        }
-      )
-    )
-  )
-);
 
 @Component({
   selector: 'ngx-mat-select',
@@ -105,7 +75,6 @@ const _MatSelectMixinBase = mixinDisableRipple(
   animations: [matSelectAnimations.transformPanelWrap],
   changeDetection: ChangeDetectionStrategy.OnPush,
   exportAs: 'ngxMatSelect',
-  inputs: ['disabled', 'disableRipple', 'tabIndex'],
   host: {
     role: 'combobox',
     'aria-autocomplete': 'none',
@@ -130,27 +99,66 @@ const _MatSelectMixinBase = mixinDisableRipple(
     '(blur)': '_onBlur()',
   },
   providers: [
-    {provide: MAT_OPTION_PARENT_COMPONENT, useExisting: NgxMatSelectComponent},
-    {provide: MatFormFieldControl, useExisting: NgxMatSelectComponent},
+    {
+      provide: MAT_OPTION_PARENT_COMPONENT,
+      useExisting: NgxMatSelectComponent,
+    },
+    { provide: MatFormFieldControl, useExisting: NgxMatSelectComponent },
   ],
+  standalone: false,
 })
 /**
  * a select box to select multiple and single options from some provided options
  * this works with MatFormField
  */
 export class NgxMatSelectComponent
-  extends _MatSelectMixinBase
-  implements ControlValueAccessor,
+  implements
+    ControlValueAccessor,
     NgxMatSelectConfig,
     NgxMatSelectFetchOptions,
     DoCheck,
-    CanDisable,
-    HasTabIndex,
     MatFormFieldControl<unknown>,
-    CanUpdateErrorState,
-    CanDisableRipple,
     OnChanges,
-    OnInit {
+    OnInit
+{
+  /** Emits when the state exposed to the parent form field changes. */
+  readonly stateChanges = new Subject<void>();
+
+  @Input() disableRipple = false;
+  @Input() tabIndex = 0;
+  @Input() errorStateMatcher?: ErrorStateMatcher;
+
+  private _disabled = false;
+
+  @Input()
+  get disabled(): boolean {
+    return this._disabled;
+  }
+  set disabled(value: BooleanInput) {
+    this._disabled = coerceBooleanProperty(value);
+  }
+
+  errorState = false;
+
+  isOptionDisabled(option: unknown): boolean {
+    return !!(
+      option &&
+      typeof option === 'object' &&
+      'disabled' in option &&
+      (option as { disabled?: unknown }).disabled
+    );
+  }
+
+  updateErrorState(): void {
+    const matcher = this.errorStateMatcher ?? this._defaultErrorStateMatcher;
+    const parent = this._parentFormGroup ?? this._parentForm;
+    const nextState = matcher.isErrorState(this.ngControl?.control ?? null, parent);
+
+    if (nextState !== this.errorState) {
+      this.errorState = nextState;
+      this.stateChanges.next();
+    }
+  }
   /**
    * the options which are visible in the panel
    */
@@ -159,17 +167,20 @@ export class NgxMatSelectComponent
   /**
    * the custom content of the form-field to show
    */
-  @ContentChild(NgxMatSelectTriggerDirective) triggerContent?: NgxMatSelectTriggerDirective;
+  @ContentChild(NgxMatSelectTriggerDirective)
+  triggerContent?: NgxMatSelectTriggerDirective;
 
   /**
    * a template which carries the content of an option
    */
-  @ContentChild(NgxMatSelectOptionContentDirective) selectOptionContent?: NgxMatSelectOptionContentDirective | null;
+  @ContentChild(NgxMatSelectOptionContentDirective)
+  selectOptionContent?: NgxMatSelectOptionContentDirective | null;
 
   /**
    * the search box that we also use it for initializing the filtered options
    */
-  @ViewChild(NgxMatSelectSearchBoxComponent) searchBoxComponent?: NgxMatSelectSearchBoxComponent;
+  @ViewChild(NgxMatSelectSearchBoxComponent)
+  searchBoxComponent?: NgxMatSelectSearchBoxComponent;
 
   /**
    * the cdk virtual scroll viewport
@@ -181,9 +192,9 @@ export class NgxMatSelectComponent
    */
   @ViewChild(NgxMatSelectPanelComponent) panel!: NgxMatSelectPanelComponent;
 
-
   /** Event emitted when the select panel has been toggled. */
-  @Output() readonly openedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() readonly openedChange: EventEmitter<boolean> =
+    new EventEmitter<boolean>();
 
   /**
    * to emits a new event, whenever the client select or deselect that item
@@ -192,16 +203,14 @@ export class NgxMatSelectComponent
 
   /** Event emitted when the select has been opened. */
   @Output() readonly opened: Observable<void> = this.openedChange.pipe(
-    filter(o => o),
-    map(() => {
-    })
+    filter((o) => o),
+    map(() => {})
   );
 
   /** Event emitted when the select has been closed. */
   @Output() readonly closed: Observable<void> = this.openedChange.pipe(
-    filter(o => !o),
-    map(() => {
-    })
+    filter((o) => !o),
+    map(() => {})
   );
 
   /**
@@ -235,7 +244,8 @@ export class NgxMatSelectComponent
   /**
    * to show a button next to the search-box to close the panel
    */
-  @Input() hasBackButton?: boolean = this.defaultOptions?.hasBackButton ?? false;
+  @Input() hasBackButton?: boolean =
+    this.defaultOptions?.hasBackButton ?? false;
 
   /**
    * recommended to use dataKey instead of compareWith,
@@ -255,7 +265,8 @@ export class NgxMatSelectComponent
    * the height of the panel of the options
    * the default value is 350
    */
-  @Input() panelHeight?: number | null | undefined = this.defaultOptions?.panelHeight ?? 350;
+  @Input() panelHeight?: number | null | undefined =
+    this.defaultOptions?.panelHeight ?? 350;
 
   /**
    * it can be 'Default', 'FullScreen' or 'BottomSheet'
@@ -263,7 +274,8 @@ export class NgxMatSelectComponent
    * 'FullScreen' means the panel will be opened in full-screen mode
    * 'BottomSheet' means the panel will be opened from bottom to semi top
    */
-  @Input() viewType?: NgxMatSelectViewType = this.defaultOptions?.viewType ?? 'Default';
+  @Input() viewType?: NgxMatSelectViewType =
+    this.defaultOptions?.viewType ?? 'Default';
 
   /**
    * Width of the panel. If set to `auto`, the panel will match the trigger width.
@@ -276,7 +288,11 @@ export class NgxMatSelectComponent
       : 'auto';
 
   /** Classes to be passed to the select panel. Supports the same syntax as `ngClass`. */
-  @Input() panelClass: string | string[] | Set<string> | { [key: string]: any } = [];
+  @Input() panelClass:
+    | string
+    | string[]
+    | Set<string>
+    | { [key: string]: any } = [];
 
   /**
    * Name of the label field of an option
@@ -301,7 +317,8 @@ export class NgxMatSelectComponent
    * how to show the selected options inside the form-field when the multiple value it's true
    * the default value is 'text'
    */
-  @Input() multipleDisplay?: NgxMatSelectMultipleDisplay = this.defaultOptions?.multipleDisplay ?? 'text';
+  @Input() multipleDisplay?: NgxMatSelectMultipleDisplay =
+    this.defaultOptions?.multipleDisplay ?? 'text';
 
   /** Placeholder to be shown if no value has been selected. */
   @Input()
@@ -332,7 +349,11 @@ export class NgxMatSelectComponent
   /** Whether the component is required. */
   @Input()
   get required(): boolean {
-    return this._required ?? this.ngControl?.control?.hasValidator(Validators.required) ?? false;
+    return (
+      this._required ??
+      this.ngControl?.control?.hasValidator(Validators.required) ??
+      false
+    );
   }
 
   set required(value: BooleanInput) {
@@ -410,7 +431,8 @@ export class NgxMatSelectComponent
   _previousControl: AbstractControl | null | undefined;
 
   /** Class or list of classes to be applied to the menu's overlay panel. */
-  _overlayPanelClass: string | string[] = this.defaultOptions?.overlayPanelClass || '';
+  _overlayPanelClass: string | string[] =
+    this.defaultOptions?.overlayPanelClass || '';
 
   /** Whether the select has a value. */
   get empty(): boolean {
@@ -429,7 +451,9 @@ export class NgxMatSelectComponent
    * @docs-private
    */
   get shouldLabelFloat(): boolean {
-    return this.panelOpen || !this.empty || (this._focused && !!this._placeholder);
+    return (
+      this.panelOpen || !this.empty || (this._focused && !!this._placeholder)
+    );
   }
 
   /**
@@ -452,17 +476,19 @@ export class NgxMatSelectComponent
   constructor(
     public _changeDetectorRef: ChangeDetectorRef,
     private renderer: Renderer2,
-    _defaultErrorStateMatcher: ErrorStateMatcher,
-    elementRef: ElementRef,
+    private readonly _defaultErrorStateMatcher: ErrorStateMatcher,
+    public readonly _elementRef: ElementRef,
     @Attribute('tabindex') tabIndex: string,
-    @Optional() _parentForm: NgForm,
-    @Optional() _parentFormGroup: FormGroupDirective,
-    @Optional() @Inject(MAT_FORM_FIELD) protected _parentFormField: MatFormField,
-    @Self() @Optional() ngControl: NgControl,
-    @Optional() @Inject(NGX_MAT_SELECT_CONFIG) protected defaultOptions: NgxMatSelectConfig
+    @Optional() private readonly _parentForm: NgForm | null,
+    @Optional() private readonly _parentFormGroup: FormGroupDirective | null,
+    @Optional()
+    @Inject(MAT_FORM_FIELD)
+    protected _parentFormField: MatFormField,
+    @Self() @Optional() public readonly ngControl: NgControl | null,
+    @Optional()
+    @Inject(NGX_MAT_SELECT_CONFIG)
+    protected defaultOptions: NgxMatSelectConfig
   ) {
-    super(elementRef, _defaultErrorStateMatcher, _parentForm, _parentFormGroup, ngControl);
-
     if (this.ngControl) {
       // Note: we provide the value accessor through here, instead of
       // the `providers` to avoid running into a circular import.
@@ -478,7 +504,12 @@ export class NgxMatSelectComponent
   }
 
   ngOnInit(): void {
-    this.selectionModel = new SelectionModel<unknown>(this.multiple, [], false, this._getCompareWithFn());
+    this.selectionModel = new SelectionModel<unknown>(
+      this.multiple,
+      [],
+      false,
+      this._getCompareWithFn()
+    );
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -511,12 +542,10 @@ export class NgxMatSelectComponent
   }
 
   /** `View -> model callback called when value changes` */
-  _onChange: (value: any) => void = () => {
-  };
+  _onChange: (value: any) => void = () => {};
 
   /** `View -> model callback called when select has been touched` */
-  _onTouched = () => {
-  };
+  _onTouched = () => {};
 
   /**
    * whenever the form-control gets updated from outside we can use
@@ -627,7 +656,10 @@ export class NgxMatSelectComponent
    */
   setDescribedByIds(ids: string[]) {
     if (ids.length) {
-      this._elementRef.nativeElement.setAttribute('aria-describedby', ids.join(' '));
+      this._elementRef.nativeElement.setAttribute(
+        'aria-describedby',
+        ids.join(' ')
+      );
     } else {
       this._elementRef.nativeElement.removeAttribute('aria-describedby');
     }
@@ -640,7 +672,8 @@ export class NgxMatSelectComponent
     this.focus();
 
     if (this._parentFormField) {
-      this.preferredOverlayOrigin = this._parentFormField.getConnectedOverlayOrigin();
+      this.preferredOverlayOrigin =
+        this._parentFormField.getConnectedOverlayOrigin();
     }
   }
 
@@ -650,7 +683,11 @@ export class NgxMatSelectComponent
   onAfterPanelOpen() {
     this.focus();
 
-    this.renderer.setProperty(this.virtualScroll.elementRef.nativeElement, 'scrollTop', this.scrollTop);
+    this.renderer.setProperty(
+      this.virtualScroll.elementRef.nativeElement,
+      'scrollTop',
+      this.scrollTop
+    );
     setTimeout(() => {
       this.virtualScroll.checkViewportSize();
     });
@@ -711,7 +748,9 @@ export class NgxMatSelectComponent
 
   /** The currently selected option. */
   get selected(): any | any[] {
-    return this.multiple ? this.selectionModel?.selected || [] : this.selectionModel?.selected[0];
+    return this.multiple
+      ? this.selectionModel?.selected || []
+      : this.selectionModel?.selected[0];
   }
 
   /**
@@ -721,7 +760,7 @@ export class NgxMatSelectComponent
    */
   getValue() {
     let value: unknown[] | null | undefined;
-    this.value$$.pipe(take(1)).subscribe(selectValue => {
+    this.value$$.pipe(take(1)).subscribe((selectValue) => {
       value = selectValue.value;
     });
 
@@ -734,7 +773,11 @@ export class NgxMatSelectComponent
    * @param shouldBeSyncedWithSelection {boolean} - if it's true the selection model will be synced with the value
    * @param emitsValue - to emit and call valueChange and _onChange functions together
    */
-  setValue(value: unknown[] | unknown, shouldBeSyncedWithSelection: boolean, emitsValue = false) {
+  setValue(
+    value: unknown[] | unknown,
+    shouldBeSyncedWithSelection: boolean,
+    emitsValue = false
+  ) {
     this.value$$.next({
       value: !isNullOrUndefined(value) ? this._toArray(value) : value,
       shouldBeSyncedWithSelection,
@@ -788,7 +831,7 @@ export class NgxMatSelectComponent
   _handleKeydown(event: KeyboardEvent) {
     if (event.code === 'Enter') {
       if (this.visibleOptions && !isNullOrUndefined(this.activeItemIndex)) {
-        const activatedOption = this.visibleOptions.find(o => o.active);
+        const activatedOption = this.visibleOptions.find((o) => o.active);
 
         if (activatedOption && !activatedOption.disabled) {
           activatedOption?._getHostElement().click();
@@ -798,7 +841,10 @@ export class NgxMatSelectComponent
       return;
     }
 
-    if (this.visibleOptions && (event.code === 'ArrowDown' || event.code === 'ArrowUp')) {
+    if (
+      this.visibleOptions &&
+      (event.code === 'ArrowDown' || event.code === 'ArrowUp')
+    ) {
       event.preventDefault();
       let nextIndex = -1;
       let changeActiveOption = true;
@@ -814,29 +860,31 @@ export class NgxMatSelectComponent
       });
 
       switch (event.code) {
-        case 'ArrowDown': {
-          if (nextIndex < optionsLength - 1) {
-            nextIndex++;
-          } else {
-            changeActiveOption = false;
+        case 'ArrowDown':
+          {
+            if (nextIndex < optionsLength - 1) {
+              nextIndex++;
+            } else {
+              changeActiveOption = false;
+            }
           }
-        }
           break;
 
-        case 'ArrowUp': {
-          if (nextIndex > 0) {
-            nextIndex--;
-          } else {
-            changeActiveOption = false;
+        case 'ArrowUp':
+          {
+            if (nextIndex > 0) {
+              nextIndex--;
+            } else {
+              changeActiveOption = false;
+            }
           }
-        }
           break;
       }
 
       if (changeActiveOption) {
         const nextOption = this.visibleOptions.get(nextIndex);
 
-        nextOption?._getHostElement().scrollIntoView({block: 'end'});
+        nextOption?._getHostElement().scrollIntoView({ block: 'end' });
         this.activeItemIndex = nextOption?.id?.toString();
       }
     }
@@ -888,7 +936,9 @@ export class NgxMatSelectComponent
    * @private
    */
   private getFlatValueFromSelection(): unknown | unknown[] {
-    const selection = this.selectionModel?.selected.map((s: any) => this.getOptionValue(s));
+    const selection = this.selectionModel?.selected.map((s: any) =>
+      this.getOptionValue(s)
+    );
 
     return this._toFlat(selection);
   }

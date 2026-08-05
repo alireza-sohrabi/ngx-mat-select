@@ -1,25 +1,39 @@
-import {AfterViewInit, ChangeDetectorRef, Directive, Input, OnDestroy} from '@angular/core';
-import {ScrollDispatcher} from '@angular/cdk/scrolling';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Directive,
+  Input,
+  OnDestroy,
+} from '@angular/core';
+import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
-import {BehaviorSubject, combineLatest, Observable, pairwise, ReplaySubject, tap} from 'rxjs';
-import {filter, map, startWith, switchMap, takeUntil} from 'rxjs/operators';
+import {
+  BehaviorSubject,
+  combineLatest,
+  Observable,
+  pairwise,
+  ReplaySubject,
+  tap,
+} from 'rxjs';
+import { filter, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
 
-import {NgxMatSelectSearchParams} from '../../select-model';
-import {NgxMatSelectComponent} from '../../select';
-import {NgxMatSelectFetchOptionsDirective} from './ngx-mat-select-fetch-options';
-import {isNullOrUndefined} from '../../shared/utils';
+import { NgxMatSelectSearchParams } from '../../select-model';
+import { NgxMatSelectComponent } from '../../select';
+import { NgxMatSelectFetchOptionsDirective } from './ngx-mat-select-fetch-options';
+import { isNullOrUndefined } from '../../shared/utils';
 
 @Directive({
   selector: 'ngx-mat-select[serverSide]:not(ngx-mat-select[clientSide])',
   exportAs: 'ngxMatSelectServerSide',
+  standalone: false,
 })
 /**
  * a directive to handle server-side mode, which can get the lazy-data page per page  with the provided pageSize
  */
 export class NgxMatSelectFetchOptionsServerSideDirective
   extends NgxMatSelectFetchOptionsDirective
-  implements AfterViewInit, OnDestroy {
-
+  implements AfterViewInit, OnDestroy
+{
   /**
    * the page size, every calculation for figuring out whether there is a next page or not based on this property
    */
@@ -28,7 +42,11 @@ export class NgxMatSelectFetchOptionsServerSideDirective
   /**
    * to fetch the options from the server through searchParams
    */
-  @Input() set fetchOptions(fetchFunction: (searchParams: NgxMatSelectSearchParams) => Observable<unknown[]>) {
+  @Input() set fetchOptions(
+    fetchFunction: (
+      searchParams: NgxMatSelectSearchParams
+    ) => Observable<unknown[]>
+  ) {
     this.destroy$.next(void 0);
 
     combineLatest([this.search$, this.fetchNext$])
@@ -48,21 +66,25 @@ export class NgxMatSelectFetchOptionsServerSideDirective
           this.loading$.next(true);
           this._changeDetectorRef.detectChanges();
         }),
-        switchMap(searchTerm =>
-          fetchFunction({searchTerm, pageNumber: this.pageNumber, pageSize: this.pageSize}).pipe(
-            tap(nextOptions => {
+        switchMap((searchTerm) =>
+          fetchFunction({
+            searchTerm,
+            pageNumber: this.pageNumber,
+            pageSize: this.pageSize,
+          }).pipe(
+            tap((nextOptions) => {
               if (nextOptions.length > 0) {
                 this.pageNumber++;
               }
 
               this.hasMore = nextOptions?.length === this.pageSize;
             }),
-            map(nextOptions => {
+            map((nextOptions) => {
               this.options = this.options.concat(...nextOptions);
 
               return [...this.options];
             }),
-            tap(options => {
+            tap((options) => {
               this.filteredOptions$.next(options);
               this.loading$.next(false);
             }),
@@ -153,7 +175,10 @@ export class NgxMatSelectFetchOptionsServerSideDirective
    */
   protected sortValues = () => {
     if (this.host.multiple && this.options.length > 0) {
-      if (!isNullOrUndefined(this.sortComparator) && typeof this.sortComparator === 'function') {
+      if (
+        !isNullOrUndefined(this.sortComparator) &&
+        typeof this.sortComparator === 'function'
+      ) {
         const sortComparator = this.sortComparator;
 
         this.host.selectionModel?.sort((a, b) => {
@@ -193,7 +218,11 @@ export class NgxMatSelectFetchOptionsServerSideDirective
     this.scrollDispatcher
       .scrolled()
       .pipe(
-        filter(() => this.host.virtualScroll.getRenderedRange().end === this.host.virtualScroll.getDataLength()),
+        filter(
+          () =>
+            this.host.virtualScroll.getRenderedRange().end ===
+            this.host.virtualScroll.getDataLength()
+        ),
         filter(() => !this.loading$.getValue()),
         tap(() => {
           this.fetchNext();

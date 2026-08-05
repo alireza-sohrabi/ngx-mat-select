@@ -12,15 +12,19 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import {CdkConnectedOverlay, ConnectedPosition, ViewportRuler} from '@angular/cdk/overlay';
-import {Directionality} from '@angular/cdk/bidi';
+import {
+  CdkConnectedOverlay,
+  ConnectedPosition,
+  ViewportRuler,
+} from '@angular/cdk/overlay';
+import { Directionality } from '@angular/cdk/bidi';
 
-import {BehaviorSubject, Observable, Subject, tap} from 'rxjs';
-import {startWith, takeUntil} from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
+import { startWith, takeUntil } from 'rxjs/operators';
 
-import {matSelectAnimations} from '../../shared/animations';
-import {NgxMatSelectViewType} from '../../select-model';
-import {isNullOrUndefined} from "../../shared/utils";
+import { matSelectAnimations } from '../../shared/animations';
+import { NgxMatSelectViewType } from '../../select-model';
+import { isNullOrUndefined } from '../../shared/utils';
 
 @Component({
   selector: 'ngx-mat-select-panel',
@@ -28,11 +32,14 @@ import {isNullOrUndefined} from "../../shared/utils";
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [matSelectAnimations.transformPanel],
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 /**
  * a panel which will be connected to the trigger element
  */
-export class NgxMatSelectPanelComponent implements OnDestroy, OnInit, AfterViewInit {
+export class NgxMatSelectPanelComponent
+  implements OnDestroy, OnInit, AfterViewInit
+{
   /**
    * the overlay API that will be appended into the DOM's body
    * @private
@@ -80,15 +87,17 @@ export class NgxMatSelectPanelComponent implements OnDestroy, OnInit, AfterViewI
   }
 
   set overlayClass(value: string | string[]) {
-    this._overlayClass = Array.isArray(value)
-      ? (value.join(' '))
-      : value;
+    this._overlayClass = Array.isArray(value) ? value.join(' ') : value;
   }
 
-   _overlayClass = '';
+  _overlayClass = '';
 
   /** Classes to be passed to the select panel. Supports the same syntax as `ngClass`. */
-  @Input() panelClass: string | string[] | Set<string> | {[key: string]: any} = [];
+  @Input() panelClass:
+    | string
+    | string[]
+    | Set<string>
+    | { [key: string]: any } = [];
 
   /**
    * the origin element that we want to connect it with the panel
@@ -152,8 +161,7 @@ export class NgxMatSelectPanelComponent implements OnDestroy, OnInit, AfterViewI
     this.overlayClassViewType = `ngx-mat-select-panel-${css}-view-type`;
   }
 
-  private _viewType: NgxMatSelectViewType | undefined | null
-    = 'Default';
+  private _viewType: NgxMatSelectViewType | undefined | null = 'Default';
 
   overlayClassViewType = 'ngx-mat-select-default-view-type';
 
@@ -162,7 +170,7 @@ export class NgxMatSelectPanelComponent implements OnDestroy, OnInit, AfterViewI
    */
   isOpen$: Observable<boolean>;
 
-  _panelWidth: string | number  = 'auto';
+  _panelWidth: string | number = 'auto';
 
   _positions: ConnectedPosition[] = [
     {
@@ -246,7 +254,10 @@ export class NgxMatSelectPanelComponent implements OnDestroy, OnInit, AfterViewI
    * @param event
    */
   onOutsideClick(event: MouseEvent) {
-    if (event.target && this.connectedOverlayOrigin?.nativeElement.contains(event.target)) {
+    if (
+      event.target &&
+      this.connectedOverlayOrigin?.nativeElement.contains(event.target)
+    ) {
       event.stopPropagation();
     }
 
@@ -281,9 +292,10 @@ export class NgxMatSelectPanelComponent implements OnDestroy, OnInit, AfterViewI
   /** sets how wide the overlay panel should be. */
   updateOverlayWidth(): void {
     if (this.width === 'auto') {
-      this._panelWidth = this.connectedOverlayOrigin?.nativeElement.getBoundingClientRect().width;
+      this._panelWidth =
+        this.connectedOverlayOrigin?.nativeElement.getBoundingClientRect().width;
     } else {
-      this._panelWidth =  isNullOrUndefined(this.width) ? '' : this.width;
+      this._panelWidth = isNullOrUndefined(this.width) ? '' : this.width;
     }
 
     this.changeDetectorRef.markForCheck();
@@ -303,7 +315,7 @@ export class NgxMatSelectPanelComponent implements OnDestroy, OnInit, AfterViewI
     this.dir.change
       .pipe(
         startWith(this.dir.value),
-        tap(dir => {
+        tap((dir) => {
           this.overlay.overlayRef?.setDirection(dir);
           this.changeDetectorRef.detectChanges();
         }),

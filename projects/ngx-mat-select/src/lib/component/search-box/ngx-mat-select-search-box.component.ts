@@ -11,8 +11,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import {fromEvent, Subject, tap} from 'rxjs';
-import {debounceTime, map, startWith, takeUntil} from 'rxjs/operators';
+import { fromEvent, Subject, tap } from 'rxjs';
+import { debounceTime, map, startWith, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'ngx-mat-select-search-box',
@@ -24,11 +24,14 @@ import {debounceTime, map, startWith, takeUntil} from 'rxjs/operators';
     class: 'ngx-mat-select-search-box',
     '[class.ngx-mat-select-search-box--focused]': 'focused',
   },
+  standalone: false,
 })
 /**
  * a search box that clint can search through all the options
  */
-export class NgxMatSelectSearchBoxComponent implements AfterViewInit, OnDestroy {
+export class NgxMatSelectSearchBoxComponent
+  implements AfterViewInit, OnDestroy
+{
   /**
    * the search box input element
    * @private
@@ -133,7 +136,7 @@ export class NgxMatSelectSearchBoxComponent implements AfterViewInit, OnDestroy 
         map((event: Event) => (event.target as HTMLInputElement).value),
         debounceTime(this.debounceTime),
         startWith(''),
-        tap(searchTerm => {
+        tap((searchTerm) => {
           this.search.emit(searchTerm);
         }),
         takeUntil(this.destroy$)

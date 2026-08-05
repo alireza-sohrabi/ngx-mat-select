@@ -1,17 +1,27 @@
-import {ChangeDetectorRef, Directive, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Directive,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 
-import {NgxMatSelectFetchOptionsDirective} from './ngx-mat-select-fetch-options';
-import {NgxMatSelectComponent} from '../../select';
-import {isNullOrUndefined} from '../../shared/utils';
+import { NgxMatSelectFetchOptionsDirective } from './ngx-mat-select-fetch-options';
+import { NgxMatSelectComponent } from '../../select';
+import { isNullOrUndefined } from '../../shared/utils';
 
 @Directive({
   selector: 'ngx-mat-select[clientSide]:not(ngx-mat-select[serverSide])',
   exportAs: 'ngxMatSelectClientSide',
+  standalone: false,
 })
 /**
  * to fetch the whole options at once, and use a search-box if needed
  */
-export class NgxMatSelectFetchOptionsClientSideDirective extends NgxMatSelectFetchOptionsDirective implements OnChanges {
+export class NgxMatSelectFetchOptionsClientSideDirective
+  extends NgxMatSelectFetchOptionsDirective
+  implements OnChanges
+{
   /**
    * the options that we want to pick up an item or items from them
    */
@@ -31,7 +41,10 @@ export class NgxMatSelectFetchOptionsClientSideDirective extends NgxMatSelectFet
    */
   @Input() searchComparison?: (searchTerm: string, option: any) => boolean;
 
-  constructor(host: NgxMatSelectComponent, changeDetectorRef: ChangeDetectorRef) {
+  constructor(
+    host: NgxMatSelectComponent,
+    changeDetectorRef: ChangeDetectorRef
+  ) {
     super(host, changeDetectorRef);
   }
 
@@ -46,7 +59,9 @@ export class NgxMatSelectFetchOptionsClientSideDirective extends NgxMatSelectFet
           return this.searchComparison(searchTerm, option);
         } else {
           if (this.host.optionLabel && this.optionType === 'object') {
-            return option[this.host.optionLabel]?.toString().includes(searchTerm);
+            return option[this.host.optionLabel]
+              ?.toString()
+              .includes(searchTerm);
           } else {
             return option?.toString().includes(searchTerm);
           }
@@ -70,7 +85,9 @@ export class NgxMatSelectFetchOptionsClientSideDirective extends NgxMatSelectFet
       const options = this.options || [];
 
       this.host.selectionModel?.sort((a, b) => {
-        return this.sortComparator ? this.sortComparator(a, b, options) : options.indexOf(a) - options.indexOf(b);
+        return this.sortComparator
+          ? this.sortComparator(a, b, options)
+          : options.indexOf(a) - options.indexOf(b);
       });
 
       this.host.stateChanges.next();
@@ -93,7 +110,7 @@ export class NgxMatSelectFetchOptionsClientSideDirective extends NgxMatSelectFet
           value.forEach((value: any) => {
             options.some((option: any) => {
               if (compareWithFn(option, value)) {
-                selected.push({option, value});
+                selected.push({ option, value });
 
                 return true;
               }
@@ -102,17 +119,20 @@ export class NgxMatSelectFetchOptionsClientSideDirective extends NgxMatSelectFet
             });
           });
 
-          this.host.selectionModel.setSelection(...selected.map(s => s.option));
-          const selectedValue = selected.map(s => s.value);
+          this.host.selectionModel.setSelection(
+            ...selected.map((s) => s.option)
+          );
+          const selectedValue = selected.map((s) => s.value);
           this.host.setValue(this.host._toFlat(selectedValue), false, true);
-
         } else if (!this.loading$.getValue()) {
           this.host.selectionModel.clear();
           this.host.setValue(null, false, true);
         }
       } else {
         const isThereAnyNullOrUndefinedInOptions =
-          options.filter(o => compareWithFn(o, undefined) || compareWithFn(o, null)).length > 0;
+          options.filter(
+            (o) => compareWithFn(o, undefined) || compareWithFn(o, null)
+          ).length > 0;
 
         if (options.length > 0 && isThereAnyNullOrUndefinedInOptions) {
           this.host.selectionModel.setSelection(value);
@@ -126,11 +146,13 @@ export class NgxMatSelectFetchOptionsClientSideDirective extends NgxMatSelectFet
     }
   };
 
-
   ngOnChanges(changes: SimpleChanges): void {
     const optionsChange = changes['options'];
 
-    if (optionsChange && optionsChange.previousValue !== optionsChange.currentValue) {
+    if (
+      optionsChange &&
+      optionsChange.previousValue !== optionsChange.currentValue
+    ) {
       this.host.searchBoxComponent?.clear();
       this.search('');
       this.checkOptionsType();

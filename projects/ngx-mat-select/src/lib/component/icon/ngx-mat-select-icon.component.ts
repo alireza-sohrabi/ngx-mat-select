@@ -1,9 +1,10 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'ngx-mat-select-icon',
   templateUrl: './ngx-mat-select-icon.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class NgxMatSelectIconComponent {
   /**

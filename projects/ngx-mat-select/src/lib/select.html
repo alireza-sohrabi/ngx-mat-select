@@ -52,7 +52,7 @@
         <mat-option [style.height.px]="optionHeight"
                     ngxMatSelectOption
                     #matOption
-                    [disabled]="option?.['disabled']"
+                    [disabled]="isOptionDisabled(option)"
                     [id]="index.toString()"
                     [activated]="activeItemIndex === matOption.id"
                     [selected]="isSelected(option)"
@@ -79,4 +79,3 @@
   <ngx-mat-select-loading [loading]="(loading$ | async) === true"></ngx-mat-select-loading>
 
 </ngx-mat-select-panel>
-

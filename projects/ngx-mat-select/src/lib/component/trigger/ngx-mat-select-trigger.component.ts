@@ -8,7 +8,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import {NgxMatSelectMultipleDisplay} from '../../select-model';
+import { NgxMatSelectMultipleDisplay } from '../../select-model';
 
 @Component({
   selector: 'ngx-mat-select-trigger',
@@ -18,6 +18,7 @@ import {NgxMatSelectMultipleDisplay} from '../../select-model';
   },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 /**
  * a component which shows all selected options inside the form-field
@@ -31,7 +32,7 @@ export class NgxMatSelectTriggerComponent {
   /**
    * the custom template which is used as trigger inside the select box, will be provided with selected options
    */
-  @Input() customTrigger?: TemplateRef<{$implicit: boolean}> | null;
+  @Input() customTrigger?: TemplateRef<{ $implicit: boolean }> | null;
 
   /**
    * the selected items

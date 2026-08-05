@@ -1,23 +1,23 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
-import {of} from 'rxjs';
-import {delay} from 'rxjs/operators';
-import {NgxMatSelectSearchParams} from "ngx-mat-select";
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { of } from 'rxjs';
+import { delay } from 'rxjs/operators';
+import { NgxMatSelectSearchParams } from 'ngx-mat-select';
 
 @Component({
   templateUrl: './object-value.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
-export class ObjectValueComponent  {
-
+export class ObjectValueComponent {
   reactiveFormGroup = new FormGroup({
     selectValue: new FormControl([
       {
         id: 2500,
         name: `options_${2500}`,
       },
-      {id: 1, name: `options_${1}`},
-      {id: 2, name: `options_${2}`},
+      { id: 1, name: `options_${1}` },
+      { id: 2, name: `options_${2}` },
       {
         id: 160,
         name: `options_${160}`,
@@ -31,13 +31,16 @@ export class ObjectValueComponent  {
    */
   fetchFn = (searchParams: NgxMatSelectSearchParams) => {
     const filter = (o: any) =>
-      searchParams.searchTerm ? o['name'].toString().includes(searchParams.searchTerm) : true;
+      searchParams.searchTerm
+        ? o['name'].toString().includes(searchParams.searchTerm)
+        : true;
 
     const startIndex = (searchParams.pageNumber - 1) * searchParams.pageSize;
-    const result = this._options.filter(o => filter(o)).slice(startIndex, startIndex + searchParams.pageSize);
+    const result = this._options
+      .filter((o) => filter(o))
+      .slice(startIndex, startIndex + searchParams.pageSize);
 
     return of(result).pipe(delay(1000));
-
   };
 
   /**
@@ -48,5 +51,4 @@ export class ObjectValueComponent  {
     name: 'options_' + index,
     id: index,
   }));
-
 }
