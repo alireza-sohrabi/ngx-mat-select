@@ -8,19 +8,31 @@ import {
   getRelease,
   readPackageVersions,
   ReleaseError,
+  resolveReleaseRepository,
 } from '../src/release.mjs';
 
-test('release policy only permits the Angular 21 prerelease and final release', () => {
-  assert.deepEqual(getRelease('21.0.0-next.0'), { tag: 'next', prerequisite: null });
-  assert.deepEqual(getRelease('21.0.0'), {
-    tag: 'latest',
-    prerequisite: '21.0.0-next.0',
-  });
-  assert.throws(() => getRelease('20.0.0'), ReleaseError);
+test('release policy permits the chronological Angular 17 through 21 release train', () => {
+  assert.equal(getRelease('17.0.0').tag, 'angular17');
+  assert.equal(getRelease('17.0.0').branch, 'release/17.0.0');
+  assert.equal(getRelease('18.0.0').prerequisite, '17.0.0');
+  assert.equal(getRelease('19.0.0').prerequisite, '18.0.0');
+  assert.equal(getRelease('20.0.0').prerequisite, '19.0.0');
+  assert.equal(getRelease('21.0.0-next.0').prerequisite, '20.0.0');
+  assert.equal(getRelease('21.0.0').tag, 'latest');
+  assert.equal(getRelease('21.0.0').prerequisite, '21.0.0-next.0');
+  assert.throws(() => getRelease('16.0.5'), ReleaseError);
   assert.throws(() => getRelease('21.0.1'), ReleaseError);
 });
 
 test('confirmation phrase binds the package, version, and dist-tag', () => {
+  assert.equal(
+    confirmationPhrase('17.0.0'),
+    'publish ngx-mat-select@17.0.0 with tag angular17',
+  );
+  assert.equal(
+    confirmationPhrase('20.0.0'),
+    'publish ngx-mat-select@20.0.0 with tag angular20',
+  );
   assert.equal(
     confirmationPhrase('21.0.0-next.0'),
     'publish ngx-mat-select@21.0.0-next.0 with tag next',
@@ -29,6 +41,13 @@ test('confirmation phrase binds the package, version, and dist-tag', () => {
     confirmationPhrase('21.0.0'),
     'publish ngx-mat-select@21.0.0 with tag latest',
   );
+});
+
+test('historical releases resolve to isolated worktrees', () => {
+  const root = path.resolve('D:\\ngx-mat-select');
+  assert.equal(resolveReleaseRepository('17.0.0', root), path.resolve(`${root}-release-17`));
+  assert.equal(resolveReleaseRepository('20.0.0', root), path.resolve(`${root}-release-20`));
+  assert.equal(resolveReleaseRepository('21.0.0-next.0', root), root);
 });
 
 test('package version reader rejects a different library package', async () => {

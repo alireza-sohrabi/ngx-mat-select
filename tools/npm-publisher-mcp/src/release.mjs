@@ -5,8 +5,48 @@ import path from 'node:path';
 
 export const PACKAGE_NAME = 'ngx-mat-select';
 export const RELEASES = Object.freeze({
-  '21.0.0-next.0': Object.freeze({ tag: 'next', prerequisite: null }),
-  '21.0.0': Object.freeze({ tag: 'latest', prerequisite: '21.0.0-next.0' }),
+  '17.0.0': Object.freeze({
+    tag: 'angular17',
+    prerequisite: null,
+    branch: 'release/17.0.0',
+    angularMajors: ['17'],
+    repositorySuffix: '-release-17',
+  }),
+  '18.0.0': Object.freeze({
+    tag: 'angular18',
+    prerequisite: '17.0.0',
+    branch: 'release/18.0.0',
+    angularMajors: ['18'],
+    repositorySuffix: '-release-18',
+  }),
+  '19.0.0': Object.freeze({
+    tag: 'angular19',
+    prerequisite: '18.0.0',
+    branch: 'release/19.0.0',
+    angularMajors: ['19'],
+    repositorySuffix: '-release-19',
+  }),
+  '20.0.0': Object.freeze({
+    tag: 'angular20',
+    prerequisite: '19.0.0',
+    branch: 'release/20.0.0',
+    angularMajors: ['20'],
+    repositorySuffix: '-release-20',
+  }),
+  '21.0.0-next.0': Object.freeze({
+    tag: 'next',
+    prerequisite: '20.0.0',
+    branch: 'master',
+    angularMajors: ['21', '22'],
+    repositorySuffix: '',
+  }),
+  '21.0.0': Object.freeze({
+    tag: 'latest',
+    prerequisite: '21.0.0-next.0',
+    branch: 'master',
+    angularMajors: ['21', '22'],
+    repositorySuffix: '',
+  }),
 });
 
 const MAX_OUTPUT_LENGTH = 12000;
@@ -37,6 +77,11 @@ export function confirmationPhrase(version) {
 export function resolveRepository(repositoryPath = process.env.NGX_MAT_SELECT_REPO) {
   const configuredPath = repositoryPath || 'D:\\ngx-mat-select';
   return path.resolve(configuredPath);
+}
+
+export function resolveReleaseRepository(version, repositoryPath = resolveRepository()) {
+  const release = getRelease(version);
+  return path.resolve(`${repositoryPath}${release.repositorySuffix}`);
 }
 
 function commandInvocation(command, args) {
@@ -179,6 +224,8 @@ export async function getStatus(repositoryPath = resolveRepository()) {
     allowedReleases: Object.entries(RELEASES).map(([version, release]) => ({
       version,
       tag: release.tag,
+      branch: release.branch,
+      repositoryPath: resolveReleaseRepository(version, repositoryPath),
       confirmation: confirmationPhrase(version),
     })),
   };
@@ -196,8 +243,10 @@ async function assertReleaseState(repositoryPath, version) {
   }
 
   const branch = await run('git', ['branch', '--show-current'], { cwd: repositoryPath });
-  if (branch.stdout !== 'master') {
-    throw new ReleaseError(`Releases must be published from master, not ${branch.stdout || 'detached HEAD'}.`);
+  if (branch.stdout !== release.branch) {
+    throw new ReleaseError(
+      `${version} must be released from ${release.branch}, not ${branch.stdout || 'detached HEAD'}.`,
+    );
   }
 
   const changes = await run('git', ['status', '--porcelain'], { cwd: repositoryPath });
@@ -205,14 +254,27 @@ async function assertReleaseState(repositoryPath, version) {
     throw new ReleaseError('The repository must be clean before validation or publishing.');
   }
 
-  if (await registryVersionExists(repositoryPath, version)) {
-    throw new ReleaseError(`${PACKAGE_NAME}@${version} is already published.`);
+  const automationRepository = resolveRepository();
+  if (path.resolve(repositoryPath) !== automationRepository) {
+    const automationBranch = await run(
+      'git',
+      ['branch', '--show-current'],
+      { cwd: automationRepository },
+    );
+    const automationChanges = await run(
+      'git',
+      ['status', '--porcelain'],
+      { cwd: automationRepository },
+    );
+    if (automationBranch.stdout !== 'master' || automationChanges.stdout) {
+      throw new ReleaseError(
+        'Historical releases require the clean automation repository on master.',
+      );
+    }
   }
 
-  if (release.prerequisite && !await registryVersionExists(repositoryPath, release.prerequisite)) {
-    throw new ReleaseError(
-      `${PACKAGE_NAME}@${release.prerequisite} must be published and validated before ${version}.`,
-    );
+  if (await registryVersionExists(repositoryPath, version)) {
+    throw new ReleaseError(`${PACKAGE_NAME}@${version} is already published.`);
   }
 
   const auth = await run('npm', ['whoami'], {
@@ -229,18 +291,48 @@ async function assertReleaseState(repositoryPath, version) {
   return { release, npmUser: auth.stdout };
 }
 
-async function runValidation(repositoryPath) {
+async function assertPrerequisite(repositoryPath, version, release) {
+  if (release.prerequisite && !await registryVersionExists(repositoryPath, release.prerequisite)) {
+    throw new ReleaseError(
+      `${PACKAGE_NAME}@${release.prerequisite} must be published before ${version}.`,
+    );
+  }
+}
+
+async function runValidation(repositoryPath, release) {
   const commands = [
     ['npm', ['ci']],
     ['npm', ['test', '--', '--progress=false']],
-    ['npm', ['run', 'verify:public-api']],
-    ['npm', ['run', 'verify:consumer:21']],
-    ['npm', ['run', 'verify:consumer:22']],
     ['npm', ['run', 'build:library']],
   ];
 
   for (const [command, args] of commands) {
     await run(command, args, { cwd: repositoryPath });
+  }
+
+  const automationRepository = resolveRepository();
+  await run(
+    process.execPath,
+    [
+      path.join(automationRepository, 'scripts', 'verify-public-api.mjs'),
+      '--package-root',
+      repositoryPath,
+    ],
+    { cwd: automationRepository },
+  );
+  for (const major of release.angularMajors) {
+    await run(
+      'npm',
+      [
+        'run',
+        'verify:consumer',
+        '--',
+        major,
+        '--package-root',
+        repositoryPath,
+      ],
+      { cwd: automationRepository },
+    );
   }
 }
 
@@ -269,7 +361,7 @@ async function packRelease(repositoryPath) {
 
 export async function validateRelease(version, repositoryPath = resolveRepository()) {
   const { release, npmUser } = await assertReleaseState(repositoryPath, version);
-  await runValidation(repositoryPath);
+  await runValidation(repositoryPath, release);
   const packed = await packRelease(repositoryPath);
   try {
     return {
@@ -300,7 +392,8 @@ export async function publishRelease(
   }
 
   const { release, npmUser } = await assertReleaseState(repositoryPath, version);
-  await runValidation(repositoryPath);
+  await assertPrerequisite(repositoryPath, version, release);
+  await runValidation(repositoryPath, release);
   const packed = await packRelease(repositoryPath);
   try {
     const result = await run(
