@@ -4,10 +4,10 @@
   "compilerOptions": {
     "paths": {
       "@ng-doc/generated": [
-        ".ng-doc/ngx-mat-select/index.ts"
+        "./ng-doc/demo/index.ts"
       ],
       "@ng-doc/generated/*": [
-        ".ng-doc/ngx-mat-select/*"
+        "./ng-doc/demo/*"
       ],
       "ngx-mat-select": [
         "dist/ngx-mat-select"
