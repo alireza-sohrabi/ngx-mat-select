@@ -32,7 +32,7 @@
               },
               {
                 "glob": "**/*",
-                "input": "ng-doc/ngx-mat-select/assets",
+                "input": "ng-doc/demo/assets",
                 "output": "assets/ng-doc"
               },
               "src/favicon.ico",

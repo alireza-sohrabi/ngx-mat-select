@@ -13,11 +13,12 @@
     "test:ci": "npm run test -- --progress=false --code-coverage --source-map=true",
     "packagr": "npm run build:library",
     "pack:library": "npm pack ./dist/ngx-mat-select",
-    "build:ci": "npm run build:library && ng build demo --configuration production --progress=false --base-href=/ngx-mat-select/",
+    "build:ci": "npm run build:library && ng build demo --configuration production --progress=false --base-href=/ngx-mat-select/ && npm run verify:docs",
     "verify:consumer:21": "node scripts/verify-consumer.mjs 21",
     "verify:consumer:22": "node scripts/verify-consumer.mjs 22",
     "verify:consumer": "node scripts/verify-consumer.mjs",
-    "verify:public-api": "npm run build:library && node scripts/verify-public-api.mjs"
+    "verify:public-api": "npm run build:library && node scripts/verify-public-api.mjs",
+    "verify:docs": "node scripts/verify-docs-build.mjs"
   },
   "author": "Alireze Sohrabi, Tehran IRAN",
   "bugs": {
