@@ -39,7 +39,8 @@ $angular-dark-theme: mat.m2-define-dark-theme(
   text-align: right;
 }
 
-.darkMode {
+.darkMode,
+html[data-theme="dark"] {
   @include mat.all-component-themes($angular-dark-theme);
   @include ngxMatSelect.theme($angular-dark-theme);
 }
