@@ -1,0 +1,82 @@
+[
+  {
+    "title": "select",
+    "items": [
+      {
+        "route": "/api/classes/select-api/NgxMatSelectComponent",
+        "type": "Component",
+        "name": "NgxMatSelectComponent"
+      },
+      {
+        "route": "/api/interfaces/select-api/NgxMatSelectSearchParams",
+        "type": "Interface",
+        "name": "NgxMatSelectSearchParams"
+      },
+      {
+        "route": "/api/interfaces/select-api/NgxMatSelectionChangeEvent",
+        "type": "Interface",
+        "name": "NgxMatSelectionChangeEvent"
+      },
+      {
+        "route": "/api/type-aliases/select-api/NgxMatSelectMultipleDisplay",
+        "type": "TypeAlias",
+        "name": "NgxMatSelectMultipleDisplay"
+      },
+      {
+        "route": "/api/type-aliases/select-api/NgxMatSelectViewType",
+        "type": "TypeAlias",
+        "name": "NgxMatSelectViewType"
+      },
+      {
+        "route": "/api/type-aliases/select-api/NgxMatSelectOptionType",
+        "type": "TypeAlias",
+        "name": "NgxMatSelectOptionType"
+      },
+      {
+        "route": "/api/interfaces/select-api/NgxMatSelectSearchBoxConfigs",
+        "type": "Interface",
+        "name": "NgxMatSelectSearchBoxConfigs"
+      },
+      {
+        "route": "/api/interfaces/select-api/NgxMatSelectConfig",
+        "type": "Interface",
+        "name": "NgxMatSelectConfig"
+      },
+      {
+        "route": "/api/variables/select-api/NGX_MAT_SELECT_CONFIG",
+        "type": "Variable",
+        "name": "NGX_MAT_SELECT_CONFIG"
+      },
+      {
+        "route": "/api/interfaces/select-api/NgxMatSelectValue",
+        "type": "Interface",
+        "name": "NgxMatSelectValue"
+      },
+      {
+        "route": "/api/classes/select-api/NgxMatSelectModule",
+        "type": "NgModule",
+        "name": "NgxMatSelectModule"
+      },
+      {
+        "route": "/api/classes/select-api/NgxMatSelectTriggerDirective",
+        "type": "Directive",
+        "name": "NgxMatSelectTriggerDirective"
+      },
+      {
+        "route": "/api/classes/select-api/NgxMatSelectOptionContentDirective",
+        "type": "Directive",
+        "name": "NgxMatSelectOptionContentDirective"
+      },
+      {
+        "route": "/api/classes/select-api/NgxMatSelectFetchOptionsServerSideDirective",
+        "type": "Directive",
+        "name": "NgxMatSelectFetchOptionsServerSideDirective"
+      },
+      {
+        "route": "/api/classes/select-api/NgxMatSelectFetchOptionsClientSideDirective",
+        "type": "Directive",
+        "name": "NgxMatSelectFetchOptionsClientSideDirective"
+      }
+    ]
+  }
+]
