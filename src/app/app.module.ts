@@ -1,9 +1,13 @@
 import {
   NgDocDefaultSearchEngine,
+  NG_DOC_DEFAULT_PAGE_PROCESSORS,
+  NG_DOC_DEFAULT_PAGE_SKELETON,
   NgDocNavbarComponent,
   NgDocRootComponent,
   NgDocSidebarComponent,
   provideNgDocApp,
+  provideMainPageProcessor,
+  providePageSkeleton,
   provideSearchEngine,
 } from '@ng-doc/app';
 import {NG_DOC_ROUTING, provideNgDocContext} from '@ng-doc/generated';
@@ -39,6 +43,8 @@ export const ngxMatSelectConfigs: NgxMatSelectConfig = {}
   providers: [
     {provide: NGX_MAT_SELECT_CONFIG, useValue: ngxMatSelectConfigs},
     provideNgDocApp(),
+    providePageSkeleton(NG_DOC_DEFAULT_PAGE_SKELETON),
+    provideMainPageProcessor(NG_DOC_DEFAULT_PAGE_PROCESSORS),
     provideNgDocContext(),
     provideSearchEngine(NgDocDefaultSearchEngine)
   ],
