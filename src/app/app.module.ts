@@ -1,15 +1,20 @@
 import {
   NgDocDefaultSearchEngine,
+  NG_DOC_DEFAULT_PAGE_PROCESSORS,
+  NG_DOC_DEFAULT_PAGE_SKELETON,
   NgDocNavbarComponent,
   NgDocRootComponent,
   NgDocSidebarComponent,
   provideNgDocApp,
+  provideMainPageProcessor,
+  providePageSkeleton,
   provideSearchEngine,
 } from '@ng-doc/app';
 import {NG_DOC_ROUTING, provideNgDocContext} from '@ng-doc/generated';
 import {RouterModule} from "@angular/router";
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
+import {provideHttpClient} from '@angular/common/http';
 
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -39,8 +44,11 @@ export const ngxMatSelectConfigs: NgxMatSelectConfig = {}
   providers: [
     {provide: NGX_MAT_SELECT_CONFIG, useValue: ngxMatSelectConfigs},
     provideNgDocApp(),
+    providePageSkeleton(NG_DOC_DEFAULT_PAGE_SKELETON),
+    provideMainPageProcessor(NG_DOC_DEFAULT_PAGE_PROCESSORS),
     provideNgDocContext(),
-    provideSearchEngine(NgDocDefaultSearchEngine)
+    provideSearchEngine(NgDocDefaultSearchEngine),
+    provideHttpClient()
   ],
   bootstrap: [AppComponent]
 })
