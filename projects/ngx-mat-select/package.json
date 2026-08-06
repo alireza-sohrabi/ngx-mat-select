@@ -1,6 +1,7 @@
 {
   "name": "ngx-mat-select",
-  "version": "21.0.0",
+  "version": "21.0.1",
+  "description": "Searchable Angular Material select component with virtual scrolling, server-side filtering, infinite scrolling, and multiple selection.",
   "license": "MIT",
   "author": "Alireza Sohrabi, Tehran IRAN",
   "bugs": {
@@ -12,18 +13,21 @@
   },
   "keywords": [
     "angular",
-    "angular 2",
-    "material",
-    "MatSelect",
+    "angular material",
+    "angular material select",
+    "material select",
+    "mat-select",
     "select",
-    "search",
-    "filter",
-    "virtual-scroll",
-    "infinite-scroll",
-    "client-side",
-    "server-side"
+    "dropdown",
+    "searchable select",
+    "virtual scroll",
+    "infinite scroll",
+    "server-side filtering",
+    "multiple select",
+    "angular forms",
+    "typescript"
   ],
-  "homepage": "https://github.com/alireza-sohrabi/ngx-mat-select",
+  "homepage": "https://alireza-sohrabi.github.io/ngx-mat-select/",
   "exports": {
     ".": {
       "sass": "./index.scss"

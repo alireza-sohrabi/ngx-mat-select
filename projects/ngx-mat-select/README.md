@@ -1,6 +1,6 @@
-# NgxMatSelect
+# ngx-mat-select — Searchable Virtual Angular Material Select
 
-`ngx-mat-select` is an independent Angular Material select component with built-in search, virtual scrolling, and server-side infinite scrolling.
+`ngx-mat-select` is an independent Angular Material select component with built-in search, virtual scrolling, server-side filtering, infinite scrolling, and single or multiple selection.
 
 ## Features
 
@@ -11,24 +11,30 @@
 - Custom option and trigger templates
 - Right-to-left layouts with `dir="rtl"`
 
-[Documentation](https://alireza-sohrabi.github.io/ngx-mat-select) · [Customization examples](https://alireza-sohrabi.github.io/ngx-mat-select/#/other-examples/customize) · [StackBlitz](https://stackblitz.com/edit/ngx-mat-select?file=src/app/app.component.html)
+[Documentation](https://alireza-sohrabi.github.io/ngx-mat-select/) | [npm](https://www.npmjs.com/package/ngx-mat-select) | [Customization examples](https://alireza-sohrabi.github.io/ngx-mat-select/#/other-examples/customize) | [StackBlitz](https://stackblitz.com/edit/ngx-mat-select?file=src/app/app.component.html)
+
+## How it differs from ngx-mat-select-search
+
+`ngx-mat-select` is a complete select control designed for large local or remote datasets. Search, virtual scrolling, server-side filtering, infinite scrolling, option templates, and selection behavior are part of the component.
+
+[`ngx-mat-select-search`](https://www.npmjs.com/package/ngx-mat-select-search) is a search input intended to be placed inside Angular Material's existing `mat-select`. Choose `ngx-mat-select` when you need an independent, virtualized select with first-class server-side data support.
 
 ## Version compatibility
 
-The current npm stable release is `16.0.4`. The repository source is being prepared for the `21.0.0-next.0` prerelease.
+The current npm stable release is `21.0.1` and supports Angular and Angular Material 21 or 22.
 
 | ngx-mat-select | Angular and Angular Material | Status |
 | --- | --- | --- |
-| `21.0.0-next.0` / `21.x` | `21.x` or `22.x` | Upcoming; verified with clean Angular 21 and 22 consumers |
+| `21.x` | `21.x` or `22.x` | Current stable release; verified with clean Angular 21 and 22 consumers |
 | `20.x` | `20.x` | Compatibility release |
 | `19.x` | `19.x` | Compatibility release |
 | `18.x` | `18.x` | Compatibility release |
 | `17.x` | `17.x` | Compatibility release |
-| `16.x` | `16.x` | Current npm stable release |
+| `16.x` | `16.x` | Previous release line |
 | `15.x` | `15.x` | Previous release line |
 | `14.x` | `14.x` | Previous release line |
 
-The Angular 17–20 compatibility releases preserve the validated migration checkpoints for applications that cannot yet move to Angular 21.
+The Angular 17–20 compatibility releases remain available for applications that cannot yet move to Angular 21.
 
 ## Installation
 
@@ -36,12 +42,6 @@ Install the current stable release:
 
 ```bash
 npm install ngx-mat-select
-```
-
-After the Angular 21 prerelease is published, install it with:
-
-```bash
-npm install ngx-mat-select@next
 ```
 
 Angular Material, the Angular CDK, and Angular animations are peer dependencies and must use a compatible major version.
@@ -122,8 +122,8 @@ providers: [
 ## Migrating from 16.x
 
 - Upgrade the application to Angular, Angular Material, and Angular CDK 21 or 22 first.
-- Install `ngx-mat-select@next` while evaluating the prerelease.
+- Install the current stable `ngx-mat-select` release.
 - Keep the Sass theme import and `NgxMatSelectModule` import shown above.
-- Run the application's build, tests, and SSR build if applicable before moving to the final `21.x` release.
+- Run the application's build, tests, and SSR build if applicable before completing the migration.
 
 The package is validated through its public entry point in clean Angular 21 and Angular 22 consumer applications.
