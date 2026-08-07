@@ -1,17 +1,35 @@
-# ngx-mat-select — Searchable Virtual Angular Material Select
+# ngx-mat-select — Searchable, Virtualized Angular Material Select
 
-`ngx-mat-select` is an independent Angular Material select component with built-in search, virtual scrolling, server-side filtering, infinite scrolling, and single or multiple selection.
+`ngx-mat-select` is an independent Angular Material dropdown/select component for large local or remote datasets. It combines built-in search, CDK virtual scrolling, server-side filtering, infinite scrolling, and single or multiple selection in one control.
+
+Choose it when a standard `mat-select` needs searchable options, virtualization, or paginated data from an API. It works with Angular forms and fits inside `mat-form-field`.
+
+```bash
+npm install ngx-mat-select
+```
+
+[Documentation](https://alireza-sohrabi.github.io/ngx-mat-select/) | **[npm](https://www.npmjs.com/package/ngx-mat-select)** | [API reference](https://alireza-sohrabi.github.io/ngx-mat-select/#/api) | [StackBlitz](https://stackblitz.com/edit/ngx-mat-select?file=src/app/app.component.html)
+
+## When to choose ngx-mat-select
+
+| Requirement | Recommended approach |
+| --- | --- |
+| Search and virtualize a large in-memory option list | Use `ngx-mat-select` in `clientSide` mode |
+| Search a remote API and load results page by page | Use `ngx-mat-select` in `serverSide` mode |
+| Add only a search field to an existing Material `mat-select` | Use a search-input add-on such as `ngx-mat-select-search` |
+| Use Angular without Angular Material | Choose a framework-agnostic select component |
+
+`ngx-mat-select` is a strong fit for user pickers, product selectors, country/city selectors, and other Angular Material dropdowns whose option lists are too large to render or download at once.
 
 ## Features
 
-- Client-side and server-side search
-- Virtual scrolling for client-side and server-side data
+- Built-in client-side and server-side search
+- Angular CDK virtual scrolling for local and remote data
 - Infinite scrolling for server-side data
 - Single and multiple selection
+- Reactive forms and template-driven forms
 - Custom option and trigger templates
 - Right-to-left layouts with `dir="rtl"`
-
-[Documentation](https://alireza-sohrabi.github.io/ngx-mat-select/) | [npm](https://www.npmjs.com/package/ngx-mat-select) | [Customization examples](https://alireza-sohrabi.github.io/ngx-mat-select/#/other-examples/customize) | [StackBlitz](https://stackblitz.com/edit/ngx-mat-select?file=src/app/app.component.html)
 
 ## How it differs from ngx-mat-select-search
 
@@ -21,7 +39,7 @@
 
 ## Version compatibility
 
-The current npm stable release is `21.0.1` and supports Angular and Angular Material 21 or 22.
+The current npm stable release is `21.0.2` and supports Angular and Angular Material 21 or 22.
 
 | ngx-mat-select | Angular and Angular Material | Status |
 | --- | --- | --- |
@@ -90,6 +108,60 @@ export class FeatureModule {}
   </ngx-mat-select>
 </mat-form-field>
 ```
+
+For object options, specify the display field and stable identity field:
+
+```ts
+options = [
+  { id: 1, name: 'Ada Lovelace' },
+  { id: 2, name: 'Grace Hopper' },
+];
+```
+
+```html
+<mat-form-field>
+  <mat-label>User</mat-label>
+  <ngx-mat-select
+    clientSide
+    [options]="options"
+    optionLabel="name"
+    dataKey="id"
+    [hasSearchBox]="true">
+  </ngx-mat-select>
+</mat-form-field>
+```
+
+## Server-side search and infinite scroll
+
+Use `serverSide` when an API owns filtering and pagination. The fetch function receives a one-based page number and must return an `Observable` of the next option page.
+
+```ts
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { NgxMatSelectSearchParams } from 'ngx-mat-select';
+
+constructor(private readonly http: HttpClient) {}
+
+fetchUsers = ({ searchTerm, pageNumber, pageSize }: NgxMatSelectSearchParams) =>
+  this.http.get<User[]>('/api/users', {
+    params: new HttpParams()
+      .set('q', searchTerm)
+      .set('page', pageNumber)
+      .set('pageSize', pageSize),
+  });
+```
+
+```html
+<ngx-mat-select
+  serverSide
+  [fetchOptions]="fetchUsers"
+  [pageSize]="25"
+  [hasSearchBox]="true"
+  optionLabel="name"
+  dataKey="id">
+</ngx-mat-select>
+```
+
+See the [client-side guide](https://alireza-sohrabi.github.io/ngx-mat-select/#/client-side), [server-side guide](https://alireza-sohrabi.github.io/ngx-mat-select/#/server-side), and [customization examples](https://alireza-sohrabi.github.io/ngx-mat-select/#/other-examples/customize) for complete examples.
 
 ## Global defaults
 

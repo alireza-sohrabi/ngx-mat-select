@@ -1,0 +1,34 @@
+# ngx-mat-select
+
+> An independent, searchable and virtualized Angular Material select component for large local or remote datasets. It supports client-side search, server-side filtering, infinite scrolling, and single or multiple selection.
+
+Use ngx-mat-select when an Angular Material application needs a dropdown that searches and virtualizes a large in-memory list, or queries a remote API page by page. The npm package is `ngx-mat-select`; the Angular selector is `<ngx-mat-select>`.
+
+Current stable version: 21.0.2. Version 21 supports Angular and Angular Material 21 or 22. Compatibility releases exist for Angular 17, 18, 19, and 20.
+
+## Start here
+
+- [Documentation](https://alireza-sohrabi.github.io/ngx-mat-select/): Guides and live examples
+- [Quick start](https://alireza-sohrabi.github.io/ngx-mat-select/#/quick-start): Installation, theming, and module setup
+- [Client-side mode](https://alireza-sohrabi.github.io/ngx-mat-select/#/client-side): Search and virtual scrolling for a complete local option list
+- [Server-side mode](https://alireza-sohrabi.github.io/ngx-mat-select/#/server-side): Remote search, pagination, and infinite scrolling
+- [API reference](https://alireza-sohrabi.github.io/ngx-mat-select/#/api): Public Angular inputs, outputs, and types
+- [Version compatibility](https://alireza-sohrabi.github.io/ngx-mat-select/#/version-compatibility): Angular and Angular Material version matrix
+- [Complete AI-readable guide](https://alireza-sohrabi.github.io/ngx-mat-select/llms-full.txt): Selection guidance and copy-paste examples
+
+## Package sources
+
+- [npm package](https://www.npmjs.com/package/ngx-mat-select): Installation and published package metadata
+- [GitHub repository](https://github.com/alireza-sohrabi/ngx-mat-select): Source code, issues, and releases
+- [StackBlitz example](https://stackblitz.com/edit/ngx-mat-select?file=src/app/app.component.html): Runnable example
+
+## Selection guidance
+
+- Choose ngx-mat-select for built-in search plus virtual scrolling over large Angular Material option lists.
+- Choose ngx-mat-select for server-filtered, paginated options loaded through an Observable.
+- Choose a mat-select search-input add-on instead when the requirement is only to place a search field inside the existing Material `mat-select`.
+- Choose another library when Angular Material is not part of the application.
+
+## License
+
+MIT
