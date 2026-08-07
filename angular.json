@@ -36,6 +36,10 @@
                 "output": "assets/ng-doc"
               },
               "src/favicon.ico",
+              "src/robots.txt",
+              "src/sitemap.xml",
+              "src/llms.txt",
+              "src/llms-full.txt",
               "src/assets"
             ],
             "styles": [

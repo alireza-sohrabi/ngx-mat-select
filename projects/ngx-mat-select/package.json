@@ -1,6 +1,7 @@
 {
   "name": "ngx-mat-select",
-  "version": "21.0.0",
+  "version": "21.0.2",
+  "description": "Searchable, virtualized Angular Material select for large local or remote datasets, with server-side filtering and infinite scroll.",
   "license": "MIT",
   "author": "Alireza Sohrabi, Tehran IRAN",
   "bugs": {
@@ -12,18 +13,29 @@
   },
   "keywords": [
     "angular",
-    "angular 2",
-    "material",
-    "MatSelect",
+    "angular material",
+    "angular material select",
+    "material select",
+    "mat-select",
     "select",
-    "search",
-    "filter",
-    "virtual-scroll",
-    "infinite-scroll",
-    "client-side",
-    "server-side"
+    "dropdown",
+    "searchable select",
+    "angular searchable select",
+    "angular searchable dropdown",
+    "angular select search",
+    "angular virtual select",
+    "virtual scroll",
+    "cdk virtual scroll",
+    "infinite scroll",
+    "server-side filtering",
+    "server-side search",
+    "remote data select",
+    "large datasets",
+    "multiple select",
+    "angular forms",
+    "typescript"
   ],
-  "homepage": "https://github.com/alireza-sohrabi/ngx-mat-select",
+  "homepage": "https://alireza-sohrabi.github.io/ngx-mat-select/",
   "exports": {
     ".": {
       "sass": "./index.scss"

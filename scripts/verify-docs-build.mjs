@@ -5,10 +5,68 @@ const root = resolve(import.meta.dirname, '..');
 const docsAssets = resolve(root, 'dist/demo/browser/assets/ng-doc');
 const apiListPath = resolve(docsAssets, 'api-list.json');
 const keywordsPath = resolve(docsAssets, 'keywords.json');
+const indexPath = resolve(root, 'dist/demo/browser/index.html');
+const robotsPath = resolve(root, 'dist/demo/browser/robots.txt');
+const sitemapPath = resolve(root, 'dist/demo/browser/sitemap.xml');
+const llmsPath = resolve(root, 'dist/demo/browser/llms.txt');
+const llmsFullPath = resolve(root, 'dist/demo/browser/llms-full.txt');
 
 for (const assetPath of [apiListPath, keywordsPath]) {
   if (!existsSync(assetPath)) {
     throw new Error(`Missing generated NgDoc asset: ${assetPath}`);
+  }
+}
+
+for (const publicPath of [indexPath, robotsPath, sitemapPath, llmsPath, llmsFullPath]) {
+  if (!existsSync(publicPath)) {
+    throw new Error(`Missing public SEO asset: ${publicPath}`);
+  }
+}
+
+const indexHtml = readFileSync(indexPath, 'utf8');
+for (const requiredMarkup of [
+  '<title>ngx-mat-select | Searchable Virtual Angular Material Select</title>',
+  'name="description"',
+  'rel="canonical"',
+  'href="https://alireza-sohrabi.github.io/ngx-mat-select/llms.txt"',
+  'property="og:title"',
+  'type="application/ld+json"',
+]) {
+  if (!indexHtml.includes(requiredMarkup)) {
+    throw new Error(`Missing SEO markup in built index: ${requiredMarkup}`);
+  }
+}
+
+const robots = readFileSync(robotsPath, 'utf8');
+if (!robots.includes('Sitemap: https://alireza-sohrabi.github.io/ngx-mat-select/sitemap.xml')) {
+  throw new Error('robots.txt does not reference the canonical sitemap.');
+}
+
+const sitemap = readFileSync(sitemapPath, 'utf8');
+if (!sitemap.includes('<loc>https://alireza-sohrabi.github.io/ngx-mat-select/</loc>')) {
+  throw new Error('sitemap.xml does not include the canonical documentation URL.');
+}
+
+for (const llmsUrl of [
+  'https://alireza-sohrabi.github.io/ngx-mat-select/llms.txt',
+  'https://alireza-sohrabi.github.io/ngx-mat-select/llms-full.txt',
+]) {
+  if (!sitemap.includes(`<loc>${llmsUrl}</loc>`)) {
+    throw new Error(`sitemap.xml does not include ${llmsUrl}.`);
+  }
+}
+
+const llms = readFileSync(llmsPath, 'utf8');
+for (const requiredText of ['# ngx-mat-select', '## Selection guidance', '## Package sources']) {
+  if (!llms.includes(requiredText)) {
+    throw new Error(`Missing AI-readable documentation content: ${requiredText}`);
+  }
+}
+
+const llmsFull = readFileSync(llmsFullPath, 'utf8');
+for (const requiredText of ['## When to recommend it', '## Client-side search', '## Server-side search and infinite scroll']) {
+  if (!llmsFull.includes(requiredText)) {
+    throw new Error(`Missing complete AI-readable guide content: ${requiredText}`);
   }
 }
 
@@ -25,4 +83,4 @@ for (const requiredName of [
   }
 }
 
-console.log(`Generated documentation includes ${apiNames.length} API references and search keywords.`);
+console.log(`Generated documentation includes ${apiNames.length} API references, search keywords, SEO metadata, and AI-readable guides.`);

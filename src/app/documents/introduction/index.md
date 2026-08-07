@@ -1,16 +1,14 @@
 
 
-You are reading the documentation for NgxMatSelect Component.
+# ngx-mat-select: searchable and virtualized Angular Material select
 
-# What is NgxMatSelect?
-This is an Angular Material custom component, redesigned and inspired by the Angular `mat-select` component to 
-concentrate on specific needs like being searchable and using virtual scroll at the same time 
-because Angular `mat-select` does not support them at all.
+`ngx-mat-select` is an independent Angular Material select component for local and remote datasets. It combines built-in search, virtual scrolling, server-side filtering, infinite scrolling, single or multiple selection, and custom option templates in one form-compatible control.
 
-It is common knowledge among `Angular Material` developers that combining `mat-auto-complete` 
-and `mat-form-field` can be a good solution to solve the searching issue, 
-but yet there is a need to solve this issue in an open-source,
-versatile, independent, union, and progressive way, that's where `ngx-mat-select` comes up.
+Use it when a standard Angular Material `mat-select` does not provide the search, virtualization, or remote-data behavior your application needs.
+
+## ngx-mat-select compared with ngx-mat-select-search
+
+`ngx-mat-select` provides the complete select control and is designed to virtualize large option lists and fetch filtered pages from a server. `ngx-mat-select-search` provides a search input that is embedded inside an existing `mat-select`. The packages solve related but different problems.
 
 Here is a minimal example:
 
@@ -41,5 +39,4 @@ export class MyComponent {
 {{ NgDocActions.demo("IntroductionComponent") }}
 
 >**Note**
->As you can see, `ngx-mat-select` is compatible with `mat-form-field` which means,
->it can be used inside a form, and it has all advantages of the Angular form controller
+>As you can see, `ngx-mat-select` is compatible with `mat-form-field`, Angular forms, and Angular Material theming.
