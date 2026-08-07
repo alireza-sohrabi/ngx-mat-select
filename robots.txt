@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://alireza-sohrabi.github.io/ngx-mat-select/sitemap.xml
