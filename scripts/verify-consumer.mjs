@@ -17,7 +17,7 @@ const versions = {
   '19': { angular: '19.2.25', cli: '19.2.27', material: '19.2.19' },
   '20': { angular: '20.3.27', cli: '20.3.33', material: '20.2.14' },
   '21': { angular: '21.2.19', cli: '21.2.20', material: '21.2.14' },
-  '22': { angular: '22.1.0', cli: '22.1.3', material: '22.1.1' },
+  '22': { angular: '22.1.1', cli: '22.1.3', material: '22.1.1' },
 };
 
 if (!major || !versions[major]) {

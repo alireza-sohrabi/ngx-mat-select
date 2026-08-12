@@ -1,6 +1,6 @@
 {
   "name": "ngx-mat-select",
-  "version": "21.0.2",
+  "version": "21.0.3",
   "description": "Searchable, virtualized Angular Material select for large local or remote datasets, with server-side filtering and infinite scroll.",
   "license": "MIT",
   "author": "Alireza Sohrabi, Tehran IRAN",
@@ -36,6 +36,13 @@
     "typescript"
   ],
   "homepage": "https://alireza-sohrabi.github.io/ngx-mat-select/",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "engines": {
+    "node": ">=20.19"
+  },
   "exports": {
     ".": {
       "sass": "./index.scss"

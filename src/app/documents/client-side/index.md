@@ -1,105 +1,57 @@
-# Client Side
+# Client-side search and virtual scrolling
 
-You should use `client-side` mode when whole the options are available at once, and the size of
-the options does not matter, but keep it in mind that the select box uses `Virtual Scroll`, so
-you don't worry about number of rendered options in the panel.
+Use `clientSide` when the application already has the complete option list. Search filters the array in memory, while CDK virtual scrolling renders only the visible rows.
 
-When you are using client-side select box, the most important things you need to know are:
+## Object options without a form value
 
-- How to treat with the value of the select box?
-- What type of option you can provide, `primitives` or `object`?
-- What are the `optionValue`, `dataKey`, `compareWith` and `optionLabel`?
-- When setting the value, is the value verified with the options?
-- Can I load whole the options lazily?
-- Can I change the search-box comparison?
-
-> To make it brief, every select box is in the multiple mode, but you can make it single just with
-> change the value of the `multiple` input to false
-
-## Object Options
-
-When the options are `objects` we should pay deep attention to what we need to provide for the select box as Inputs
-
-### None value
-
-When you don't want to use any value and want to take advantage of `onSelectionChange` event
-somehow no matter which one of  `optionValue`, `dataKey` or `compareWith` inputs you provide
+Listen to `selectionChange` when selection is handled directly rather than through an Angular form.
 
 {{ NgDocActions.demo("WithoutAnyValueComponent") }}
 
-> **Warning**
-> As you can see when you use `optionVlaue` it has direct impact on the output value of the select box,
-> the value would be `option[optionValue]`, while you use `dataKey` or `compareWith` it does not have any effect on it
+## Store a primitive value
 
-### Value as primitives
-
-When the value is a primitive like `number` and the options are objects you need to provide
-`optionLabel` and `optionValue` at the same time
+Set `optionLabel` to the property users see and `optionValue` to the primitive property stored by the form.
 
 {{ NgDocActions.demo("ReactiveFormPrimitiveValueComponent") }}
 
-### Value as object
+```html
+<ngx-mat-select
+  clientSide
+  [options]="users"
+  optionLabel="name"
+  optionValue="id"
+  [formControl]="userIdControl">
+</ngx-mat-select>
+```
 
-When the value is an object you should not set ``optionValue`` instead you need to set
-``compareWith`` or ``dataKey`` to make a comparison between options and value to find the selected items
+`optionValue` directly determines the emitted and stored value.
+
+## Store the selected object
+
+Omit `optionValue` when the form should store the entire object. Provide `dataKey` for stable identity, or `compareWith` when identity requires custom logic.
 
 {{ NgDocActions.demo("ReactiveFormObjectValueComponent") }}
 
-> **Note**
-> What exactly are `dataKey` and `compareWith`? what are the differences? `dataKey` or `compareWith`?
->- their functionalities are the same, they are used to find the selected items
->- `dataKey` is a string value which makes a comparison like `option[dataKey] === value[dataKey]` while
-   the `compareWith` is a `funciton` which returns a `boolean`, when you provide both of them,
-   > the `compareWith` prioritizes.
->- it's recommended to use `dataKey` instead of providing `compareWith`, because when `dataKey` is used, the
-   > options and value are compared in a safe way checking all the possible errors which could be happened because
-   of `null` or `undefined` state.
+`dataKey="id"` compares `option.id` with `value.id` and safely handles nullish values. When both are supplied, `compareWith` takes precedence.
 
-> **Note**
-> When setting the value, is the value verified with the options?
->
-> **Value would be verified with the received options**.
->
-> As you can see in the TypeScript file the value with the id of `2500`  is not present in the options so this is the
-> rule
-> in the client-side
-> mode when the initial value has some values which are not present in the options, the select box will automatically
-> remove them from the form and the value.
+Client-side mode validates form values against the complete options array. Values that are not present are removed after options finish loading.
 
+## Primitive options
 
-> **Summary**   
-> options can be objects in this case
->- you need to set  `optionLabel`
->- if the value is a primitive, you just need to set `optionValue` or one of  `dataKey` and `compareWith` if you are
-   setting the `optionValue` you need to know it has direct impact on the output value of the select box
->- if the value is an object, you should not set the `optionValue` instead should set `dataKey` or `compareWith`
-   function in order to
-   find the selected items
-
-## Primitive Options
-
-The options items can be Primitives like `boolean`, `number`, `string`, `undefined` in this case `optionValue`
-and `optionLabel` can be `undefined`, if they are set, the select component automatically will be noticed that the
-options are primitive and ignore the provided `optionValue` and `optionLabel`.
-
-> When It comes to primitive options we should set the value of the select-box a primitive like the option
+Strings, numbers, booleans, `null`, and `undefined` can be used directly without `optionLabel` or `optionValue`.
 
 {{ NgDocActions.demo("PrimitiveComponent") }}
 
-## Lazy load options
+## Load the complete array asynchronously
 
-When you need to load the options from the server lazily, you have to set `loading` input `true` until
-the options are loaded, but remember in the client-mode you should load all the options together at once.
+Set `loading` while the array is being fetched. This prevents an initial form value from being removed before options arrive.
 
 {{ NgDocActions.demo("OptionsAtOnceComponent") }}
 
-> **Warning**
-> If you don't set `loading` input `true` while the options are loading, the select box won't wait for it to be loaded
-> and will remove the initial value
+Client-side mode expects the complete array in one update. For paged APIs, use [server-side mode](../server-side).
 
-## Search box comparison
+## Customize matching
 
-if you want to change the default comparison between options and
-searchTerm you can set `searchComparison` input like the below.
+Default string matching is trimmed and case-insensitive. Provide `searchComparison` for locale-aware, multi-field, or fuzzy matching.
 
 {{ NgDocActions.demo("SearchBoxComparisonComponent") }}

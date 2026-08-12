@@ -5,5 +5,8 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class IntroductionComponent {
-  options = [1, 2, 3, 4, 5, 6, 7];
+  readonly options = Array.from({length: 10_000}, (_, index) => ({
+    id: index + 1,
+    name: `Option ${String(index + 1).padStart(5, '0')}`,
+  }));
 }

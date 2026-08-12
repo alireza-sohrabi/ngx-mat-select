@@ -1,36 +1,46 @@
-# How to contribute
+# Contributing to ngx-mat-select
 
-I'm really glad you're reading this, because we need volunteer developers to help this project come to fruition.
+Thank you for improving `ngx-mat-select`. Bug reports, documentation corrections, accessibility findings, tests, and focused pull requests are welcome.
 
-If you haven't already, come find us in NPM(https://www.npmjs.com/package/ngx-mat-select). We want you working on things you're excited about.
+## Before opening an issue
 
-Here are some important resources:
+- Search [existing issues](https://github.com/alireza-sohrabi/ngx-mat-select/issues).
+- Confirm the problem with a supported Angular and `ngx-mat-select` version.
+- Create a minimal reproduction in StackBlitz or a small repository when possible.
+- Use GitHub Security Advisories rather than a public issue for vulnerabilities.
 
-  * [Sample for Developers](https://stackblitz.com/edit/ngx-mat-select?file=package.json) tells you how to use our code,
-  * Mailing list: Join our [developer list](pdn.info.es@gmail.com)
-  * Bugs? [Lighthouse](github) is where to report them
+## Local development
 
-## Submitting changes
+Requirements: Node.js 22 and npm 11.
 
-Please send a [GitHub Pull Request to NgxMatSelect](https://github.com/alireza-sohrabi/ngx-mat-select/new/master) with a clear list of what you've done (read more about [pull requests](http://help.github.com/pull-requests/)). When you send a pull request, we will love you forever if you include RSpec examples. We can always use more test coverage. Please follow our coding conventions (below) and make sure all of your commits are atomic (one feature per commit).
+```bash
+npm ci
+npm start
+```
 
-Always write a clear log message for your commits. One-line messages are fine for small changes, but bigger changes should look like this:
+The documentation application runs at `http://localhost:4200`.
 
-    $ git commit -m "A brief summary of the commit
-    > 
-    > A paragraph describing what changed and its impact."
+## Validate a change
 
-## Coding conventions
+Run the checks that apply to your change before opening a pull request:
 
-Start reading our code and you'll get the hang of it. We optimize for readability:
+```bash
+npm test
+npm run build:ci
+npm run verify:public-api
+npm run verify:consumer
+```
 
-  * We indent using two spaces (soft tabs)
-  * We use HAML for all views
-  * We avoid logic in views, putting HTML generators into helpers
-  * We ALWAYS put spaces after list items and method parameters (`[1, 2, 3]`, not `[1,2,3]`), around operators (`x += 1`, not `x+=1`), and around hash arrows.
-  * This is open source software. Consider the people who will read your code, and make it look nice for them. It's sort of like driving a car: Perhaps you love doing donuts when you're alone, but with passengers the goal is to make the ride as smooth as possible.
-  * So that we can consistently serve images from the CDN, always use image_path or image_tag when referring to images. Never prepend "/images/" when using image_path or image_tag.
-  * Also for the CDN, always use cwd-relative paths rather than root-relative paths in image URLs in any CSS. So instead of url('/images/blah.gif'), use url('../images/blah.gif').
+Changes to keyboard behavior or visual states should include tests. UI changes should be checked in light and dark themes, narrow and wide viewports, keyboard-only navigation, and both LTR and RTL direction.
 
-Thanks,
-Alireza Sohrabi, Senior FullStack Developer
+## Pull requests
+
+1. Fork the repository and create a focused branch.
+2. Keep unrelated refactors out of the pull request.
+3. Add or update tests and documentation.
+4. Use a clear title and explain the user-visible effect.
+5. Note breaking changes explicitly. Breaking public API changes require a new major release.
+
+The project uses TypeScript, Angular templates, and SCSS with two-space indentation. Follow the existing formatter and naming conventions.
+
+By participating, you agree to the [Code of Conduct](CODE_OF_CONDUCT.md).

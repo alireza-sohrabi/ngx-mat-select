@@ -1,0 +1,50 @@
+name: Bug report
+description: Report reproducible incorrect behavior
+title: "[Bug]: "
+labels: [bug, needs-triage]
+body:
+  - type: markdown
+    attributes:
+      value: Please search existing issues and avoid including secrets or private data.
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: ngx-mat-select, Angular, Angular Material, browser, and operating system versions
+      placeholder: ngx-mat-select 21.0.2, Angular 21.2, Chrome 151, Windows 11
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Link to StackBlitz or a small repository and provide exact steps
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: dropdown
+    id: input-method
+    attributes:
+      label: Input method
+      multiple: true
+      options: [Mouse or touch, Keyboard, Screen reader, Not applicable]
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues.
+          required: true
+        - label: I can reproduce this on a supported version.
+          required: true

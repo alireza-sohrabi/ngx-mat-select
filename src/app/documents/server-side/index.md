@@ -1,58 +1,53 @@
+# Server-side search and infinite scroll
 
+Use `serverSide` when downloading the complete option list would be slow or wasteful. The component queries your API when the search changes and requests another page as the virtual list approaches its end.
 
-You need to use Server-Side mode, When there are enormous options that the loading of them costs huge then
-you have to load them page per page.
+## Fetch options
 
-When you are using server-side select box. you need to know several things,
+The fetch function receives a one-based page number and returns an `Observable` containing that page:
 
-- How to fetch the options?
-- How to treat with the value of the select box?
-- When setting the value, is the value verified with the options?
-
-> To make it brief, every select box is in the multiple mode, but you can make it single just with
-> change the value of the `multiple` input to false
-
-> **Note**
-> `Select Box` always takes advantage of virtual and Infinite Scroll together in the `Server-Side` Mode that
-> means don't worry about the rendered options in the DOM.
-
-## Fetching the Options
-
-to fetch the options you need to provide a function with an object parameter, has the below properties
-
-| Property     | Description                                                  |
-|--------------|--------------------------------------------------------------|
-| `searchTerm` | the string chars are written down by the client.             |
-| `pageNumber` | the number of the current page which gets started from `one` |
-| `pageSize`   | the number of options are present in each page.              |
+| Property | Meaning |
+| --- | --- |
+| `searchTerm` | Current text entered in the search field |
+| `pageNumber` | Requested page, starting at `1` |
+| `pageSize` | Requested number of options |
 
 {{ NgDocActions.demo("FetchOptionsComponent") }}
 
-## Object Options
+```typescript
+fetchUsers = ({searchTerm, pageNumber, pageSize}: NgxMatSelectSearchParams) =>
+  this.http.get<User[]>('/api/users', {
+    params: {q: searchTerm, page: pageNumber, pageSize},
+  });
+```
 
-When the options are `objects` we should provide `object value`,
-and you should not set ``optionValue`` instead you need to set
-``compareWith`` or ``dataKey`` to make a comparison between options and value to find the selected items
+```html
+<ngx-mat-select
+  serverSide
+  [fetchOptions]="fetchUsers"
+  [pageSize]="25"
+  [hasSearchBox]="true"
+  optionLabel="name"
+  dataKey="id">
+</ngx-mat-select>
+```
+
+The panel displays and announces loading, empty, error, and retry states. Customize their labels with `loadingText`, `noOptionsText`, `errorText`, and `retryText`.
+
+## Object values
+
+When values are objects, provide `optionLabel` plus either `dataKey` or `compareWith`. Do not set `optionValue` if the form should store the entire object.
 
 {{ NgDocActions.demo("ObjectValueComponent") }}
 
-## Primitive Options
+## Primitive values
 
-When the options are `Primitives` we should provide `primitive value`,in this case `optionValue`
-and `optionLabel` can be `undefined`.
+Primitive options do not require `optionLabel`, `optionValue`, or `dataKey`.
 
 {{ NgDocActions.demo("PrimitiveValueComponent") }}
 
-> **Note**
-> **In the server-side mode, there is no way to verify the options with the value, because all the options are not
-available at once.**
->
-> so you can see, there is `option_2500` in the value of the form-control which is not present in the fake DB options,
-> but
-> It has not been removed from the value of the select box and the form.
+## Important value behavior
 
+Server-side mode cannot validate a preselected value against every possible option because only part of the remote dataset is loaded. Preselected values are therefore retained until your application changes them.
 
-> **Summary**
->
-> In the server-side mode whatever value you provide, will be added to the select box value without verifying with the
-> received options.
+For a complete in-memory dataset, use [client-side mode](../client-side).

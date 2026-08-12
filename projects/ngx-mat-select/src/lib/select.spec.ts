@@ -8,7 +8,7 @@ import {
 import { dispatchFakeEvent } from './test-helper';
 
 import { NgxMatSelectComponent } from './select';
-import { EMPTY, Observable } from 'rxjs';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 import {
   Component,
   Provider,
@@ -142,8 +142,64 @@ describe('NgxMatSelectComponent', () => {
 
         expect(select.getAttribute('role')).toBe('combobox');
         expect(select.getAttribute('aria-expanded')).toBe('false');
+        expect(select.getAttribute('aria-labelledby')).toContain(
+          'mat-mdc-form-field-label-'
+        );
         expect(trigger.textContent).toContain('Food');
       });
+
+      it('should open with the keyboard and connect the combobox to the listbox', fakeAsync(() => {
+        const select = fixture.nativeElement.querySelector(
+          'ngx-mat-select'
+        ) as HTMLElement;
+
+        select.dispatchEvent(
+          new KeyboardEvent('keydown', { code: 'Enter', bubbles: true })
+        );
+        fixture.detectChanges();
+        flush();
+
+        const listbox = overlayContainerElement.querySelector(
+          '[role="listbox"]'
+        ) as HTMLElement;
+        expect(fixture.componentInstance.select.panelOpen).toBeTrue();
+        expect(select.getAttribute('aria-controls')).toBe(listbox.id);
+        expect(select.getAttribute('aria-activedescendant')).toContain(
+          `${select.id}-option-`
+        );
+      }));
+
+      it('should not activate a disabled option when the panel opens', fakeAsync(() => {
+        fixture.componentInstance.foods[0].disabled = true;
+        fixture.detectChanges();
+
+        trigger.click();
+        fixture.detectChanges();
+        flush();
+        fixture.detectChanges();
+
+        const select = fixture.nativeElement.querySelector(
+          'ngx-mat-select'
+        ) as HTMLElement;
+        expect(select.getAttribute('aria-activedescendant')).toBe(
+          `${select.id}-option-1`
+        );
+      }));
+
+      it('should render an accessible empty state', fakeAsync(() => {
+        fixture.componentInstance.foods = [];
+        fixture.detectChanges();
+        flush();
+
+        trigger.click();
+        fixture.detectChanges();
+        flush();
+
+        const status = overlayContainerElement.querySelector(
+          '.ngx-mat-select-state[role="status"]'
+        ) as HTMLElement;
+        expect(status.textContent).toContain('No options found');
+      }));
 
       it('should close the panel when a click occurs outside the panel', fakeAsync(() => {
         trigger.click();
@@ -273,6 +329,37 @@ describe('NgxMatSelectComponent', () => {
       );
     });
   });
+
+  describe('server-side request states', () => {
+    beforeEach(waitForAsync(() => {
+      configureMatSelectTestingModule([ServerSelect]);
+    }));
+
+    it('should show an error and retry the failed page', fakeAsync(() => {
+      const fixture = TestBed.createComponent(ServerSelect);
+      fixture.detectChanges();
+      flush();
+
+      const trigger = fixture.nativeElement.querySelector(
+        'ngx-mat-select-trigger'
+      ) as HTMLElement;
+      trigger.click();
+      fixture.detectChanges();
+      flush();
+
+      const retry = overlayContainerElement.querySelector(
+        '.ngx-mat-select-retry-button'
+      ) as HTMLButtonElement;
+      expect(overlayContainerElement.querySelector('[role="alert"]')).toBeTruthy();
+
+      retry.click();
+      fixture.detectChanges();
+      flush();
+
+      expect(overlayContainerElement.textContent).toContain('Recovered option');
+      expect(fixture.componentInstance.attempts).toBe(2);
+    }));
+  });
 });
 
 @Component({
@@ -331,4 +418,29 @@ class BasicSelect {
 
   @ViewChild(NgxMatSelectComponent, { static: true })
   select!: NgxMatSelectComponent;
+}
+
+@Component({
+  selector: 'server-select',
+  template: `
+    <mat-form-field>
+      <mat-label>Remote option</mat-label>
+      <ngx-mat-select
+        serverSide
+        [fetchOptions]="fetchOptions"
+        [hasSearchBox]="true">
+      </ngx-mat-select>
+    </mat-form-field>
+  `,
+  standalone: false,
+})
+class ServerSelect {
+  attempts = 0;
+
+  fetchOptions = () => {
+    this.attempts++;
+    return this.attempts === 1
+      ? throwError(() => new Error('Network unavailable'))
+      : of(['Recovered option']);
+  };
 }

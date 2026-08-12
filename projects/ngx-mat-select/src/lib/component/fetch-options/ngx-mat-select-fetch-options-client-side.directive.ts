@@ -53,17 +53,22 @@ export class NgxMatSelectFetchOptionsClientSideDirective
    * @param searchTerm
    */
   search = (searchTerm: string) => {
+    const normalizedSearchTerm = searchTerm?.trim().toLocaleLowerCase();
     const comparisonFn = (option: any) => {
-      if (!isNullOrUndefined(searchTerm) && searchTerm !== '') {
+      if (!isNullOrUndefined(normalizedSearchTerm) && normalizedSearchTerm !== '') {
         if (this.searchComparison) {
           return this.searchComparison(searchTerm, option);
         } else {
           if (this.host.optionLabel && this.optionType === 'object') {
             return option[this.host.optionLabel]
               ?.toString()
-              .includes(searchTerm);
+              .toLocaleLowerCase()
+              .includes(normalizedSearchTerm);
           } else {
-            return option?.toString().includes(searchTerm);
+            return option
+              ?.toString()
+              .toLocaleLowerCase()
+              .includes(normalizedSearchTerm);
           }
         }
       }

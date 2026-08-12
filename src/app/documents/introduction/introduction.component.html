@@ -1,12 +1,15 @@
-<mat-form-field style="max-width: 350px;width: 100%">
+<mat-form-field appearance="outline" style="width: 100%">
   <mat-label>
-    Select Box
+    Search 10,000 options
   </mat-label>
 
   <ngx-mat-select
     clientSide
     [hasSearchBox]="true"
     [options]="options"
+    optionLabel="name"
+    dataKey="id"
+    searchBoxPlaceholder="Type to filter…"
   >
   </ngx-mat-select>
 </mat-form-field>

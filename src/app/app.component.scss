@@ -2,3 +2,51 @@
   max-width: 450px;
   width: 100%;
 }
+
+.product-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.product-brand__mark {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  color: white;
+  background: linear-gradient(135deg, #00897b, #00695c);
+  box-shadow: 0 6px 18px rgba(0, 105, 92, 0.25);
+}
+
+.product-navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  > a {
+    color: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    opacity: 0.78;
+
+    &:hover,
+    &:focus-visible {
+      opacity: 1;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .product-navbar-actions > a {
+    display: none;
+  }
+}

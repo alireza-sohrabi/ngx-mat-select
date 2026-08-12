@@ -1,6 +1,6 @@
 {
   "name": "ngx-mat-select-workspace",
-  "version": "21.0.2",
+  "version": "21.0.3",
   "description": "Searchable, virtualized Angular Material select for large local or remote datasets, with server-side filtering and infinite scroll.",
   "license": "MIT",
   "private": true,
@@ -8,18 +8,19 @@
     "ng": "ng",
     "start": "ng serve demo",
     "build": "npm run build:demo",
-    "build:demo": "npm run build:library && ng build demo --configuration production",
+    "build:demo": "npm run build:library && ng build demo --configuration production && npm run prerender:docs",
     "build:library": "ng build ngx-mat-select --configuration production",
     "test": "ng test ngx-mat-select --watch=false",
     "test:ci": "npm run test -- --progress=false --code-coverage --source-map=true",
     "packagr": "npm run build:library",
     "pack:library": "npm pack ./dist/ngx-mat-select",
-    "build:ci": "npm run build:library && ng build demo --configuration production --progress=false --base-href=/ngx-mat-select/ && npm run verify:docs",
+    "build:ci": "npm run build:library && ng build demo --configuration production --progress=false --base-href=/ngx-mat-select/ && npm run prerender:docs && npm run verify:docs",
     "verify:consumer:21": "node scripts/verify-consumer.mjs 21",
     "verify:consumer:22": "node scripts/verify-consumer.mjs 22",
     "verify:consumer": "node scripts/verify-consumer.mjs",
     "verify:public-api": "npm run build:library && node scripts/verify-public-api.mjs",
-    "verify:docs": "node scripts/verify-docs-build.mjs"
+    "verify:docs": "node scripts/verify-docs-build.mjs",
+    "prerender:docs": "node scripts/prerender-docs.mjs"
   },
   "author": "Alireze Sohrabi, Tehran IRAN",
   "bugs": {
@@ -54,6 +55,14 @@
     "typescript"
   ],
   "homepage": "https://alireza-sohrabi.github.io/ngx-mat-select/",
+  "engines": {
+    "node": ">=20.19"
+  },
+  "overrides": {
+    "ng-morph": {
+      "@angular-devkit/schematics": "16.1.4"
+    }
+  },
   "devDependencies": {
     "@angular-devkit/build-angular": "^21.2.20",
     "@angular/animations": "^21.2.19",
@@ -68,9 +77,12 @@
     "@angular/platform-browser": "^21.2.19",
     "@angular/platform-browser-dynamic": "^21.2.19",
     "@angular/router": "^21.2.19",
-    "@types/jasmine": "~4.3.0",
+    "@ng-doc/app": "21.0.6",
+    "@ng-doc/builder": "21.0.6",
+    "@ng-doc/core": "21.0.6",
+    "@ng-doc/ui-kit": "21.0.6",
     "@types/d3": "^7.4.3",
-    "angular-cli-ghpages": "^1.0.6",
+    "@types/jasmine": "~4.3.0",
     "jasmine-core": "~4.6.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
@@ -81,10 +93,6 @@
     "rxjs": "^7.x.x",
     "tslib": "^2.4.0",
     "typescript": "~5.9.3",
-    "zone.js": "~0.15.1",
-    "@ng-doc/app": "21.0.6",
-    "@ng-doc/builder": "21.0.6",
-    "@ng-doc/core": "21.0.6",
-    "@ng-doc/ui-kit": "21.0.6"
+    "zone.js": "~0.15.1"
   }
 }

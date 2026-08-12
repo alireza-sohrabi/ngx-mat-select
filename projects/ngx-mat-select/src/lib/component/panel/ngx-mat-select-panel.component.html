@@ -13,10 +13,13 @@
   cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
   (detach)="afterClose.emit()">
   <div
+    [id]="id"
     class="ngx-mat-select-panel mdc-menu-surface mdc-menu-surface--open {{ theme }}"
     [ngClass]="panelClass"
     [style.height.px]="viewType === 'Default'? height: ''"
     role="listbox"
+    [attr.aria-multiselectable]="multiple ? 'true' : null"
+    [attr.aria-busy]="busy ? 'true' : null"
     [@transformPanel]="(isOpen$ | async) ? 'showing' : ''"
   >
     <ng-content></ng-content>

@@ -15,4 +15,7 @@ export class NgxMatSelectLoadingComponent {
    * if ture the spinner gets appeared
    */
   @Input() loading = false;
+
+  /** Text announced to assistive technology while loading. */
+  @Input() label = 'Loading options';
 }

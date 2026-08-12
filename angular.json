@@ -54,7 +54,11 @@
             },
             "scripts": [],
             "allowedCommonJsDependencies": [
-              "@ng-doc/core"
+              "@ng-doc/core",
+              "@braintree/sanitize-url",
+              "cytoscape-cose-bilkent",
+              "dayjs",
+              "elkjs"
             ],
             "browser": "src/main.ts"
           },
@@ -74,8 +78,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
+                  "maximumWarning": "2.5mb",
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -171,5 +175,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

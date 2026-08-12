@@ -4,10 +4,10 @@
   (click)="toggle()"
   (deselect)="onDeselect($event)"
   [disabled]="disabled"
+  [multiple]="multiple"
   [multipleDisplay]="multipleDisplay"
   [selection]="selectionModel?.selected || []"
   [customTrigger]="triggerContent?.template || null"
-  [multiple]="multiple"
   [optionLabel]="optionLabel"
   [placeholder]="placeholder"
   [empty]="empty"
@@ -15,6 +15,7 @@
 </ngx-mat-select-trigger>
 
 <ngx-mat-select-panel
+  [id]="panelId"
   [width]="panelWidth"
   [height]="panelHeight"
   [overlayClass]="_overlayPanelClass"
@@ -25,6 +26,8 @@
   (afterClose)="onAfterPanelClose()"
   [theme]="_getPanelTheme()"
   [disabled]="disabled"
+  [multiple]="multiple"
+  [busy]="(loading$ | async) === true"
   [viewType]="viewType"
   [connectedOverlayOrigin]="preferredOverlayOrigin || fallbackOverlayOrigin.elementRef"
 >
@@ -35,19 +38,31 @@
       class="ngx-mat-select-panel-search-box"
       (handleKeydown)="_handleKeydown($event)"
       [placeholder]="searchBoxPlaceholder"
+      [ariaLabel]="searchBoxAriaLabel"
+      [clearAriaLabel]="clearSearchAriaLabel"
+      [controls]="panelId"
+      [activeDescendant]="activeDescendant"
     >
     </ngx-mat-select-search-box>
     }
     <div class="ngx-mat-select-panel-header-filler"></div>
     @if (hasBackButton) {
-    <div class="ngx-mat-select-back-button" (click)="panel.close()">
+    <button
+      type="button"
+      class="ngx-mat-select-back-button"
+      [attr.aria-label]="backButtonAriaLabel"
+      (click)="panel.close()"
+    >
       <ngx-mat-select-icon icon="ArrowRight" [width]="32" [height]="32">
       </ngx-mat-select-icon>
-    </div>
+    </button>
     }
   </div>
   }
   <div class="ngx-mat-select-panel-content">
+    @let options = filteredOptions$ | async;
+    @let loading = (loading$ | async) === true;
+    @let loadError = error$ | async;
     <cdk-virtual-scroll-viewport
       class="ngx-mat-select-virtual-scroll"
       [itemSize]="optionHeight"
@@ -60,8 +75,10 @@
           ngxMatSelectOption
           #matOption
           [disabled]="isOptionDisabled(option)"
-          [id]="index.toString()"
-          [activated]="activeItemIndex === matOption.id"
+          [id]="getOptionId(index)"
+          [attr.aria-posinset]="index + 1"
+          [attr.aria-setsize]="options?.length || null"
+          [activated]="activeItemIndex === index.toString()"
           [selected]="isSelected(option)"
           [value]="option"
           (onSelectionChange)="onSelectionChange($event)"
@@ -74,11 +91,25 @@
         </mat-option>
       </ng-container>
     </cdk-virtual-scroll-viewport>
+    @if (!loading && !loadError && options?.length === 0) {
+      <div class="ngx-mat-select-state" role="status" aria-live="polite">
+        {{ noOptionsText }}
+      </div>
+    }
+    @if (loadError) {
+      <div class="ngx-mat-select-state ngx-mat-select-state--error" role="alert">
+        <span>{{ errorText }}</span>
+        <button type="button" class="ngx-mat-select-retry-button" (click)="retryFetch()">
+          {{ retryText }}
+        </button>
+      </div>
+    }
   </div>
   <div class="ngx-mat-select-panel-footer">
     <ng-content select="[ngxMatSelectFooter]"></ng-content>
   </div>
   <ngx-mat-select-loading
     [loading]="(loading$ | async) === true"
+    [label]="loadingText"
   ></ngx-mat-select-loading>
 </ngx-mat-select-panel>

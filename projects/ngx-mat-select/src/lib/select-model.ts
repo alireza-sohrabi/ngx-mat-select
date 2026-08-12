@@ -39,6 +39,10 @@ export type NgxMatSelectOptionType = 'primitive' | 'object' | 'unknown';
 export interface NgxMatSelectSearchBoxConfigs {
   searchBoxPlaceholder?: string;
   hasSearchBox?: boolean;
+  /** Accessible name announced for the option search field. */
+  searchBoxAriaLabel?: string;
+  /** Accessible name for the action that clears the search field. */
+  clearSearchAriaLabel?: string;
 }
 
 /** Object that can be used to configure the default options for the select module. */
@@ -46,6 +50,21 @@ export interface NgxMatSelectConfig extends NgxMatSelectSearchBoxConfigs {
   viewType?: NgxMatSelectViewType;
 
   hasBackButton?: boolean;
+
+  /** Text shown when filtering returns no options. */
+  noOptionsText?: string;
+
+  /** Text announced while options are loading. */
+  loadingText?: string;
+
+  /** Text shown when a server-side request fails. */
+  errorText?: string;
+
+  /** Label for the action that retries a failed server-side request. */
+  retryText?: string;
+
+  /** Accessible name for the button that closes full-screen and bottom-sheet views. */
+  backButtonAriaLabel?: string;
 
   /**
    * how to show the selected options inside the form-field when the multiple value it's true
