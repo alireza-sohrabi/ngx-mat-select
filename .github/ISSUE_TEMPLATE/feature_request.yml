@@ -1,0 +1,29 @@
+name: Feature request
+description: Propose a focused improvement
+title: "[Feature]: "
+labels: [enhancement, needs-triage]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user problem should the project solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed API or behavior
+      description: Include a short usage example when possible.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: compatibility
+    attributes:
+      label: Compatibility
+      options:
+        - label: This can be introduced without breaking the current public API.

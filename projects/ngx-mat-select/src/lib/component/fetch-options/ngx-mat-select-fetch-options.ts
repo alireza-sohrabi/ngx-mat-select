@@ -61,7 +61,7 @@ export abstract class NgxMatSelectFetchOptionsDirective
    * a placeholder for the search-box to be shown if nothing is written in the search-box
    */
   @Input() set searchBoxPlaceholder(value: string | undefined | null) {
-    if (this.host.searchBoxComponent && !isNullOrUndefined(value)) {
+    if (!isNullOrUndefined(value)) {
       this.host.searchBoxPlaceholder = value;
     }
   }
@@ -299,7 +299,7 @@ export abstract class NgxMatSelectFetchOptionsDirective
     const selectedVisibleOption = this.host.visibleOptions.find(o => compareWithFn(o.value, selected));
 
     if (selectedVisibleOption) {
-      this.host.activeItemIndex = selectedVisibleOption.id?.toString();
+      this.host.activeItemIndex = this.host.getOptionIndex(selectedVisibleOption.id);
       selectedVisibleOption._getHostElement().scrollIntoView({block: 'end'});
       this._changeDetectorRef.detectChanges();
     }

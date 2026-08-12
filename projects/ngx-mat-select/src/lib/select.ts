@@ -81,10 +81,12 @@ let nextUniqueId = 0;
     'aria-haspopup': 'listbox',
     class: 'ngx-mat-select',
     '[attr.id]': 'id',
-    '[attr.tabindex]': 'tabIndex',
+    '[attr.tabindex]': 'disabled ? -1 : tabIndex',
     '[attr.aria-controls]': 'panelOpen ? id + "-panel" : null',
+    '[attr.aria-activedescendant]': 'activeDescendant',
     '[attr.aria-expanded]': 'panelOpen',
     '[attr.aria-label]': 'ariaLabel || null',
+    '[attr.aria-labelledby]': 'resolvedAriaLabelledby',
     '[attr.aria-required]': 'required.toString()',
     '[attr.aria-disabled]': 'disabled.toString()',
     '[attr.aria-invalid]': 'errorState',
@@ -241,11 +243,37 @@ export class NgxMatSelectComponent
   /** Aria label of the select. */
   @Input('aria-label') ariaLabel = '';
 
+  /** IDs of elements that label the select. */
+  @Input('aria-labelledby') ariaLabelledby?: string;
+
+  /** Explicit label IDs, or the label supplied by the parent Material form field. */
+  get resolvedAriaLabelledby(): string | null {
+    return this.ariaLabelledby || this._parentFormField?.getLabelId() || null;
+  }
+
   /**
    * to show a button next to the search-box to close the panel
    */
   @Input() hasBackButton?: boolean =
     this.defaultOptions?.hasBackButton ?? false;
+
+  /** Text shown when the current query has no matching options. */
+  @Input() noOptionsText =
+    this.defaultOptions?.noOptionsText ?? 'No options found';
+
+  /** Text announced while options are loading. */
+  @Input() loadingText = this.defaultOptions?.loadingText ?? 'Loading options';
+
+  /** Text shown when a server-side option request fails. */
+  @Input() errorText =
+    this.defaultOptions?.errorText ?? 'Options could not be loaded';
+
+  /** Label for the retry action shown after a server-side request failure. */
+  @Input() retryText = this.defaultOptions?.retryText ?? 'Try again';
+
+  /** Accessible name for the panel close button. */
+  @Input() backButtonAriaLabel =
+    this.defaultOptions?.backButtonAriaLabel ?? 'Close options';
 
   /**
    * recommended to use dataKey instead of compareWith,
@@ -390,6 +418,14 @@ export class NgxMatSelectComponent
    */
   searchBoxPlaceholder = this.defaultOptions?.searchBoxPlaceholder ?? '';
 
+  /** Accessible name announced for the option search field. */
+  @Input() searchBoxAriaLabel =
+    this.defaultOptions?.searchBoxAriaLabel ?? 'Search options';
+
+  /** Accessible name for the search clear button. */
+  @Input() clearSearchAriaLabel =
+    this.defaultOptions?.clearSearchAriaLabel ?? 'Clear search';
+
   /** Ideal origin for the overlay panel. */
   preferredOverlayOrigin?: ElementRef;
 
@@ -407,6 +443,12 @@ export class NgxMatSelectComponent
    * a loading flag at button of the panel list when we are using the server-side fetching data
    */
   loading$: Observable<boolean> = of(false);
+
+  /** The latest server-side loading error, if one occurred. */
+  error$: Observable<unknown | null> = of(null);
+
+  /** Retries the latest server-side option request. */
+  retryFetch: () => void = () => {};
 
   /**
    * an observable carries the value, storing the latest value of the select-box.
@@ -669,6 +711,7 @@ export class NgxMatSelectComponent
    * we get a hook before the panel gets open
    */
   onBeforePanelOpen() {
+    this.activeItemIndex ??= '0';
     this.focus();
 
     if (this._parentFormField) {
@@ -690,6 +733,15 @@ export class NgxMatSelectComponent
     );
     setTimeout(() => {
       this.virtualScroll.checkViewportSize();
+
+      const activeOption =
+        this.visibleOptions.find((option) => option.active && !option.disabled) ??
+        this.visibleOptions.find((option) => !option.disabled);
+
+      if (activeOption) {
+        this.activeItemIndex = this.getOptionIndex(activeOption.id);
+        this._changeDetectorRef.markForCheck();
+      }
     });
 
     this.openedChange.emit(this.panelOpen);
@@ -798,6 +850,28 @@ export class NgxMatSelectComponent
     return this.panel?.isOpen || false;
   }
 
+  /** ID of the listbox controlled by this combobox. */
+  get panelId(): string {
+    return `${this.id}-panel`;
+  }
+
+  /** ID of the option currently reached with keyboard navigation. */
+  get activeDescendant(): string | null {
+    return this.panelOpen && !isNullOrUndefined(this.activeItemIndex)
+      ? this.getOptionId(this.activeItemIndex)
+      : null;
+  }
+
+  /** Returns a DOM-safe, select-specific ID for an option index. */
+  getOptionId(index: string | number): string {
+    return `${this.id}-option-${index}`;
+  }
+
+  /** Returns the virtual option index encoded in an option DOM ID. */
+  getOptionIndex(optionId: string | undefined): string | undefined {
+    return optionId?.replace(`${this.id}-option-`, '');
+  }
+
   /** Returns the theme to be used on the panel. */
   _getPanelTheme(): string {
     return this._parentFormField ? `mat-${this._parentFormField.color}` : '';
@@ -829,7 +903,26 @@ export class NgxMatSelectComponent
    * @param event
    */
   _handleKeydown(event: KeyboardEvent) {
+    if (
+      !this.panelOpen &&
+      ['Enter', 'Space', 'ArrowDown', 'ArrowUp'].includes(event.code)
+    ) {
+      event.preventDefault();
+      this.activeItemIndex ??= '0';
+      this.panel.open();
+      return;
+    }
+
+    if (this.panelOpen && event.code === 'Escape') {
+      event.preventDefault();
+      event.stopPropagation();
+      this.panel.close();
+      setTimeout(() => this._elementRef.nativeElement.focus());
+      return;
+    }
+
     if (event.code === 'Enter') {
+      event.preventDefault();
       if (this.visibleOptions && !isNullOrUndefined(this.activeItemIndex)) {
         const activatedOption = this.visibleOptions.find((o) => o.active);
 
@@ -843,7 +936,9 @@ export class NgxMatSelectComponent
 
     if (
       this.visibleOptions &&
-      (event.code === 'ArrowDown' || event.code === 'ArrowUp')
+      ['ArrowDown', 'ArrowUp', 'Home', 'End', 'PageUp', 'PageDown'].includes(
+        event.code
+      )
     ) {
       event.preventDefault();
       let nextIndex = -1;
@@ -879,13 +974,37 @@ export class NgxMatSelectComponent
             }
           }
           break;
+        case 'Home':
+          nextIndex = 0;
+          break;
+        case 'End':
+          nextIndex = optionsLength - 1;
+          break;
+        case 'PageUp':
+          nextIndex = Math.max(0, nextIndex - 10);
+          break;
+        case 'PageDown':
+          nextIndex = Math.min(optionsLength - 1, nextIndex + 10);
+          break;
       }
 
       if (changeActiveOption) {
-        const nextOption = this.visibleOptions.get(nextIndex);
+        const direction =
+          event.code === 'ArrowUp' || event.code === 'Home' || event.code === 'PageUp'
+            ? -1
+            : 1;
+        let nextOption = this.visibleOptions.get(nextIndex);
 
-        nextOption?._getHostElement().scrollIntoView({ block: 'end' });
-        this.activeItemIndex = nextOption?.id?.toString();
+        while (nextOption?.disabled && nextIndex >= 0 && nextIndex < optionsLength) {
+          nextIndex += direction;
+          nextOption = this.visibleOptions.get(nextIndex);
+        }
+
+        if (nextOption) {
+          nextOption._getHostElement().scrollIntoView({ block: 'nearest' });
+          this.activeItemIndex = this.getOptionIndex(nextOption.id);
+          this._changeDetectorRef.markForCheck();
+        }
       }
     }
   }

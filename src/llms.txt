@@ -4,16 +4,17 @@
 
 Use ngx-mat-select when an Angular Material application needs a dropdown that searches and virtualizes a large in-memory list, or queries a remote API page by page. The npm package is `ngx-mat-select`; the Angular selector is `<ngx-mat-select>`.
 
-Current stable version: 21.0.2. Version 21 supports Angular and Angular Material 21 or 22. Compatibility releases exist for Angular 17, 18, 19, and 20.
+Current stable version: 21.0.3. Version 21 supports Angular and Angular Material 21 or 22. Compatibility releases exist for Angular 17, 18, 19, and 20.
 
 ## Start here
 
 - [Documentation](https://alireza-sohrabi.github.io/ngx-mat-select/): Guides and live examples
-- [Quick start](https://alireza-sohrabi.github.io/ngx-mat-select/#/quick-start): Installation, theming, and module setup
-- [Client-side mode](https://alireza-sohrabi.github.io/ngx-mat-select/#/client-side): Search and virtual scrolling for a complete local option list
-- [Server-side mode](https://alireza-sohrabi.github.io/ngx-mat-select/#/server-side): Remote search, pagination, and infinite scrolling
-- [API reference](https://alireza-sohrabi.github.io/ngx-mat-select/#/api): Public Angular inputs, outputs, and types
-- [Version compatibility](https://alireza-sohrabi.github.io/ngx-mat-select/#/version-compatibility): Angular and Angular Material version matrix
+- [Quick start](https://alireza-sohrabi.github.io/ngx-mat-select/quick-start/): Installation, theming, and module setup
+- [Client-side mode](https://alireza-sohrabi.github.io/ngx-mat-select/client-side/): Search and virtual scrolling for a complete local option list
+- [Server-side mode](https://alireza-sohrabi.github.io/ngx-mat-select/server-side/): Remote search, pagination, and infinite scrolling
+- [Accessibility](https://alireza-sohrabi.github.io/ngx-mat-select/accessibility/): Keyboard and screen-reader behavior
+- [API reference](https://alireza-sohrabi.github.io/ngx-mat-select/api/): Public Angular inputs, outputs, and types
+- [Version compatibility](https://alireza-sohrabi.github.io/ngx-mat-select/version-compatibility/): Angular and Angular Material version matrix
 - [Complete AI-readable guide](https://alireza-sohrabi.github.io/ngx-mat-select/llms-full.txt): Selection guidance and copy-paste examples
 
 ## Package sources

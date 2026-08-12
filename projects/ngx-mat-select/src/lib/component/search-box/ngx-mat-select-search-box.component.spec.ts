@@ -55,4 +55,18 @@ describe('NgxMatSelectSearchBoxComponent', () => {
     expect(component.focused).toBeTrue();
     expect(keys).toEqual([keydown]);
   });
+
+  it('provides accessible search and clear controls', () => {
+    fixture.componentRef.setInput('ariaLabel', 'Search countries');
+    fixture.componentRef.setInput('controls', 'country-listbox');
+    component.value = 'lit';
+    fixture.detectChanges();
+
+    const clearButton = fixture.nativeElement.querySelector(
+      'button[aria-label="Clear search"]'
+    ) as HTMLButtonElement;
+    expect(input.getAttribute('aria-label')).toBe('Search countries');
+    expect(input.getAttribute('aria-controls')).toBe('country-listbox');
+    expect(clearButton).toBeTruthy();
+  });
 });

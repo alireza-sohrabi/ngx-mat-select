@@ -239,6 +239,7 @@ ngx-mat-select-panel {
   padding: 0 !important;
   height: 100%;
   position: relative;
+  min-height: 96px;
 }
 
 .ngx-mat-select-virtual-scroll {
@@ -275,10 +276,80 @@ ngx-mat-select-panel {
 .ngx-mat-select-back-button {
   opacity: 0.7;
   flex: 0 0 40px;
+  min-width: 40px;
+  min-height: 40px;
   display: flex;
+  align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: opacity 150ms ease-in-out;
+  border: 0;
+  border-radius: 999px;
+  color: inherit;
+  background: transparent;
+
+  &:hover {
+    opacity: 1;
+    background: rgba(127, 127, 127, 0.12);
+  }
+
+  &:focus-visible {
+    opacity: 1;
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+}
+
+.ngx-mat-select-state {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.65);
+  pointer-events: none;
+}
+
+.ngx-mat-select-state--error {
+  pointer-events: auto;
+}
+
+.ngx-mat-select-retry-button {
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+}
+
+.ngx-mat-select-visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.darkMode .ngx-mat-select-state,
+html[data-theme='dark'] .ngx-mat-select-state {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .ngx-mat-select-chips {

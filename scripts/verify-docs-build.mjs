@@ -10,6 +10,16 @@ const robotsPath = resolve(root, 'dist/demo/browser/robots.txt');
 const sitemapPath = resolve(root, 'dist/demo/browser/sitemap.xml');
 const llmsPath = resolve(root, 'dist/demo/browser/llms.txt');
 const llmsFullPath = resolve(root, 'dist/demo/browser/llms-full.txt');
+const crawlableRoutes = [
+  'quick-start',
+  'client-side',
+  'server-side',
+  'accessibility',
+  'dark-theme',
+  'version-compatibility',
+  'other-examples/customize',
+  'api',
+];
 
 for (const assetPath of [apiListPath, keywordsPath]) {
   if (!existsSync(assetPath)) {
@@ -20,6 +30,18 @@ for (const assetPath of [apiListPath, keywordsPath]) {
 for (const publicPath of [indexPath, robotsPath, sitemapPath, llmsPath, llmsFullPath]) {
   if (!existsSync(publicPath)) {
     throw new Error(`Missing public SEO asset: ${publicPath}`);
+  }
+}
+
+for (const route of crawlableRoutes) {
+  const routeIndex = resolve(root, `dist/demo/browser/${route}/index.html`);
+  if (!existsSync(routeIndex)) {
+    throw new Error(`Missing prerendered documentation route: /${route}/`);
+  }
+
+  const routeHtml = readFileSync(routeIndex, 'utf8');
+  if (!routeHtml.includes('data-prerendered="true"')) {
+    throw new Error(`Route /${route}/ does not contain initial crawlable content.`);
   }
 }
 
@@ -45,6 +67,17 @@ if (!robots.includes('Sitemap: https://alireza-sohrabi.github.io/ngx-mat-select/
 const sitemap = readFileSync(sitemapPath, 'utf8');
 if (!sitemap.includes('<loc>https://alireza-sohrabi.github.io/ngx-mat-select/</loc>')) {
   throw new Error('sitemap.xml does not include the canonical documentation URL.');
+}
+
+for (const route of crawlableRoutes) {
+  const url = `https://alireza-sohrabi.github.io/ngx-mat-select/${route}/`;
+  if (!sitemap.includes(`<loc>${url}</loc>`)) {
+    throw new Error(`sitemap.xml does not include ${url}.`);
+  }
+}
+
+if (sitemap.includes('#/')) {
+  throw new Error('sitemap.xml still contains non-crawlable hash routes.');
 }
 
 for (const llmsUrl of [
@@ -83,4 +116,4 @@ for (const requiredName of [
   }
 }
 
-console.log(`Generated documentation includes ${apiNames.length} API references, search keywords, SEO metadata, and AI-readable guides.`);
+console.log(`Generated documentation includes ${apiNames.length} API references, ${crawlableRoutes.length} prerendered routes, search keywords, SEO metadata, and AI-readable guides.`);

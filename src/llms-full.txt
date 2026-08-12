@@ -141,9 +141,10 @@ fetchUsers = ({ searchTerm, pageNumber, pageSize }: NgxMatSelectSearchParams) =>
 
 ## More documentation
 
-- Quick start: https://alireza-sohrabi.github.io/ngx-mat-select/#/quick-start
-- Client-side guide: https://alireza-sohrabi.github.io/ngx-mat-select/#/client-side
-- Server-side guide: https://alireza-sohrabi.github.io/ngx-mat-select/#/server-side
-- Customization examples: https://alireza-sohrabi.github.io/ngx-mat-select/#/other-examples/customize
-- API reference: https://alireza-sohrabi.github.io/ngx-mat-select/#/api
-- Version compatibility: https://alireza-sohrabi.github.io/ngx-mat-select/#/version-compatibility
+- Quick start: https://alireza-sohrabi.github.io/ngx-mat-select/quick-start/
+- Client-side guide: https://alireza-sohrabi.github.io/ngx-mat-select/client-side/
+- Server-side guide: https://alireza-sohrabi.github.io/ngx-mat-select/server-side/
+- Accessibility: https://alireza-sohrabi.github.io/ngx-mat-select/accessibility/
+- Customization examples: https://alireza-sohrabi.github.io/ngx-mat-select/other-examples/customize/
+- API reference: https://alireza-sohrabi.github.io/ngx-mat-select/api/
+- Version compatibility: https://alireza-sohrabi.github.io/ngx-mat-select/version-compatibility/

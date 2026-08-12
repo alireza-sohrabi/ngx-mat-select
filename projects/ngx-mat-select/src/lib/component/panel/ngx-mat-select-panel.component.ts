@@ -40,6 +40,14 @@ import { isNullOrUndefined } from '../../shared/utils';
 export class NgxMatSelectPanelComponent
   implements OnDestroy, OnInit, AfterViewInit
 {
+  /** ID used by the controlling combobox. */
+  @Input() id?: string;
+
+  /** Whether the controlled listbox allows more than one selection. */
+  @Input() multiple = false;
+
+  /** Whether the controlled listbox is fetching options. */
+  @Input() busy = false;
   /**
    * the overlay API that will be appended into the DOM's body
    * @private

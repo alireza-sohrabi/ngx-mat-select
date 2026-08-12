@@ -4,9 +4,9 @@
     <ngx-mat-select-icon icon="Search"> </ngx-mat-select-icon>
   </div>
   } @if (!!value) {
-  <div (click)="clear()">
+  <button type="button" class="ngx-mat-select-search-box-clear" [attr.aria-label]="clearAriaLabel" (click)="clear()">
     <ngx-mat-select-icon icon="Times"> </ngx-mat-select-icon>
-  </div>
+  </button>
   }
 </div>
 
@@ -18,5 +18,9 @@
   #searchBox
   [(ngModel)]="value"
   [placeholder]="placeholder || ''"
+  [attr.aria-label]="ariaLabel"
+  [attr.aria-controls]="controls"
+  [attr.aria-activedescendant]="activeDescendant"
+  aria-autocomplete="list"
   (keydown)="handleKeydown.emit($event)"
 />

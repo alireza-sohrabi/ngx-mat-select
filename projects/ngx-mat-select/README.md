@@ -1,5 +1,10 @@
 # ngx-mat-select — Searchable, Virtualized Angular Material Select
 
+[![npm version](https://img.shields.io/npm/v/ngx-mat-select.svg)](https://www.npmjs.com/package/ngx-mat-select)
+[![npm downloads](https://img.shields.io/npm/dw/ngx-mat-select.svg)](https://www.npmjs.com/package/ngx-mat-select)
+[![build](https://github.com/alireza-sohrabi/ngx-mat-select/actions/workflows/build.yaml/badge.svg)](https://github.com/alireza-sohrabi/ngx-mat-select/actions/workflows/build.yaml)
+[![license](https://img.shields.io/npm/l/ngx-mat-select.svg)](https://github.com/alireza-sohrabi/ngx-mat-select/blob/master/LICENSE)
+
 `ngx-mat-select` is an independent Angular Material dropdown/select component for large local or remote datasets. It combines built-in search, CDK virtual scrolling, server-side filtering, infinite scrolling, and single or multiple selection in one control.
 
 Choose it when a standard `mat-select` needs searchable options, virtualization, or paginated data from an API. It works with Angular forms and fits inside `mat-form-field`.
@@ -8,7 +13,7 @@ Choose it when a standard `mat-select` needs searchable options, virtualization,
 npm install ngx-mat-select
 ```
 
-[Documentation](https://alireza-sohrabi.github.io/ngx-mat-select/) | **[npm](https://www.npmjs.com/package/ngx-mat-select)** | [API reference](https://alireza-sohrabi.github.io/ngx-mat-select/#/api) | [StackBlitz](https://stackblitz.com/edit/ngx-mat-select?file=src/app/app.component.html)
+[Documentation](https://alireza-sohrabi.github.io/ngx-mat-select/) | **[npm](https://www.npmjs.com/package/ngx-mat-select)** | [API reference](https://alireza-sohrabi.github.io/ngx-mat-select/api/) | [StackBlitz](https://stackblitz.com/edit/ngx-mat-select?file=src/app/app.component.html)
 
 ## When to choose ngx-mat-select
 
@@ -30,6 +35,8 @@ npm install ngx-mat-select
 - Reactive forms and template-driven forms
 - Custom option and trigger templates
 - Right-to-left layouts with `dir="rtl"`
+- Keyboard navigation and connected combobox/listbox semantics
+- Announced loading, empty, request-error, and retry states
 
 ## How it differs from ngx-mat-select-search
 
@@ -39,7 +46,7 @@ npm install ngx-mat-select
 
 ## Version compatibility
 
-The current npm stable release is `21.0.2` and supports Angular and Angular Material 21 or 22.
+The current npm stable release is `21.0.3` and supports Angular and Angular Material 21 or 22.
 
 | ngx-mat-select | Angular and Angular Material | Status |
 | --- | --- | --- |
@@ -161,7 +168,7 @@ fetchUsers = ({ searchTerm, pageNumber, pageSize }: NgxMatSelectSearchParams) =>
 </ngx-mat-select>
 ```
 
-See the [client-side guide](https://alireza-sohrabi.github.io/ngx-mat-select/#/client-side), [server-side guide](https://alireza-sohrabi.github.io/ngx-mat-select/#/server-side), and [customization examples](https://alireza-sohrabi.github.io/ngx-mat-select/#/other-examples/customize) for complete examples.
+See the [client-side guide](https://alireza-sohrabi.github.io/ngx-mat-select/client-side/), [server-side guide](https://alireza-sohrabi.github.io/ngx-mat-select/server-side/), [accessibility guide](https://alireza-sohrabi.github.io/ngx-mat-select/accessibility/), and [customization examples](https://alireza-sohrabi.github.io/ngx-mat-select/other-examples/customize/) for complete examples.
 
 ## Global defaults
 
@@ -186,6 +193,12 @@ providers: [
       panelHeight: 256,
       searchBoxPlaceholder: 'Search',
       hasSearchBox: true,
+      searchBoxAriaLabel: 'Search options',
+      clearSearchAriaLabel: 'Clear search',
+      noOptionsText: 'No options found',
+      loadingText: 'Loading options',
+      errorText: 'Options could not be loaded',
+      retryText: 'Try again',
     },
   },
 ]
@@ -199,3 +212,10 @@ providers: [
 - Run the application's build, tests, and SSR build if applicable before completing the migration.
 
 The package is validated through its public entry point in clean Angular 21 and Angular 22 consumer applications.
+
+## Project health
+
+- See the [changelog](https://github.com/alireza-sohrabi/ngx-mat-select/blob/master/CHANGELOG.md) for user-facing changes.
+- Review the [contribution guide](https://github.com/alireza-sohrabi/ngx-mat-select/blob/master/CONTRIBUTING.md) before opening a pull request.
+- Report vulnerabilities privately according to the [security policy](https://github.com/alireza-sohrabi/ngx-mat-select/security/policy).
+- Use the [accessibility guide](https://alireza-sohrabi.github.io/ngx-mat-select/accessibility/) for labels, status text, and keyboard behavior.

@@ -59,6 +59,18 @@ export class NgxMatSelectSearchBoxComponent
    */
   @Input() placeholder = '';
 
+  /** Accessible name for the search input. */
+  @Input() ariaLabel = 'Search options';
+
+  /** Accessible name for the search clear button. */
+  @Input() clearAriaLabel = 'Clear search';
+
+  /** ID of the listbox filtered by this input. */
+  @Input() controls?: string;
+
+  /** ID of the active option while navigating from the search input. */
+  @Input() activeDescendant?: string | null;
+
   /**
    * the value of the input which is bound to the input with two ways binding
    */
@@ -105,6 +117,7 @@ export class NgxMatSelectSearchBoxComponent
   clear() {
     this.value = '';
     this.search.emit('');
+    this.focus();
   }
 
   /**

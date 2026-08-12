@@ -1,9 +1,14 @@
 <ng-doc-root>
 	<ng-doc-navbar>
-		<ng-template ngDocNavbarLeft>
-			<h3 style="margin: 0">ngx-mat-select Documentation</h3>
-		</ng-template>
-		<ng-doc-theme-toggle ngDocNavbarRight></ng-doc-theme-toggle>
+		<a ngDocNavbarLeft class="product-brand" routerLink="/introduction" aria-label="ngx-mat-select home">
+			<span class="product-brand__mark">N</span>
+			<span>ngx-mat-select</span>
+		</a>
+		<div class="product-navbar-actions" ngDocNavbarRight>
+			<a href="https://www.npmjs.com/package/ngx-mat-select" target="_blank" rel="noopener">npm</a>
+			<a href="https://github.com/alireza-sohrabi/ngx-mat-select" target="_blank" rel="noopener">GitHub</a>
+			<ng-doc-theme-toggle></ng-doc-theme-toggle>
+		</div>
 	</ng-doc-navbar>
 	<ng-doc-sidebar></ng-doc-sidebar>
 <router-outlet></router-outlet>

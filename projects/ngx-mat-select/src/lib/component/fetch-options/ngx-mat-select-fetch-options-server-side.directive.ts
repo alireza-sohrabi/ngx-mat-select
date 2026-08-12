@@ -10,12 +10,20 @@ import { ScrollDispatcher } from '@angular/cdk/scrolling';
 import {
   BehaviorSubject,
   combineLatest,
+  EMPTY,
   Observable,
   pairwise,
   ReplaySubject,
   tap,
 } from 'rxjs';
-import { filter, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  map,
+  startWith,
+  switchMap,
+  takeUntil,
+} from 'rxjs/operators';
 
 import { NgxMatSelectSearchParams } from '../../select-model';
 import { NgxMatSelectComponent } from '../../select';
@@ -63,6 +71,7 @@ export class NgxMatSelectFetchOptionsServerSideDirective
           return nextSearchTerm;
         }),
         tap(() => {
+          this.error$.next(null);
           this.loading$.next(true);
           this._changeDetectorRef.detectChanges();
         }),
@@ -94,6 +103,12 @@ export class NgxMatSelectFetchOptionsServerSideDirective
             }),
             tap(() => {
               this._changeDetectorRef.detectChanges();
+            }),
+            catchError((error: unknown) => {
+              this.error$.next(error);
+              this.loading$.next(false);
+              this._changeDetectorRef.detectChanges();
+              return EMPTY;
             })
           )
         ),
@@ -134,12 +149,17 @@ export class NgxMatSelectFetchOptionsServerSideDirective
    */
   private hasMore = true;
 
+  /** Latest request failure exposed to the host for an accessible retry state. */
+  private error$ = new BehaviorSubject<unknown | null>(null);
+
   constructor(
     changeDetectorRef: ChangeDetectorRef,
     host: NgxMatSelectComponent,
     private scrollDispatcher: ScrollDispatcher
   ) {
     super(host, changeDetectorRef);
+    this.host.error$ = this.error$.asObservable();
+    this.host.retryFetch = () => this.retry();
   }
 
   /**
@@ -159,6 +179,13 @@ export class NgxMatSelectFetchOptionsServerSideDirective
     }
   }
 
+  /** Retries the current search page after a failed request. */
+  retry(): void {
+    if (!this.loading$.getValue()) {
+      this.fetchNext$.next(void 0);
+    }
+  }
+
   override ngAfterViewInit(): void {
     super.ngAfterViewInit();
     this.initializeInfiniteScroll();
@@ -168,6 +195,7 @@ export class NgxMatSelectFetchOptionsServerSideDirective
     super.ngOnDestroy();
     this.search$.complete();
     this.fetchNext$.complete();
+    this.error$.complete();
   }
 
   /**

@@ -2,19 +2,67 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://alireza-sohrabi.github.io/ngx-mat-select/</loc>
-    <lastmod>2026-08-06</lastmod>
+    <lastmod>2026-08-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://alireza-sohrabi.github.io/ngx-mat-select/quick-start/</loc>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://alireza-sohrabi.github.io/ngx-mat-select/client-side/</loc>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://alireza-sohrabi.github.io/ngx-mat-select/server-side/</loc>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://alireza-sohrabi.github.io/ngx-mat-select/accessibility/</loc>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://alireza-sohrabi.github.io/ngx-mat-select/dark-theme/</loc>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://alireza-sohrabi.github.io/ngx-mat-select/version-compatibility/</loc>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://alireza-sohrabi.github.io/ngx-mat-select/other-examples/customize/</loc>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://alireza-sohrabi.github.io/ngx-mat-select/api/</loc>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://alireza-sohrabi.github.io/ngx-mat-select/llms.txt</loc>
-    <lastmod>2026-08-06</lastmod>
+    <lastmod>2026-08-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://alireza-sohrabi.github.io/ngx-mat-select/llms-full.txt</loc>
-    <lastmod>2026-08-06</lastmod>
+    <lastmod>2026-08-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

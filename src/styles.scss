@@ -50,6 +50,211 @@ body {
   height: 100%;
 }
 
+.seo-prerender {
+  max-width: 920px;
+  margin: 80px auto;
+  padding: 32px;
+  line-height: 1.6;
+}
+
+.product-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(32px, 6vw, 76px);
+  align-items: center;
+  margin: 8px 0 42px;
+  padding: clamp(28px, 5vw, 64px);
+  overflow: hidden;
+  border: 1px solid rgba(0, 105, 92, 0.14);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 100% 0, rgba(38, 166, 154, 0.2), transparent 38%),
+    linear-gradient(135deg, rgba(0, 137, 123, 0.08), rgba(0, 105, 92, 0.02));
+}
+
+.product-hero__copy h1 {
+  max-width: 780px;
+  margin: 12px 0 18px;
+  font-size: clamp(34px, 4vw, 54px);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+}
+
+article:has(.product-hero) > ng-doc-page-header {
+  display: none;
+}
+
+.product-hero__copy > p {
+  max-width: 680px;
+  font-size: clamp(17px, 2vw, 20px);
+  line-height: 1.65;
+}
+
+.product-eyebrow {
+  color: #00796b;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.product-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 26px 0 22px;
+}
+
+.product-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 20px;
+  border: 1px solid rgba(0, 105, 92, 0.35);
+  border-radius: 999px;
+  color: #00695c !important;
+  font-weight: 700;
+  text-decoration: none !important;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.product-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(0, 105, 92, 0.15);
+}
+
+.product-button--primary {
+  border-color: #00796b;
+  color: white !important;
+  background: #00796b;
+}
+
+.product-hero__demo {
+  padding: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  background: var(--ng-doc-base-0, white);
+  box-shadow: 0 24px 70px rgba(0, 77, 64, 0.16);
+}
+
+.product-demo-label,
+.product-demo-note {
+  color: rgba(0, 0, 0, 0.58);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.product-demo-label {
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.product-demo-note {
+  margin-top: 12px;
+}
+
+.product-proof-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0 0 56px;
+}
+
+.product-proof-grid > div,
+.product-feature-card {
+  padding: 22px;
+  border: 1px solid rgba(127, 127, 127, 0.18);
+  border-radius: 18px;
+}
+
+.product-proof-grid strong,
+.product-proof-grid span {
+  display: block;
+}
+
+.product-proof-grid strong {
+  margin-bottom: 5px;
+  color: #00796b;
+  font-size: 22px;
+}
+
+.product-proof-grid span {
+  font-size: 13px;
+  line-height: 1.45;
+  opacity: 0.72;
+}
+
+.product-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin: 24px 0 52px;
+}
+
+.product-feature-card strong {
+  font-size: 18px;
+}
+
+.product-feature-card p {
+  min-height: 72px;
+  line-height: 1.6;
+  opacity: 0.78;
+}
+
+.product-feature-card a {
+  color: #00796b;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+html[data-theme='dark'] {
+  .product-eyebrow,
+  .product-proof-grid strong,
+  .product-feature-card a {
+    color: #80cbc4;
+  }
+
+  .product-hero__demo {
+    border-color: rgba(255, 255, 255, 0.12);
+    background: #202124;
+  }
+
+  .product-demo-label,
+  .product-demo-note {
+    color: rgba(255, 255, 255, 0.64);
+  }
+}
+
+@media (max-width: 900px) {
+  .product-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .product-proof-grid,
+  .product-feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .product-hero {
+    margin-inline: -12px;
+    padding: 26px 20px;
+    border-radius: 20px;
+  }
+
+  .product-proof-grid,
+  .product-feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-feature-card p {
+    min-height: 0;
+  }
+}
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;

@@ -1,12 +1,15 @@
+# Dark theme
 
-
-If you want to use dark-theme add the `darkMode` class on the body html tag:
+Include the library theme mixin inside the same selector that activates your Angular Material dark theme:
 
 ```scss name="styles.scss"
+@use "@angular/material" as mat;
 @use "ngx-mat-select" as ngxMatSelect;
-// or @use "node_modules/ngx-mat-select" as ngxMatSelect;
 
-.darkMode {
-      @include ngxMatSelect.theme($your-dark-theme);
-  }
+.dark-mode {
+  @include mat.all-component-colors($dark-theme);
+  @include ngxMatSelect.theme($dark-theme);
+}
 ```
+
+Apply `dark-mode` to a common ancestor, such as `<body>`. Include typography once globally with `ngxMatSelect.typography(...)`.
